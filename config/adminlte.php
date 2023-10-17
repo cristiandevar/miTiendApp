@@ -295,6 +295,13 @@ return [
             'route' => 'product.index',
             //'url' => 'panel/product', Esta seria otra manera de como especificar la ruta
             'icon' => 'fas fa-store',   //Icono de fontawesome
+            //'can' => 'products_list'     //Permiso del vendedor
+        ],
+        [
+            'text' => 'Lista de Categorias',
+            'route' => 'category.index',
+            //'url' => 'panel/product', Esta seria otra manera de como especificar la ruta
+            'icon' => 'fas fa-store',   //Icono de fontawesome
             //'can' => 'product_list'     //Permiso del vendedor
         ]
 
