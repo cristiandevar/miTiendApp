@@ -17,7 +17,7 @@ class ProductController extends Controller
             ->get(); //Convierte los datos extraidos de la BD en un array
         
         // Retornamos una vista y enviamos la variable 'products'
-        return view('panel.seller.product_list.index', compact('products'));
+        return view('panel.seller.products_list.index', compact('products'));
     }
 
     /**
