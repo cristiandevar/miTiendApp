@@ -12,7 +12,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::where('seller_id', auth()->user()->id)
+            ->latest() //Ordena de manera DESC por el campo 'created_at'
+            ->get(); //Convierte los datos extraidos de la BD en un array
+        
+        // Retornamos una vista y enviamos la variable 'products'
+        return view('panel.seller.product_list.index', compact('products'));
     }
 
     /**

@@ -18,7 +18,7 @@ class Product extends Model
         'nombre',
         'description',
         'precio',
-        'imagen',
+        'image',
         'category_id'
     ];
 
@@ -29,6 +29,6 @@ class Product extends Model
 
     // INER JOIN con la tabla Users por medio de la FK seller_id
     public function seller() {
-        return $this.BelongsTo(User::class, 'seller_id');
+        return $this->belongsTo(User::class, 'seller_id');
     }
 }
