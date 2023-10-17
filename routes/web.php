@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/', function () {
+    return view('galeria.index');
+});
 
 Route::get('/login/google', 
 [App\Http\Controllers\GoogleLoginController::class, 
