@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->tinyInteger('active');
             $table->unsignedBigInteger('seller_id');
             
             $table->foreign('seller_id')->references('id')->on('users');

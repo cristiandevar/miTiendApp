@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('description');
             $table->decimal('price', 10, 2);
             $table->string('image',100);
+            $table->tinyInteger('active');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('seller_id');
 

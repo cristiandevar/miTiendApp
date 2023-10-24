@@ -13,7 +13,8 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::where('seller_id', auth()->user()->id)
-            ->latest()
+        ->where('active', 1)    
+        ->latest()
             ->get();
 
         return view('panel.seller.categories_list.index', compact('categories'));
@@ -39,8 +40,11 @@ class CategoryController extends Controller
     {
         $category = new Category();
         $category->name = $request->get('name');
+        $category->active = $request->get('active');
         $category->seller_id = auth()->user()->id;
+
         $category->save();
+
         return redirect()
         ->route('category.index')
         ->with('alert','Categoria "'.$category->name.'"agregada exitosamente');
@@ -69,7 +73,10 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $category->name = $request->get('name');
+        $category->active = $request->get('active');
+
         $category->update();
+
         return redirect()
         ->route('category.index')
         ->with('alert', 'Categoria "'.$category->name.'" actualizada exitosamente');
@@ -80,7 +87,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $category->delete();
+        // $category->delete();
+        $category->active = 0;
+        
         return redirect()
         ->route('category.index')
         ->with('alert','Categoria "'.$category->name.'" eliminada exitosamente');

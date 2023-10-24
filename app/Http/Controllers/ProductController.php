@@ -14,6 +14,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::where('seller_id', auth()->user()->id)
+            ->where('active', 1)
             ->latest() //Ordena de manera DESC por el campo 'created_at'
             ->get(); //Convierte los datos extraidos de la BD en un array
         
@@ -43,6 +44,7 @@ class ProductController extends Controller
         $product->name = $request->get('name');
         $product->description = $request->get('description');
         $product->price = $request->get('price');
+        $product->active = $request->get('active');
         $product->category_id = $request->get('category_id');
         $product->seller_id = auth()->user()->id;
         if ($request->hasFile('image')) {
@@ -54,6 +56,7 @@ class ProductController extends Controller
         }
         // Almacena la info del producto en la BD
         $product->save();
+
         return redirect()
         ->route('product.index')
         ->with('alert', 'Producto "' . $product->name . '" agregado exitosamente.');
@@ -85,6 +88,7 @@ class ProductController extends Controller
         $product->name = $request->get('name');
         $product->description = $request->get('description');
         $product->price = $request->get('price');
+        $product->active = $request->get('active');
         $product->category_id = $request->get('category_id');
         if ($request->hasFile('image')) {
         // Subida de la imagen nueva al servidor
@@ -93,6 +97,7 @@ class ProductController extends Controller
         }
         // Actualiza la info del producto en la BD
         $product->update();
+
         return redirect()
         ->route('product.index')
         ->with('alert', 'Producto "' .$product->name. '" actualizado exitosamente.');
@@ -104,7 +109,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        $product->delete();
+        // $product->delete();
+        $product->active = 0;
+
         return redirect()
         ->route('product.index')
         ->with('alert', 'Producto eliminado exitosamente.');
