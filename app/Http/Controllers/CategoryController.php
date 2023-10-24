@@ -12,7 +12,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::where('seller_id', auth()->user()->id)
+            ->latest()
+            ->get();
+
         return view('panel.seller.categories_list.index', compact('categories'));
     }
 
@@ -36,6 +39,7 @@ class CategoryController extends Controller
     {
         $category = new Category();
         $category->name = $request->get('name');
+        $category->seller_id = auth()->user()->id;
         $category->save();
         return redirect()
         ->route('category.index')
