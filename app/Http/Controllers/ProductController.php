@@ -83,7 +83,7 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $product->name = $request->get('name');
-        $product->descripion = $request->get('description');
+        $product->description = $request->get('description');
         $product->price = $request->get('price');
         $product->category_id = $request->get('category_id');
         if ($request->hasFile('image')) {

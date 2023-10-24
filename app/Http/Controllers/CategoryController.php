@@ -71,7 +71,7 @@ class CategoryController extends Controller
         $category->name = $request->get('name');
         $category->update();
         return redirect()
-        ->route('panel.index')
+        ->route('category.index')
         ->with('alert', 'Categoria "'.$category->name.'" actualizada exitosamente');
     }
 

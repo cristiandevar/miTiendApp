@@ -22,7 +22,10 @@
                         <h2>Nombre: {{ $category->name }}</h2>
                     </div>
                     <div class="mb-3">
-                        <p>Creado por {{ $category->seller->name }}.</p>
+                        <p>Cantidad productos asociados:<strong> {{ $category->products->count() }} </strong>.</p>
+                    </div>
+                    <div class="mb-3">
+                        <p>Creado por <strong>{{ $category->seller->name }} </strong>.</p>
                     </div>
                 </div>
             </div>
