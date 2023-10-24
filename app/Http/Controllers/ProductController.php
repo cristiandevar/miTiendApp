@@ -31,7 +31,7 @@ class ProductController extends Controller
         // Recuperamos todas las categorias de la BD
         $categories = Category::get(); // Recordar importar el modelo Categoria!!
         // Retornamos la vista de creacion de productos, enviamos el producto y las categorias
-        return view('panel.seller.products.create', compact('product', 'categories'));
+        return view('panel.seller.products_list.create', compact('product', 'categories'));
     }
 
     /**

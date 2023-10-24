@@ -21,7 +21,12 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        // Creamos una nueva categoria
+        $category = new Category();
+
+        // Retornamos la vista de creacion de categorias
+        return view('panel.seller.categories_list.create', compact('category'));
+
     }
 
     /**
@@ -29,7 +34,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $category = new Category();
+        $category->name = $request->get('name');
+        $category->save();
+        return redirect()
+        ->route('category.index')
+        ->with('alert','Categoria "'.$category->name.'"agregada exitosamente');
+
     }
 
     /**
@@ -37,7 +48,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        return view('panel.seller.categories_list.show', compact('category'));
     }
 
     /**
@@ -45,7 +56,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('panel.seller.categories_list.edit', compact('category'));
     }
 
     /**
@@ -53,7 +64,11 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $category->name = $request->get('name');
+        $category->update();
+        return redirect()
+        ->route('panel.index')
+        ->with('alert', 'Categoria "'.$category->name.'" actualizada exitosamente');
     }
 
     /**
@@ -61,6 +76,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()
+        ->route('category.index')
+        ->with('alert','Categoria "'.$category->name.'" eliminada exitosamente');
     }
 }
