@@ -40,8 +40,14 @@ class CategoryController extends Controller
     {
         $category = new Category();
         $category->name = $request->get('name');
-        $category->active = $request->get('active');
         $category->seller_id = auth()->user()->id;
+
+        if ($request->get('active')) {
+            $category->active = $request->get('active');
+        }
+        else {
+            $category->active = 0;
+        }
 
         $category->save();
 
@@ -73,8 +79,12 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $category->name = $request->get('name');
-        $category->active = $request->get('active');
-
+        if ($request->get('active')) {
+            $category->active = $request->get('active');
+        }
+        else {
+            $category->active = 0;
+        }
         $category->update();
 
         return redirect()
@@ -89,7 +99,7 @@ class CategoryController extends Controller
     {
         // $category->delete();
         $category->active = 0;
-        
+
         return redirect()
         ->route('category.index')
         ->with('alert','Categoria "'.$category->name.'" eliminada exitosamente');

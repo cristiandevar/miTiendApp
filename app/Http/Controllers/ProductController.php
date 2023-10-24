@@ -44,7 +44,6 @@ class ProductController extends Controller
         $product->name = $request->get('name');
         $product->description = $request->get('description');
         $product->price = $request->get('price');
-        $product->active = $request->get('active');
         $product->category_id = $request->get('category_id');
         $product->seller_id = auth()->user()->id;
         if ($request->hasFile('image')) {
@@ -53,6 +52,13 @@ class ProductController extends Controller
         $product->image = asset(str_replace('public', 'storage', $image_url));
         } else {
         $product->image = '';
+        }
+
+        if ($request->get('active')) {
+            $product->active = $request->get('active');
+        }
+        else {
+            $product->active = 0;
         }
         // Almacena la info del producto en la BD
         $product->save();
@@ -88,12 +94,18 @@ class ProductController extends Controller
         $product->name = $request->get('name');
         $product->description = $request->get('description');
         $product->price = $request->get('price');
-        $product->active = $request->get('active');
         $product->category_id = $request->get('category_id');
         if ($request->hasFile('image')) {
         // Subida de la imagen nueva al servidor
         $image_url = $request->file('image')->store('public/product');
         $product->image = asset(str_replace('public', 'storage', $image_url));
+        }
+
+        if ($request->get('active')) {
+            $product->active = $request->get('active');
+        }
+        else {
+            $product->active = 0;
         }
         // Actualiza la info del producto en la BD
         $product->update();
