@@ -15,9 +15,20 @@
     <div class="row">
         <div class="col-12 mb-3">
             
-            <a href="{{ route('product.create') }}" class="btn btn-success text-uppercase">
-                Nuevo Producto
-            </a>
+            @if ($categories->first())
+                <a href="{{ route('product.create') }}" class="btn btn-success text-uppercase">
+                    Nuevo Producto
+                </a>
+            @else
+                <div>
+                    <p>Ingrese primero una categoria</p>
+                    <a href="{{ route('category.index') }}" class="btn btn-success text-uppercase">
+                        Ir a categorias
+                    </a>
+                
+                </div>
+            @endif
+            
         </div>
         
         @if(session('alert'))

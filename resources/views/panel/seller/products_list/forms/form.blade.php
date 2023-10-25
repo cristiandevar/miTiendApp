@@ -29,7 +29,7 @@
             <div class="mb-3 row">
                 <label for="description" class="col-sm-4 col-form-label"> * Descripción </label>
                 <div class="col-sm-8">
-                    <textarea class="form-control" id="description" name="description" rows="10" required>{{ old('description', optional($product)->description) }}</textarea>
+                    <textarea class="form-control" id="description" name="description" rows="10" >{{ old('description', optional($product)->description) }}</textarea>
                 </div>
             </div>
 
@@ -37,6 +37,13 @@
                 <label for="price" class="col-sm-4 col-form-label"> * Precio </label>
                 <div class="col-sm-8">
                     <input type="number" class="form-control" id="price" name="price" value="{{ old('price', optional($product)->price) }}" required>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="active" class="col-sm-4 col-form-label"> * Activo </label>
+                <div class="">
+                    <input type="checkbox" class="form-control" id="active" name="active" {{ $product->active ? 'checked' : ''}} >
                 </div>
             </div>
 

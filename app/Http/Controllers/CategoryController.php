@@ -42,8 +42,9 @@ class CategoryController extends Controller
         $category->name = $request->get('name');
         $category->seller_id = auth()->user()->id;
 
+        // dd($request->get('active'));
         if ($request->get('active')) {
-            $category->active = $request->get('active');
+            $category->active = 1;
         }
         else {
             $category->active = 0;
@@ -99,6 +100,8 @@ class CategoryController extends Controller
     {
         // $category->delete();
         $category->active = 0;
+        
+        $category->update();
 
         return redirect()
         ->route('category.index')

@@ -14,6 +14,13 @@
                     <input type="text" class="form-control" id="name" name="name" value="{{ old('name', optional($category)->name) }}" required>
                 </div>
             </div>
+
+            <div class="mb-3 row">
+                <label for="active" class="col-sm-4 col-form-label"> * Activo </label>
+                <div class="">
+                    <input type="checkbox" class="form-control" id="active" name="active" {{ $category->active ? 'checked' : ''}}>
+                </div>
+            </div>
         
         </div>
 

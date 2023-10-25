@@ -17,9 +17,9 @@ class ProductController extends Controller
             ->where('active', 1)
             ->latest() //Ordena de manera DESC por el campo 'created_at'
             ->get(); //Convierte los datos extraidos de la BD en un array
-        
+        $categories = Category::get()->where('active', 1);
         // Retornamos una vista y enviamos la variable 'products'
-        return view('panel.seller.products_list.index', compact('products'));
+        return view('panel.seller.products_list.index', compact('products', 'categories'));
     }
 
     /**
@@ -30,7 +30,7 @@ class ProductController extends Controller
         // Creamos un producto nuevo para cargarle datos
         $product = new Product();
         // Recuperamos todas las categorias de la BD
-        $categories = Category::get(); // Recordar importar el modelo Categoria!!
+        $categories = Category::get()->where('active', 1); // Recordar importar el modelo Categoria!!
         // Retornamos la vista de creacion de productos, enviamos el producto y las categorias
         return view('panel.seller.products_list.create', compact('product', 'categories'));
     }
@@ -41,8 +41,16 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $product = new Product();
+        if ($request->description) {
+            $product->description = $request->get('description');
+        }
+        else {
+            $product->description = '';
+        }
+        
+        
         $product->name = $request->get('name');
-        $product->description = $request->get('description');
+
         $product->price = $request->get('price');
         $product->category_id = $request->get('category_id');
         $product->seller_id = auth()->user()->id;
@@ -55,7 +63,7 @@ class ProductController extends Controller
         }
 
         if ($request->get('active')) {
-            $product->active = $request->get('active');
+            $product->active = 1;
         }
         else {
             $product->active = 0;
@@ -123,6 +131,8 @@ class ProductController extends Controller
     {
         // $product->delete();
         $product->active = 0;
+        
+        $product->update();
 
         return redirect()
         ->route('product.index')
