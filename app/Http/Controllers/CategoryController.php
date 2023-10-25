@@ -81,7 +81,7 @@ class CategoryController extends Controller
     {
         $category->name = $request->get('name');
         if ($request->get('active')) {
-            $category->active = $request->get('active');
+            $category->active = 1;
         }
         else {
             $category->active = 0;
@@ -99,12 +99,18 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         // $category->delete();
-        $category->active = 0;
-        
-        $category->update();
-
+        $msg = 'Categoria "'.$category->name.'" eliminada exitosamente';
+        if (!$category->products()->first()) {
+            $category->active = 0;
+            
+            $category->update();
+    
+        }
+        else {
+            $msg = 'No se pudo eliminar "'.$category->name.'" dado que posee elementos asociados';
+        }
         return redirect()
         ->route('category.index')
-        ->with('alert','Categoria "'.$category->name.'" eliminada exitosamente');
+        ->with('alert',$msg);
     }
 }

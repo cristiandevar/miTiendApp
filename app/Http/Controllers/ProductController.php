@@ -89,7 +89,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $categories = Category::get();
+        $categories = Category::get()->where('active', 1);
         return view('panel.seller.products_list.edit', compact('product', 'categories'));
     
     }
@@ -110,7 +110,7 @@ class ProductController extends Controller
         }
 
         if ($request->get('active')) {
-            $product->active = $request->get('active');
+            $product->active = 1;
         }
         else {
             $product->active = 0;
@@ -136,6 +136,6 @@ class ProductController extends Controller
 
         return redirect()
         ->route('product.index')
-        ->with('alert', 'Producto eliminado exitosamente.');
+        ->with('alert', 'Producto "'.$product->name.'" eliminado exitosamente.');
     }
 }
