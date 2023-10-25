@@ -105,8 +105,9 @@ class ProductController extends Controller
         $product->category_id = $request->get('category_id');
         if ($request->hasFile('image')) {
         // Subida de la imagen nueva al servidor
-        $image_url = $request->file('image')->store('public/product');
-        $product->image = asset(str_replace('public', 'storage', $image_url));
+            $this->deleteImage($product->image);
+            $image_url = $request->file('image')->store('public/product');
+            $product->image = asset(str_replace('public', 'storage', $image_url));
         }
 
         if ($request->get('active')) {
@@ -137,5 +138,11 @@ class ProductController extends Controller
         return redirect()
         ->route('product.index')
         ->with('alert', 'Producto "'.$product->name.'" eliminado exitosamente.');
+    }
+
+    public function deleteImage(string $path) {
+        $image_url = str_replace(asset(''), public_path().'/',$path);
+        $image_url = str_replace('\\', '/', $image_url);
+        unlink($image_url);
     }
 }

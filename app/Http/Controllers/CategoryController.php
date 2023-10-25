@@ -79,18 +79,25 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        $msg = 'Categoria "'.$category->name.'" actualizada exitosamente';
         $category->name = $request->get('name');
         if ($request->get('active')) {
             $category->active = 1;
         }
         else {
-            $category->active = 0;
+            if (!$category->products()->first()) {
+                $category->active = 0;
+            }
+            else {
+                $msg = 'No se pudo actualizar, porque tiene productos asociados';
+            }
         }
+        
         $category->update();
 
         return redirect()
         ->route('category.index')
-        ->with('alert', 'Categoria "'.$category->name.'" actualizada exitosamente');
+        ->with('alert', $msg);
     }
 
     /**
