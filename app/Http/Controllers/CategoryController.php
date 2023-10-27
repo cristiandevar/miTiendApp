@@ -12,9 +12,12 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::where('seller_id', auth()->user()->id)
-        ->where('active', 1)    
-        ->latest()
+        $categories = Category::where(
+            'seller_id',
+            auth()->user()->id
+        )
+            ->where('active', 1)    
+            ->latest()
             ->get();
 
         return view('panel.seller.categories_list.index', compact('categories'));
