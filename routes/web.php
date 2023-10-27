@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\Auth\GoogleController;
 
@@ -18,9 +19,6 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/', function () {
-    return view('galeria.index');
-});
 
 Route::get('/login/google', 
 [App\Http\Controllers\GoogleLoginController::class, 
@@ -34,4 +32,4 @@ Route::get('/login/google/callback',
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
