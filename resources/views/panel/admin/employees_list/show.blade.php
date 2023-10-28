@@ -10,11 +10,11 @@
 <div class="container">
     <div class="row">
         <div class="col-12 mb-3">
-            <h1>Datos del Empleado "{{ $employee->name }}"</h1>
+            <h1>Datos del Empleado "{{ $employee->name() }}"</h1>
             <a href="{{ route('employee.index') }}" class="btn btn-sm btn-secondary col-xs-12 col-1 text-uppercase">
-                Volver al Listado
+                Volver
             </a>
-            <a href="{{ route('employee.update') }}" class="btn btn-sm btn-secondary col-xs-12 col-1 text-uppercase">
+            <a href="{{ route('employee.edit', $employee->id) }}" class="btn btn-sm btn-secondary col-xs-12 col-1 text-uppercase">
                 Editar
             </a>
         </div>

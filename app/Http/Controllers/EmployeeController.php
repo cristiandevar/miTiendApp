@@ -13,14 +13,12 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::where()
-            ->where('active', 1)
+        $employees = Employee::where('active', 1)
             ->latest() //Ordena de manera DESC por el campo 'created_at'
             ->get(); //Convierte los datos extraidos de la BD en un array
         
-        $users = User::get()->where('active', 1);
-        $name = $this->name();
-        return view('panel.admin.employees_list.index', compact('employees', 'users', 'name'));
+        $users = User::where('active', 1)->get();
+        return view('panel.admin.employees_list.index', compact('employees', 'users'));
     }
 
     /**
@@ -88,7 +86,10 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-        //
+        $users = USer::where('active', 1)->get();
+        
+        return view('panel.admin.employees_list.edit', compact('employee', 'users'));
+    
     }
 
     /**
@@ -102,7 +103,19 @@ class EmployeeController extends Controller
 
         $employee->dni = $request->get('dni');
 
-        $employee->contact = $request->get('contact');
+        if ($request->has('email')) {
+            $employee->email = $request->get('email');
+        }
+        else {
+            $employee->email = '-';
+        }
+
+        if ($request->has('phone')) {
+            $employee->phone = $request->get('phone');
+        }
+        else {
+            $employee->phone = '-';
+        }
 
         $employee->user_id = $request->get('user_id');
         
@@ -120,6 +133,11 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        //
+        $employee->active = 0;
+
+        $employee->update();
+        return redirect()
+            ->route('employee.index')
+            ->with('alert', 'Empleado "'.$employee->name().'" eliminado exitosamente');
     }
 }

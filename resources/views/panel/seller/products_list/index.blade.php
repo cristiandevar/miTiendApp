@@ -22,19 +22,12 @@
             @else
                 @if (!$categories->first())
                     <div>
-                        <p>Ingrese primero una categoria</p>
-                        <a href="{{ route('category.index') }}" class="btn btn-success text-uppercase">
-                            Ir a categorias
-                        </a>
-                    
+                        <p>Ingrese primero una categoria desde <a href="{{ route('category.index') }}">aqui</a></p>
                     </div>
                 @endif
                 @if (!$suppliers->first())
                     <div>
-                        <p>Ingrese primero un Proveedor</p>
-                        <a href="{{ route('supplier.index') }}" class="btn btn-success text-uppercase">
-                            Ir a Proveedores
-                        </a>
+                        <p>Ingrese primero un Proveedor desde <a href="{{ route('supplier.index') }}">aqui</a></p>
                     </div>
                 @endif
                     

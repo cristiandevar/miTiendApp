@@ -21,7 +21,7 @@
                 </a>
             @else
                 <div>
-                    <p>Ingrese primero un usuario desde <a href="{{ route('user.index') }}">aqui</a></p>
+                    <p>Ingrese primero un usuario desde <a href="#">aqui</a></p>
                 </div>
             @endif
             
@@ -54,12 +54,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($employeess as $employee)
+                            @foreach ($employees as $employee)
                             <tr>
                                 <td>{{ $employee->id }}</td>
-                                <td>{{ $name }}</td>
+                                <td>{{ $employee->name() }}</td>
                                 <td>{{ $employee->dni }}</td>
-                                <td>{{ Str::limit($employee->contacto, 80) }}</td>
+                                <td>
+                                    <ul>
+                                        <li>{{ Str::limit($employee->email, 80) }}</li>
+                                        <li>{{ Str::limit($employee->phone, 80) }}</li>
+                                    </ul>
+                                </td>
                                 <td>
                                     <div class="d-flex">
                                         <a href="{{ route('employee.show', $employee) }}" class="btn btn-sm btn-info text-white text-uppercase me-1">

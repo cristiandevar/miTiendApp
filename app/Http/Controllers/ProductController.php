@@ -31,9 +31,9 @@ class ProductController extends Controller
         // Creamos un producto nuevo para cargarle datos
         $product = new Product();
         // Recuperamos todas las categorias de la BD
-        $categories = Category::get()->where('active', 1); // Recordar importar el modelo Categoria!!
+        $categories = Category::where('active', 1)->get(); // Recordar importar el modelo Categoria!!
         
-        $suppliers = Supplier::get()->where('active', 1); // Recordar importar el modelo Categoria!!
+        $suppliers = Supplier::where('active', 1)->get(); // Recordar importar el modelo Categoria!!
         // Retornamos la vista de creacion de productos, enviamos el producto y las categorias
         return view('panel.seller.products_list.create', compact('product', 'categories','suppliers'));
     }
@@ -91,8 +91,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $categories = Category::get()->where('active', 1);
-        $supplires = Supplier::get()->where('active', 1); 
+        $categories = Category::where('active', 1)->get();
+        $supplires = Supplier::where('active', 1)->get(); 
 
         return view('panel.seller.products_list.edit', compact('product', 'categories', 'suppliers'));
     

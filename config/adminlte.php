@@ -297,7 +297,7 @@ return [
                 [
                     'text' => 'Ver Productos',
                     'route' => 'product.index',
-                    'icon' => 'fas fa-store',   //Icono de fontawesome
+                    'icon' => 'far fa-eye',   //Icono de fontawesome
                     //'can' => 'products_list'     //Permiso del vendedor
                 ],
                 [
@@ -314,7 +314,7 @@ return [
                 [
                     'text' => 'Ver Categorias',
                     'route' => 'category.index',
-                    'icon' => 'fas fa-store',   //Icono de fontawesome
+                    'icon' => 'far fa-eye',   //Icono de fontawesome
                     //'can' => 'product_list'     //Permiso del vendedor
                 ],
                 [
@@ -332,7 +332,7 @@ return [
                 [
                     'text' => 'Ver Empleados',
                     'route' => 'employee.index',
-                    'icon' => 'fas fa-store',   //Icono de fontawesome
+                    'icon' => 'far fa-eye',   //Icono de fontawesome
                     //'can' => 'product_list'     //Permiso del vendedor
                 ],
                 [
