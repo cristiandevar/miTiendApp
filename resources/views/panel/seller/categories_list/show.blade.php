@@ -25,7 +25,10 @@
                         <p>Cantidad productos asociados:<strong> {{ $category->products->count() }} </strong>.</p>
                     </div>
                     <div class="mb-3">
-                        <p>Creado por <strong>{{ $category->seller->name }} </strong>.</p>
+                        <p>Creación <strong>{{ $category->created_at }} </strong>.</p>
+                    </div>
+                    <div class="mb-3">
+                        <p>Modificación <strong>{{ $category->modified_at }} </strong>.</p>
                     </div>
                 </div>
             </div>

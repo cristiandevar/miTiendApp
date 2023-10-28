@@ -15,18 +15,29 @@
     <div class="row">
         <div class="col-12 mb-3">
             
-            @if ($categories->first())
+            @if ($categories->first() && $suppliers->first())
                 <a href="{{ route('product.create') }}" class="btn btn-success text-uppercase">
                     Nuevo Producto
                 </a>
             @else
-                <div>
-                    <p>Ingrese primero una categoria</p>
-                    <a href="{{ route('category.index') }}" class="btn btn-success text-uppercase">
-                        Ir a categorias
-                    </a>
-                
-                </div>
+                @if (!$categories->first())
+                    <div>
+                        <p>Ingrese primero una categoria</p>
+                        <a href="{{ route('category.index') }}" class="btn btn-success text-uppercase">
+                            Ir a categorias
+                        </a>
+                    
+                    </div>
+                @endif
+                @if (!$suppliers->first())
+                    <div>
+                        <p>Ingrese primero un Proveedor</p>
+                        <a href="{{ route('supplier.index') }}" class="btn btn-success text-uppercase">
+                            Ir a Proveedores
+                        </a>
+                    </div>
+                @endif
+                    
             @endif
             
         </div>

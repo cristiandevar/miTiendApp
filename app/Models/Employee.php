@@ -25,4 +25,8 @@ class Employee extends Model
     public function name() {
         return $this->lastname.' '.$this->firstname;
     }
+
+    public function user() {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

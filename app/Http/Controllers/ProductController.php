@@ -14,12 +14,13 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::where('seller_id', auth()->user()->id)
-            ->where('active', 1)
+        $products = Product::where('active', 1)
             ->latest() //Ordena de manera DESC por el campo 'created_at'
             ->get(); //Convierte los datos extraidos de la BD en un array
         // Retornamos una vista y enviamos la variable 'products'
-        return view('panel.seller.products_list.index', compact('products'));
+        $categories = Category::where('active',1)->get();
+        $suppliers = Supplier::where('active',1)->get();
+        return view('panel.seller.products_list.index', compact('products', 'categories', 'suppliers'));
     }
 
     /**
@@ -32,7 +33,7 @@ class ProductController extends Controller
         // Recuperamos todas las categorias de la BD
         $categories = Category::get()->where('active', 1); // Recordar importar el modelo Categoria!!
         
-        $supplies = Supplier::get()->where('active', 1); // Recordar importar el modelo Categoria!!
+        $suppliers = Supplier::get()->where('active', 1); // Recordar importar el modelo Categoria!!
         // Retornamos la vista de creacion de productos, enviamos el producto y las categorias
         return view('panel.seller.products_list.create', compact('product', 'categories','suppliers'));
     }
@@ -91,7 +92,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $categories = Category::get()->where('active', 1);
-        $supplies = Supplier::get()->where('active', 1); 
+        $supplires = Supplier::get()->where('active', 1); 
 
         return view('panel.seller.products_list.edit', compact('product', 'categories', 'suppliers'));
     

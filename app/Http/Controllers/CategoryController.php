@@ -12,11 +12,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::where(
-            'seller_id',
-            auth()->user()->id
-        )
-            ->where('active', 1)    
+        $categories = Category::where('active', 1)    
             ->latest()
             ->get();
 
@@ -43,7 +39,6 @@ class CategoryController extends Controller
     {
         $category = new Category();
         $category->name = $request->get('name');
-        $category->seller_id = auth()->user()->id;
 
         // dd($request->get('active'));
         if ($request->get('active')) {

@@ -19,7 +19,8 @@ class Product extends Model
         'description',
         'precio',
         'image',
-        'category_id'
+        'category_id',
+        'supplier_id',
     ];
 
     // INNER JOIN con la tabla Categories por medio de la FK category_id
@@ -28,7 +29,7 @@ class Product extends Model
     }
 
     // INER JOIN con la tabla Users por medio de la FK seller_id
-    public function seller() {
-        return $this->belongsTo(User::class, 'seller_id');
+    public function supplier() {
+        return $this->belongsTo(User::class, 'susplier_id');
     }
 }
