@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -12,7 +13,14 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+        $employees = Employee::where()
+            ->where('active', 1)
+            ->latest() //Ordena de manera DESC por el campo 'created_at'
+            ->get(); //Convierte los datos extraidos de la BD en un array
+        
+        $users = User::get()->where('active', 1);
+        $name = $this->name();
+        return view('panel.admin.employees_list.index', compact('employees', 'users', 'name'));
     }
 
     /**
