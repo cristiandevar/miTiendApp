@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Ver')
+@section('title', 'Ver Empleado')
 
 @section('content_header')
     
@@ -10,31 +10,34 @@
 <div class="container">
     <div class="row">
         <div class="col-12 mb-3">
-            <h1>Datos del Producto "{{ $product->name }}"</h1>
-            <a href="{{ route('product.index') }}" class="btn btn-sm btn-secondary text-uppercase">
+            <h1>Datos del Empleado "{{ $employee->name }}"</h1>
+            <a href="{{ route('employee.index') }}" class="btn btn-sm btn-secondary col-xs-12 col-1 text-uppercase">
                 Volver al Listado
+            </a>
+            <a href="{{ route('employee.update') }}" class="btn btn-sm btn-secondary col-xs-12 col-1 text-uppercase">
+                Editar
             </a>
         </div>
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="mb-3">
-                        <img src="{{ $product->image }}" alt="{{ $product->name }}" id="image_preview" class="img-fluid" style="object-fit: cover; object-position: center; height: 420px; width: 100%;">
-                    </div>
                     <div class="mb-3">    
-                        <h2>Nombre: {{ $product->name }}</h2>
+                        <h2>Nombre: {{ $employee->name() }}</h2>
                     </div>
                     <div class="mb-3">
-                        <p> Descripción: {{ $product->description }}</p>
+                        <p> DNI: {{ $employee->dni }}</p>
                     </div>
                     <div class="mb-3">
-                        <p>Precio: {{ $product->price }}</p>
+                        <p> Email: {{ $employee->email }}</p>
                     </div>
                     <div class="mb-3">
-                        <p>Categoria: {{ $product->category->name }}</p>
+                        <p> Telefono: {{ $employee->phone }}</p>
                     </div>
                     <div class="mb-3">
-                        <p>Creado por {{ $product->seller->name }}.</p>
+                        <p> Creación {{ $employee->created_at }}.</p>
+                    </div>
+                    <div class="mb-3">
+                        <p> Modificación {{ $employee->modified_at }}.</p>
                     </div>
                 </div>
             </div>
