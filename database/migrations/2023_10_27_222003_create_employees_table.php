@@ -11,16 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description')->nullable(true);
+            $table->string('lastname');
+            $table->string('fistname');
+            $table->string('dni')->nullable(true);
+            $table->string('email')->nullable(true);
+            $table->string('phone')->nullable(true);
             $table->tinyInteger('active')->default(1);
-
-            // $table->unsignedBigInteger('seller_id');
-            // $table->foreign('seller_id')->references('id')->on('users');
-            
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('employees');
     }
 };

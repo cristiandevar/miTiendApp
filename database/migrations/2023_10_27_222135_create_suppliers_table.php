@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carousel', function (Blueprint $table) {
+        Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
-            $table->string('url', 150);
-            $table->string('title', 150);
-            $table->string('description', 150);
-            $table->smallInteger('priority');
+            $table->string('companyname')->unique();
+            $table->string('email')->nullable(true);
+            $table->string('phone')->nullable(true);
+            $table->string('address')->nullable(true);
+            $table->tinyInteger('active')->default(1);
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carousel');
+        Schema::dropIfExists('suppliers');
     }
 };

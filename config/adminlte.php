@@ -14,9 +14,9 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'miTiendAPP',
     'title_prefix' => '',
-    'title_postfix' => '',
+    'title_postfix' => '2023',
 
     /*
     |--------------------------------------------------------------------------
@@ -63,12 +63,12 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
+    'logo' => 'miTiend<b>APP</b>',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Admin Logo',
+    'logo_img_alt' => 'App Logo',
 
     /*
     |--------------------------------------------------------------------------
@@ -290,13 +290,79 @@ return [
     */
 
     'menu' => [
+        ['header' => 'Principal'],
         [
-            'text' => 'Lista de Productos',
-            'route' => 'product.index',
-            //'url' => 'panel/product', Esta seria otra manera de como especificar la ruta
-            'icon' => 'fas fa-store',   //Icono de fontawesome
-            //'can' => 'product_list'     //Permiso del vendedor
-        ]
+            'text' => 'Productos',
+            'submenu' => [
+                [
+                    'text' => 'Ver Productos',
+                    'route' => 'product.index',
+                    'icon' => 'fas fa-store',   //Icono de fontawesome
+                    //'can' => 'products_list'     //Permiso del vendedor
+                ],
+                [
+                    'text' => 'Actualizar Precios',
+                    'url' => '#',
+                    // 'route' => '',
+                    'icon' => ''
+                ],
+            ]
+        ],
+        [
+            'text' => 'Categorias',
+            'submenu' => [
+                [
+                    'text' => 'Ver Categorias',
+                    'route' => 'category.index',
+                    'icon' => 'fas fa-store',   //Icono de fontawesome
+                    //'can' => 'product_list'     //Permiso del vendedor
+                ],
+                [
+                    'text' => 'Filtrar',
+                    'url' => '#',
+                    // 'route' => ''
+                    'icon' => ''
+                ]
+                    
+            ]
+        ],
+        [
+            'text' => 'Empleados',
+            'submenu' => [
+                [
+                    'text' => 'Ver Empleados',
+                    'route' => 'employee.index',
+                    'icon' => 'fas fa-store',   //Icono de fontawesome
+                    //'can' => 'product_list'     //Permiso del vendedor
+                ],
+                [
+                    'text' => 'Filtrar',
+                    'url' => '#',
+                    // 'route' => ''
+                    'icon' => ''
+                ]
+                
+            ]
+        ],
+        [
+            'text' => 'Proveedores',
+            'submenu' => [
+                [
+                    'text' => 'Ver Proveedores',
+                    'route' => 'supplier.index',
+                    //'url' => 'panel/product', Esta seria otra manera de como especificar la ruta
+                    'icon' => 'far fa-eye',   //Icono de fontawesome
+                    //'can' => 'product_list'  <i class="fa-regular fa-eye"></i>   //Permiso del vendedor
+                ],
+                [
+                    'text' => 'Filtrar',
+                    'url' => '#',
+                    // 'route' => ''
+                    'icon' => ''
+                ]
+                
+            ]
+        ],
 
 
         // Navbar items:

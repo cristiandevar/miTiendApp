@@ -23,6 +23,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        if(auth()->user()) { 
+            return view('panel.index');
+        }
+        else { 
+            return view('vendor.adminlte.auth.login');
+        }
     }
 }
