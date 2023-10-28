@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\Auth\GoogleController;
@@ -31,8 +32,12 @@ Route::get('/login/google/callback',
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index']);
+
 // Route::get('/', function () {
-//     return view('vendor.adminlte.auth.login');
+//     return view('auth.login');
+// })->name('home');
+// Route::get('/home', function () {
+//     return view('auth.login');
 // });

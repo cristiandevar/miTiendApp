@@ -332,8 +332,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Ver Empleados',
-                    'route' => 'product.index',
-                    //'url' => 'panel/product', Esta seria otra manera de como especificar la ruta
+                    'route' => 'employee.index',
                     'icon' => 'fas fa-store',   //Icono de fontawesome
                     //'can' => 'product_list'     //Permiso del vendedor
                 ],
@@ -351,10 +350,10 @@ return [
             'submenu' => [
                 [
                     'text' => 'Ver Proveedores',
-                    'route' => 'category.index',
+                    'route' => 'supplier.index',
                     //'url' => 'panel/product', Esta seria otra manera de como especificar la ruta
-                    'icon' => 'fas fa-store',   //Icono de fontawesome
-                    //'can' => 'product_list'     //Permiso del vendedor
+                    'icon' => 'far fa-eye',   //Icono de fontawesome
+                    //'can' => 'product_list'  <i class="fa-regular fa-eye"></i>   //Permiso del vendedor
                 ],
                 [
                     'text' => 'Filtrar',
