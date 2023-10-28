@@ -34,7 +34,10 @@
                         <p>Categoria: {{ $product->category->name }}</p>
                     </div>
                     <div class="mb-3">
-                        <p>Creado por {{ $product->seller->name }}.</p>
+                        <p>Creación {{ $product->created_at }}.</p>
+                    </div>
+                    <div class="mb-3">
+                        <p>Modificación {{ $product->modified_at }}.</p>
                     </div>
                 </div>
             </div>
