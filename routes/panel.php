@@ -5,24 +5,23 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SupplierController;
-use Illuminate\Support\Facades\Auth;
 
+
+// Rutas para el CRUD de productos
 Route::resource('/products', ProductController::class)->names('product');
 
+// Rutas para el CRUD de categorias
 Route::resource('/categories', CategoryController::class)->names('category');
 
+// Rutas para el CRUD de proveedores
 Route::resource('/suppliers', SupplierController::class)->names('supplier');
 
+// Rutas para el CRUD de empleados
 Route::resource('/employees', EmployeeController::class)->names('employee');
 
+
+
+// Rutas para redirigir al login o al panel segun corresponda
 Route::get('/', [HomeController::class, 'index'])->name('panel');
 Route::get('/home', [HomeController::class, 'index']);
 
-
-// Route::get('/', function () {
-//     if (Auth::check()) {
-//         return view('panel.index');
-//     } else {
-//         return redirect('web.home');
-//     }
-// });

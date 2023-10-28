@@ -24,8 +24,7 @@ class HomeController extends Controller
     public function index()
     {
         if(auth()->user()) { 
-        return view('panel.index');
-        
+            return view('panel.index');
         }
         else { 
             return view('vendor.adminlte.auth.login');

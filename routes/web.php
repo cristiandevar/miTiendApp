@@ -20,24 +20,23 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-
-Route::get('/login/google', 
-[App\Http\Controllers\GoogleLoginController::class, 
-'redirect'])->name('login.google-redirect');
-
-Route::get('/login/google/callback', 
-[App\Http\Controllers\GoogleLoginController::class, 
-'callback'])->name('login.google-callback');
-
-
 Auth::routes();
 
+// Rutas que sirven para loguearse con cuenta de Google
+Route::get(
+        '/login/google', 
+        [App\Http\Controllers\GoogleLoginController::class, 
+        'redirect']
+    )->name('login.google-redirect');
+
+Route::get(
+        '/login/google/callback', 
+        [App\Http\Controllers\GoogleLoginController::class, 
+        'callback']
+    )->name('login.google-callback');
+
+
+
+// Rutas que redirigen al login o al panel segun corresponda
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/', [HomeController::class, 'index']);
-
-// Route::get('/', function () {
-//     return view('auth.login');
-// })->name('home');
-// Route::get('/home', function () {
-//     return view('auth.login');
-// });
