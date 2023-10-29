@@ -87,15 +87,15 @@ class CategoryController extends Controller
                 $category->active = 0;
             }
             else {
-                $msg = 'No se pudo actualizar, porque tiene productos asociados';
+                $msg = 'No se pudo eliminar, porque tiene productos asociados';
             }
         }
         
         $category->update();
 
         return redirect()
-        ->route('category.index')
-        ->with('alert', $msg);
+            ->route('category.index')
+            ->with('alert', $msg);
     }
 
     /**
@@ -103,19 +103,16 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        // $category->delete();
         $msg = 'Categoria "'.$category->name.'" eliminada exitosamente';
         if (!$category->products()->first()) {
             $category->active = 0;
-            
             $category->update();
-    
         }
         else {
             $msg = 'No se pudo eliminar "'.$category->name.'" dado que posee elementos asociados';
         }
         return redirect()
-        ->route('category.index')
-        ->with('alert',$msg);
+            ->route('category.index')
+            ->with('alert',$msg);
     }
 }

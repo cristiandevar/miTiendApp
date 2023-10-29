@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 
@@ -76,7 +77,7 @@ class SupplierController extends Controller
      */
     public function show(Supplier $supplier)
     {
-        return view('panel.admin.suppliers.show', compact($supplier));
+        return view('panel.admin.suppliers.show', compact('supplier'));
     }
 
     /**
@@ -84,7 +85,7 @@ class SupplierController extends Controller
      */
     public function edit(Supplier $supplier)
     {
-        return view('panel.admin.suppliers.edit', compact($supplier));
+        return view('panel.admin.suppliers.edit', compact('supplier'));
     }
 
     /**
@@ -128,11 +129,19 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        $supplier->active = 1;
-        $supplier->update();
-
-        return redirect()
-            ->route('supplier.index')
-            ->with('alert', 'Proveedor "'.$supplier->companyname.'" eliminado exitosamente');
+        $products = Product::where('supplier_id', $supplier->id);
+        if ($products->first()) {
+            return redirect()
+                ->route('supplier.index')
+                ->with('error', 'No se pudo eliminar "'.$supplier->companyname.'" dado que tiene productos asociados');
+        }
+        else {
+            $supplier->active = 0;
+            $supplier->update();
+    
+            return redirect()
+                ->route('supplier.index')
+                ->with('alert', 'Proveedor "'.$supplier->companyname.'" eliminado exitosamente');
+        }
     }
 }

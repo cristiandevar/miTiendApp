@@ -15,7 +15,7 @@
     <div class="row">
         <div class="col-12 mb-3">
             
-            <a href="{{ route('category.create') }}" class="btn btn-success text-uppercase">
+            <a href="{{ route('category.create') }}" class="btn btn-success btn-sm text-uppercase">
                 Nueva Categoria
             </a>
         </div>
@@ -24,6 +24,17 @@
             <div class="col-12">
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     {{ session('alert') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>                    
+                </div>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="col-12">
+                <div class="alert alert-danger alert-dismissible fade show" role="error">
+                    {{ session('error') }}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>                    

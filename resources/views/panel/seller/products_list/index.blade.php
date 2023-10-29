@@ -16,7 +16,7 @@
         <div class="col-12 mb-3">
             
             @if ($categories->first() && $suppliers->first())
-                <a href="{{ route('product.create') }}" class="btn btn-success text-uppercase">
+                <a href="{{ route('product.create') }}" class="btn btn-success btn-sm text-uppercase">
                     Nuevo Producto
                 </a>
             @else
@@ -46,6 +46,17 @@
             </div>
         @endif
 
+        @if(session('error'))
+            <div class="col-12">
+                <div class="alert alert-danger alert-dismissible fade show" role="error">
+                    {{ session('error') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>                    
+                </div>
+            </div>
+        @endif
+
     <div class="col-12">
         <div class="card">
             <div class="card-body">
@@ -54,9 +65,9 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col" class="text-uppercase">Categoría</th>
                                 <th scope="col" class="text-uppercase">Nombre</th>
-                                <th scope="col" class="text-uppercase">Descripción</th>
+                                <th scope="col" class="text-uppercase">Categoría</th>
+                                <th scope="col" class="text-uppercase">Proveedor</th>
                                 <th scope="col" class="text-uppercase">Imagen</th>
                                 <th scope="col" class="text-uppercase">Opciones</th>
                             </tr>
@@ -65,9 +76,9 @@
                             @foreach ($products as $product)
                             <tr>
                                 <td>{{ $product->id }}</td>
-                                <td>{{ $product->category->name }}</td>
                                 <td>{{ $product->name }}</td>
-                                <td>{{ Str::limit($product->description, 80) }}</td>
+                                <td>{{ $product->category->name }}</td>
+                                <td>{{ $product->supplier->companyname }}</td>
                                 <td>
                                     <img src="{{ $product->image }}" alt="{{ $product->name }}" class="img-fluid" style="width: 150px;">
                                 </td>

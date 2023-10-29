@@ -25,19 +25,22 @@
                         <h2>Nombre: {{ $product->name }}</h2>
                     </div>
                     <div class="mb-3">
-                        <p> Descripción: {{ $product->description }}</p>
+                        <p>Descripción: <strong>{{ $product->description }}</strong></p>
                     </div>
                     <div class="mb-3">
-                        <p>Precio: {{ $product->price }}</p>
+                        <p>Precio: <strong>{{ $product->price }}.</strong></p>
                     </div>
                     <div class="mb-3">
-                        <p>Categoria: {{ $product->category->name }}</p>
+                        <p>Categoria: <strong>{{ $product->category->name }}</strong></p>
                     </div>
                     <div class="mb-3">
-                        <p>Creación {{ $product->created_at }}.</p>
+                        <p>Proveedor: <strong>{{ $product->supplier->companyname }}</strong></p>
                     </div>
                     <div class="mb-3">
-                        <p>Modificación {{ $product->modified_at }}.</p>
+                        <p>Creación: <strong>{{ $product->created_at }}</strong></p>
+                    </div>
+                    <div class="mb-3">
+                        <p>Modificación: <strong>{{ $product->modified_at }}</strong></p>
                     </div>
                 </div>
             </div>

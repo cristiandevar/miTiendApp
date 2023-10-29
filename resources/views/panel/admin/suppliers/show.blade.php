@@ -22,22 +22,22 @@
             <div class="card">
                 <div class="card-body">
                     <div class="mb-3">    
-                        <h2>Nombre: {{ $supplier->companyname }}</h2>
+                        <p>Nombre: {{ $supplier->companyname }}</p>
                     </div>
                     <div class="mb-3">
-                        <p> Email: {{ $supplier->email }}</p>
+                        <p> Email: <strong>{{ $supplier->email }}.</strong></p>
                     </div>
                     <div class="mb-3">
-                        <p> Telefono: {{ $supplier->phone }}</p>
+                        <p> Telefono: <strong>{{ $supplier->phone }}.</strong></p>
                     </div>
                     <div class="mb-3">
-                        <p> Dirección: {{ $supplier->address }}</p>
+                        <p> Dirección: <strong>{{ $supplier->address }}.</strong></p>
                     </div>
                     <div class="mb-3">
-                        <p> Creación {{ $supplier->created_at }}.</p>
+                        <p> Creación: <strong>{{ $supplier->created_at }}.</strong></strong>.</p>
                     </div>
                     <div class="mb-3">
-                        <p> Modificación {{ $supplier->modified_at }}.</p>
+                        <p> Modificación: <strong>{{ $supplier->modified_at }}.</strong></p>
                     </div>
                 </div>
             </div>

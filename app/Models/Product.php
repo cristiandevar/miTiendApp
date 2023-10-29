@@ -28,8 +28,8 @@ class Product extends Model
         return $this->belongsTo(Category::class, 'category_id');
     }
 
-    // INER JOIN con la tabla Users por medio de la FK seller_id
+    // INER JOIN con la tabla Supplier por medio de la FK supplier_id
     public function supplier() {
-        return $this->belongsTo(User::class, 'susplier_id');
+        return $this->belongsTo(Supplier::class, 'supplier_id');
     }
 }
