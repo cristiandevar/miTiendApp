@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Supplier;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -156,27 +157,24 @@ class ProductController extends Controller
         if ($request->has('name') && Str::length((trim($request->name)))>0) {
             $query->where('name','like', '%'.$request->name.'%');
         }
-        if ($request->has('supplier')) {
-            dd('tiene proveedor');
-            $query->where('supplier_id', $request->supplier);
+        if ($request->has('supplier_id') && $request->supplier_id) {
+            $query->where('supplier_id', $request->supplier_id);
         }
-        if ($request->has('category')) {
-            dd('tiene category');
-            $query->where('category_id', $request->category);
+        if ($request->has('category_id') && $request->category_id) {
+            $query->where('category_id', $request->category_id);
         }
         if ($request->has('price_since') && $request->price_since) {
             $query->where('price','>=', $request->price_since);
         }
         if ($request->has('price_to') && $request->price_to) {
-            dd('tiene precio hasta');
             $query->where('price','<=', $request->price_to);
         }
         if ($request->has('date_since') && $request->date_since) {
-            $query->where('date','>=', $request->date_since);
+            $query->where('created_at','>=', $request->date_since);
         }
         if ($request->has('date_to') && $request->date_to) {
-            dd('tiene precio hasta');
-            $query->where('date','<=', $request->date_to);
+            $date_to = Carbon::createFromFormat('Y-m-d',$request->date_to )->startOfDay()->addDay()->toDateTimeString();
+            $query->where('created_at','<', $date_to);
         }
 
         $inputs = $request->all();
