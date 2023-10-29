@@ -149,4 +149,29 @@ class ProductController extends Controller
         $image_url = str_replace('\\', '/', $image_url);
         unlink($image_url);
     }
+
+    public function filter(Request $request) {
+        $query = Product::query();
+
+        if ($request->has('category')) {
+            $query->where('category_id', $request->category);
+        }
+        if ($request->has('supplier')) {
+            $query->where('supplier_id', $request->supplier);
+        }
+        if ($request->has('price_since')) {
+            $query->where('price','>=', $request->price_since);
+        }
+        if ($request->has('price_to')) {
+            $query->where('price','<=', $request->price_to);
+        }
+        if ($request->has('name')) {
+            $query->where('name','like', '%'.$request->name.'%');
+        }
+
+        $inputs = $request->all();
+
+        return view('');
+
+    }
 }
