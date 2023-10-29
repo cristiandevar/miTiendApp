@@ -59,14 +59,13 @@
                     </select>
                 </div>
             </div>
-
             <div class="mb-3 row">
                 <label for="supplier" class="col-sm-4 col-form-label"> * Proveedor </label>
                 <div class="col-sm-8">
                     <select id="supplier_id" name="supplier_id" class="form-control" required>
                         @foreach ($suppliers as $supplier)
                             <option {{ $product->supplier_id && $product->supplier_id == $supplier->id ? 'selected': ''}} value="{{ $supplier->id }}"> 
-                                {{ $supplier->name }}
+                                {{ $supplier->companyname }}
                             </option>
                         @endforeach
                     </select>

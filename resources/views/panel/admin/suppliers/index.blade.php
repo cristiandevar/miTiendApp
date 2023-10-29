@@ -2,11 +2,11 @@
 @extends('adminlte::page')
 
 {{-- Titulo en las tabulaciones del Navegador --}}
-@section('title', 'Categorias')
+@section('title', 'Proveedores')
 
 {{-- Titulo en el contenido de la Pagina --}}
 @section('content_header')
-    <h1>Lista de Categorias</h1>
+    <h1>Lista de Proveedores</h1>
 @stop
 
 {{-- Contenido de la Pagina --}}
@@ -14,9 +14,8 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 mb-3">
-            
-            <a href="{{ route('category.create') }}" class="btn btn-success btn-sm text-uppercase">
-                Nueva Categoria
+            <a href="{{ route('supplier.create') }}" class="btn btn-success btn-sm text-uppercase">
+                Nuevo Proveedor
             </a>
         </div>
         
@@ -45,29 +44,48 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                @if(count($categories)>0)
-                    <table id="tabla-categories" class="table table-striped table-hover w-100">
+                @if(count($suppliers)>0)
+                    <table id="suppliers-table" class="table table-striped table-hover w-100">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col" class="text-uppercase">Nombre</th>
+                                <th scope="col" class="text-uppercase">Dirección</th>
+                                <th scope="col" class="text-uppercase">Contacto</th>
                                 <th scope="col" class="text-uppercase">Opciones</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($categories as $category)
+                            @foreach ($suppliers as $supplier)
                             <tr>
-                                <td>{{ $category->id }}</td>
-                                <td>{{ $category->name }}</td>
+                                <td>{{ $supplier->id }}</td>
+                                <td>{{ $supplier->companyname }}</td>
+                                <td>{{ $supplier->address }}</td>
+                                <td>
+                                    @if ($supplier->email && $supplier->phone)
+                                        <ul>
+                                            <li>{{ Str::limit($supplier->email, 80) }}</li>
+                                            <li>{{ Str::limit($supplier->phone, 80) }}</li>
+                                        </ul>
+                                    @else
+                                        @if ($supplier->email)
+                                            {{ Str::limit($supplier->email, 80) }}
+                                        @endif
+                                        @if ($supplier->phone)
+                                            {{ Str::limit($supplier->phone, 80) }}
+                                        @endif
+                                    @endif
+                                </td>
                                 <td>
                                     <div class="d-flex">
-                                        <a href="{{ route('category.show', $category) }}" class="btn btn-sm btn-info text-white text-uppercase me-1">
+                                        <a href="{{ route('supplier.show', $supplier) }}" class="btn btn-sm btn-info text-white text-uppercase me-1">
                                             Ver
                                         </a>
-                                        <a href="{{ route('category.edit', $category) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1">
+                                        <a href="{{ route('supplier.edit', $supplier) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1">
                                             Editar
                                         </a>
-                                        <form action="{{ route('category.destroy', $category) }}" method="POST">
+                                        <form action="{{ route('supplier.destroy', $supplier) }}" method="POST">
                                             @csrf 
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger text-uppercase">
@@ -81,7 +99,7 @@
                         </tbody>
                     </table>
                 @else
-                    <p class='alert alert-danger small'>No tiene categorias registradas</p>                    
+                    <p class='alert alert-danger small'>No tiene Proveedores registrados</p>                    
 
                 @endif
             </div>

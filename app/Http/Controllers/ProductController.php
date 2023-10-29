@@ -92,8 +92,8 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $categories = Category::where('active', 1)->get();
-        $supplires = Supplier::where('active', 1)->get(); 
-
+        $suppliers = Supplier::where('active', 1)->get(); 
+        
         return view('panel.seller.products_list.edit', compact('product', 'categories', 'suppliers'));
     
     }
@@ -116,9 +116,14 @@ class ProductController extends Controller
         else {
             $product->active = 0;
         }
+        if ($request->get('description')) {
+            $product->description = $request->get('description');
+        }
+        else {
+            $product->description = '-';
+        }
         
         $product->name = $request->get('name');
-        $product->description = $request->get('description');
         $product->price = $request->get('price');
         $product->category_id = $request->get('category_id');
         $product->supplier_id = $request->get('supplier_id');
