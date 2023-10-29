@@ -51,28 +51,30 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('products.filter') }}" method='GET'>
-                    <div class="form-group">
-                        <input class="form-control col-sm-12 col-3" type="text" id="name" name="name" placeholder="Nombre">
-                        <select id="supplier_id" name="supplier_id" class="form-control col-sm-12 col-3">
+                <form action="{{ route('product.filter') }}" method='GET'>
+                    <div class="form-group row">
+                        <input class="form-control col-xs-12 col-2 m-1" type="text" id="name" name="name" placeholder="Nombre">
+                        <select id="supplier_id" name="supplier_id" class="form-control col-xs-12 col-2 m-1">
+                            <option value="" disabled {{ !isset($input['supplier'])? 'selected':''}}>Proveedor...</option>
                             @foreach ($suppliers as $supplier)
-                                <option {{ $product->supplier_id && $product->supplier_id == $supplier->id ? 'selected': ''}} value="{{ $supplier->id }}"> 
+                                <option {{ isset($inputs['supplier']) && $inputs->supplier == $supplier->id ? 'selected': ''}} value="{{ $supplier->id }}"> 
                                     {{ $supplier->companyname }}
                                 </option>
                             @endforeach
                         </select>
-                        <select id="category_id" name="category_id" class="form-control col-sm-12 col-3">
+                        <select id="category_id" name="category_id" class="form-control col-xs-12 col-2 m-1">
+                            <option value="" disabled  {{ !isset($input['supplier'])? 'selected':''}}>Categoria...</option>
                             @foreach ($categories as $category)
-                                <option {{ $product->category_id && $product->category_id == $category->id ? 'selected': ''}} value="{{ $category->id }}"> 
+                                <option {{ isset($inputs['category']) && $inputs->category == $category->id ? 'selected': ''}} value="{{ $category->id }}"> 
                                     {{ $category->name }}
                                 </option>
                             @endforeach
                         </select>
-                        <input class="form-control col-sm-12 col-3" type="number" id="price_since" name="price_since" placeholder="Precio desde...">
-                        <input class="form-control col-sm-12 col-3" type="numer" id="price_to" name="price_to" placeholder="Precio hasta...">
-                        <input class="form-control col-sm-12 col-3" type="date" id="date_since" name="date_since" placeholder="Fecha desde...">
-                        <input class="form-control col-sm-12 col-3" type="date" id="date_to" name="date_to" placeholder="Fecha hasta...">
-                        <button type="submit" class="form-control col-sm-12 col-3 btn btn-success text-uppercase">
+                        <input class="form-control col-xs-12 col-2 m-1" type="number" id="price_since" name="price_since" placeholder="Precio desde...">
+                        <input class="form-control col-xs-12 col-2 m-1" type="number" id="price_to" name="price_to" placeholder="Precio hasta...">
+                        <input class="form-control col-xs-12 col-2 m-1" type="date" id="date_since" name="date_since" placeholder="Fecha desde...">
+                        <input class="form-control col-xs-12 col-2 m-1" type="date" id="date_to" name="date_to" placeholder="Fecha hasta...">
+                        <button type="submit" class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
                             Filtrar
                         </button>
                     </div>
