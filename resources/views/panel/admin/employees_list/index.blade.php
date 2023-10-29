@@ -71,10 +71,18 @@
                                 <td>{{ $employee->name() }}</td>
                                 <td>{{ $employee->dni }}</td>
                                 <td>
-                                    <ul>
-                                        <li>{{ Str::limit($employee->email, 80) }}</li>
-                                        <li>{{ Str::limit($employee->phone, 80) }}</li>
-                                    </ul>
+                                    @if ($employee->email && $employee->phone)
+                                        <ul>
+                                            <li>{{ Str::limit($employee->email, 80) }}</li>
+                                            <li>{{ Str::limit($employee->phone, 80) }}</li>
+                                        </ul>
+                                    @else
+                                        @if ($employee->email)
+                                            {{ Str::limit($employee->email, 80) }}
+                                        @else
+                                            {{ Str::limit($employee->phone, 80) }}
+                                        @endif
+                                    @endif
                                 </td>
                                 <td>
                                     <div class="d-flex">

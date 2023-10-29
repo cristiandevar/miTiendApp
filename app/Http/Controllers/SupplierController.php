@@ -42,22 +42,13 @@ class SupplierController extends Controller
         if ($request->has('email')) {
             $supplier->email = $request->get('email');
         }
-        else {
-            $supplier->email = '-';
-        }
 
         if ($request->has('phone')) {
             $supplier->phone = $request->get('phone');
         }
-        else {
-            $supplier->phone = '-';
-        }
                
         if ($request->has('address')) {
             $supplier->address = $request->get('address');
-        }
-        else {
-            $supplier->address = '-';
         }
 
         $supplier->companyname = $request->get('companyname');
@@ -96,22 +87,13 @@ class SupplierController extends Controller
         if ($request->has('email')) {
             $supplier->email = $request->get('email');
         }
-        else {
-            $supplier->email = '-';
-        }
 
         if ($request->has('phone')) {
             $supplier->phone = $request->get('phone');
         }
-        else {
-            $supplier->phone = '-';
-        }
 
         if ($request->has('address')) {
             $supplier->address = $request->get('address');
-        }
-        else {
-            $supplier->address = '-';
         }
 
         $supplier->companyname = $request->get('companyname');

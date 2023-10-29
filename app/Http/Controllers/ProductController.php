@@ -47,15 +47,10 @@ class ProductController extends Controller
         if ($request->description) {
             $product->description = $request->get('description');
         }
-        else {
-            $product->description = '-';
-        }
         if ($request->hasFile('image')) {
             // Subida de imagen al servidor (public > storage)
             $image_url = $request->file('image')->store('public/product');
             $product->image = asset(str_replace('public', 'storage', $image_url));
-        } else {
-            $product->image = '-';
         }
 
         if ($request->get('active')) {
@@ -118,9 +113,6 @@ class ProductController extends Controller
         }
         if ($request->get('description')) {
             $product->description = $request->get('description');
-        }
-        else {
-            $product->description = '-';
         }
         
         $product->name = $request->get('name');

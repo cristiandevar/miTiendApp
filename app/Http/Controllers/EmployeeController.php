@@ -45,15 +45,9 @@ class EmployeeController extends Controller
         if ($request->has('email')) {
             $employee->email = $request->get('email');
         }
-        else {
-            $employee->email = '-';
-        }
 
         if ($request->has('phone')) {
             $employee->phone = $request->get('phone');
-        }
-        else {
-            $employee->phone = '-';
         }
                 
         $employee->lastname = $request->get('lastname');
@@ -106,15 +100,9 @@ class EmployeeController extends Controller
         if ($request->has('email')) {
             $employee->email = $request->get('email');
         }
-        else {
-            $employee->email = '-';
-        }
 
         if ($request->has('phone')) {
             $employee->phone = $request->get('phone');
-        }
-        else {
-            $employee->phone = '-';
         }
 
         $employee->user_id = $request->get('user_id');
