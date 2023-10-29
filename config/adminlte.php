@@ -301,6 +301,11 @@ return [
                     //'can' => 'products_list'     //Permiso del vendedor
                 ],
                 [
+                    'text' => 'Filtrar Productos',
+                    'route' => 'product.filter',
+                    'icon' => 'fas fa-filter'
+                ],
+                [
                     'text' => 'Actualizar Precios',
                     'url' => '#',
                     // 'route' => '',

@@ -18,7 +18,7 @@ class EmployeeController extends Controller
             ->get(); //Convierte los datos extraidos de la BD en un array
         
         $users = User::where('active', 1)->get();
-        return view('panel.admin.employees_list.index', compact('employees', 'users'));
+        return view('panel.employees.crud.index', compact('employees', 'users'));
     }
 
     /**
@@ -31,7 +31,7 @@ class EmployeeController extends Controller
         // Recuperamos todas las categorias de la BD
         $users = User::get()->where('active', 1); // Recordar importar el modelo Categoria!!
         // Retornamos la vista de creacion de employeeos, enviamos el employeeo y las categorias
-        return view('panel.admin.employees_list.create', compact('employee', 'users'));
+        return view('panel.employees.crud.create', compact('employee', 'users'));
     
     }
 
@@ -72,7 +72,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        return view('panel.admin.employees_list.show', compact('employee'));
+        return view('panel.employees.crud.show', compact('employee'));
     }
 
     /**
@@ -82,7 +82,7 @@ class EmployeeController extends Controller
     {
         $users = USer::where('active', 1)->get();
         
-        return view('panel.admin.employees_list.edit', compact('employee', 'users'));
+        return view('panel.employees.crud.edit', compact('employee', 'users'));
     
     }
 

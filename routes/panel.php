@@ -9,6 +9,9 @@ use App\Http\Controllers\SupplierController;
 
 // Rutas para el CRUD de productos
 Route::resource('/products', ProductController::class)->names('product');
+// Ruta para filtro de productos
+Route::get('/products/filter', [ProductController::class, 'filter'])->name('product.filter');
+
 
 // Rutas para el CRUD de categorias
 Route::resource('/categories', CategoryController::class)->names('category');
