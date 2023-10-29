@@ -16,7 +16,7 @@ class SupplierController extends Controller
         $suppliers = Supplier::where('active', 1)
             ->get();
 
-        return view('panel.admin.suppliers.index', compact('suppliers'));
+        return view('panel.suppliers.crud.index', compact('suppliers'));
     }
 
     /**
@@ -28,7 +28,7 @@ class SupplierController extends Controller
         $supplier = new Supplier();
         
         // Retornamos la vista de creacion de suppliersos, enviamos el supplierso y las categorias
-        return view('panel.admin.suppliers.create', compact('supplier'));
+        return view('panel.suppliers.crud.create', compact('supplier'));
     
     }
 
@@ -68,7 +68,7 @@ class SupplierController extends Controller
      */
     public function show(Supplier $supplier)
     {
-        return view('panel.admin.suppliers.show', compact('supplier'));
+        return view('panel.suppliers.crud.show', compact('supplier'));
     }
 
     /**
@@ -76,7 +76,7 @@ class SupplierController extends Controller
      */
     public function edit(Supplier $supplier)
     {
-        return view('panel.admin.suppliers.edit', compact('supplier'));
+        return view('panel.suppliers.crud.edit', compact('supplier'));
     }
 
     /**

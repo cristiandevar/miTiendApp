@@ -16,7 +16,7 @@ class CategoryController extends Controller
             ->latest()
             ->get();
 
-        return view('panel.seller.categories_list.index', compact('categories'));
+        return view('panel.categories.crud.index', compact('categories'));
     }
 
     /**
@@ -28,7 +28,7 @@ class CategoryController extends Controller
         $category = new Category();
 
         // Retornamos la vista de creacion de categorias
-        return view('panel.seller.categories_list.create', compact('category'));
+        return view('panel.categories.crud.create', compact('category'));
 
     }
 
@@ -61,7 +61,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return view('panel.seller.categories_list.show', compact('category'));
+        return view('panel.categories.crud.show', compact('category'));
     }
 
     /**
@@ -69,7 +69,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('panel.seller.categories_list.edit', compact('category'));
+        return view('panel.categories.crud.edit', compact('category'));
     }
 
     /**
