@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Editar Proveedor')
+@section('title', 'Crear Producto')
 
 @section('content_header')
     
@@ -10,14 +10,16 @@
 <div class="container">
     <div class="row">
         <div class="col-12 mb-3">
-            <h1>Edición del Proveedor "{{ $supplier->companyname }}"</h1>
-            <a href="{{ route('supplier.index') }}" class="btn btn-sm btn-secondary text-uppercase">
+            <h1>Creación de un nuevo Producto</h1>
+            <a href="{{ route('product.index') }}" class="btn btn-sm btn-secondary text-uppercase">
                 Volver al Listado
             </a>
         </div>
+
         <div class="col-12">
-            @include('panel.admin.suppliers.forms.form')
+            @include('panel.products.crud.forms.form')
         </div>
+
     </div>
 </div>
 @stop

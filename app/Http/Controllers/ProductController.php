@@ -20,7 +20,7 @@ class ProductController extends Controller
         // Retornamos una vista y enviamos la variable 'products'
         $categories = Category::where('active',1)->get();
         $suppliers = Supplier::where('active',1)->get();
-        return view('panel.seller.products_list.index', compact('products', 'categories', 'suppliers'));
+        return view('panel.products.crud.index', compact('products', 'categories', 'suppliers'));
     }
 
     /**
@@ -35,7 +35,7 @@ class ProductController extends Controller
         
         $suppliers = Supplier::where('active', 1)->get(); // Recordar importar el modelo Categoria!!
         // Retornamos la vista de creacion de productos, enviamos el producto y las categorias
-        return view('panel.seller.products_list.create', compact('product', 'categories','suppliers'));
+        return view('panel.products.crud.create', compact('product', 'categories','suppliers'));
     }
 
     /**
@@ -78,7 +78,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return view('panel.seller.products_list.show', compact('product'));
+        return view('panel.products.crud.show', compact('product'));
     }
 
     /**
@@ -89,7 +89,7 @@ class ProductController extends Controller
         $categories = Category::where('active', 1)->get();
         $suppliers = Supplier::where('active', 1)->get(); 
         
-        return view('panel.seller.products_list.edit', compact('product', 'categories', 'suppliers'));
+        return view('panel.products.crud.edit', compact('product', 'categories', 'suppliers'));
     
     }
 
