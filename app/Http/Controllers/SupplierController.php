@@ -12,7 +12,10 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        //
+        $suppliers = Supplier::where('active', 1)
+            ->get();
+
+        return view('panel.admin.suppliers.index', compact('suppliers'));
     }
 
     /**
@@ -20,7 +23,12 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        //
+        // Creamos un empleado nuevo para cargarle datos
+        $supplier = new Supplier();
+        
+        // Retornamos la vista de creacion de suppliersos, enviamos el supplierso y las categorias
+        return view('panel.admin.suppliers.create', compact('supplier'));
+    
     }
 
     /**
@@ -28,7 +36,39 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $supplier = new Supplier();
+
+        if ($request->has('email')) {
+            $supplier->email = $request->get('email');
+        }
+        else {
+            $supplier->email = '-';
+        }
+
+        if ($request->has('phone')) {
+            $supplier->phone = $request->get('phone');
+        }
+        else {
+            $supplier->phone = '-';
+        }
+               
+        if ($request->has('address')) {
+            $supplier->address = $request->get('address');
+        }
+        else {
+            $supplier->address = '-';
+        }
+
+        $supplier->companyname = $request->get('companyname');
+
+        // Almacena la info del Proveedor en la BD
+        $supplier->save();
+
+        return redirect()
+            ->route('supplier.index')
+            ->with('alert', 'Empleado "' . $supplier->companyname . '" agregado exitosamente.');
+    
+    
     }
 
     /**
@@ -36,7 +76,7 @@ class SupplierController extends Controller
      */
     public function show(Supplier $supplier)
     {
-        //
+        return view('panel.admin.suppliers.show', compact($supplier));
     }
 
     /**
@@ -44,7 +84,7 @@ class SupplierController extends Controller
      */
     public function edit(Supplier $supplier)
     {
-        //
+        return view('panel.admin.suppliers.edit', compact($supplier));
     }
 
     /**
@@ -52,7 +92,35 @@ class SupplierController extends Controller
      */
     public function update(Request $request, Supplier $supplier)
     {
-        //
+        if ($request->has('email')) {
+            $supplier->email = $request->get('email');
+        }
+        else {
+            $supplier->email = '-';
+        }
+
+        if ($request->has('phone')) {
+            $supplier->phone = $request->get('phone');
+        }
+        else {
+            $supplier->phone = '-';
+        }
+
+        if ($request->has('address')) {
+            $supplier->address = $request->get('address');
+        }
+        else {
+            $supplier->address = '-';
+        }
+
+        $supplier->companyname = $request->get('companyname');
+
+        // Actualiza la info del suppliero en la BD
+        $supplier->update();
+
+        return redirect()
+            ->route('supplier.index')
+            ->with('alert', 'Proveedor "' .$supplier->companyname. '" actualizado exitosamente.');
     }
 
     /**
@@ -60,6 +128,11 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        //
+        $supplier->active = 1;
+        $supplier->update();
+
+        return redirect()
+            ->route('supplier.index')
+            ->with('alert', 'Proveedor "'.$supplier->companyname.'" eliminado exitosamente');
     }
 }
