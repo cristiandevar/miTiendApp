@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -152,26 +153,35 @@ class ProductController extends Controller
 
     public function filter(Request $request) {
         $query = Product::query();
-
-        if ($request->has('category')) {
-            $query->where('category_id', $request->category);
+        if ($request->has('name') && Str::length((trim($request->name)))>0) {
+            $query->where('name','like', '%'.$request->name.'%');
         }
         if ($request->has('supplier')) {
+            dd('tiene proveedor');
             $query->where('supplier_id', $request->supplier);
         }
-        if ($request->has('price_since')) {
+        if ($request->has('category')) {
+            dd('tiene category');
+            $query->where('category_id', $request->category);
+        }
+        if ($request->has('price_since') && $request->price_since) {
             $query->where('price','>=', $request->price_since);
         }
-        if ($request->has('price_to')) {
+        if ($request->has('price_to') && $request->price_to) {
+            dd('tiene precio hasta');
             $query->where('price','<=', $request->price_to);
         }
-        if ($request->has('name')) {
-            $query->where('name','like', '%'.$request->name.'%');
+        if ($request->has('date_since') && $request->date_since) {
+            $query->where('date','>=', $request->date_since);
+        }
+        if ($request->has('date_to') && $request->date_to) {
+            dd('tiene precio hasta');
+            $query->where('date','<=', $request->date_to);
         }
 
         $inputs = $request->all();
 
-        $products = Product::where('active', 1)
+        $products = $query->where('active', 1)
             ->latest()
             ->get(); 
         $categories = Category::where('active',1)
