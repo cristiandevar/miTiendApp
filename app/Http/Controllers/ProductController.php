@@ -192,4 +192,92 @@ class ProductController extends Controller
         return view('panel.products.filters.filter',compact('products','suppliers', 'categories', 'inputs'));
 
     }
+
+    public function filter_price(Request $request) {
+
+        $query = Product::query();
+
+        if ($request->has('name') && Str::length((trim($request->name)))>0) {
+            $query->where('name','like', '%'.$request->name.'%');
+        }
+        if ($request->has('supplier_id') && $request->supplier_id) {
+            $query->where('supplier_id', $request->supplier_id);
+        }
+        if ($request->has('category_id') && $request->category_id) {
+            $query->where('category_id', $request->category_id);
+        }
+        if ($request->has('date_since') && $request->date_since) {
+            $query->where('created_at','>=', $request->date_since);
+        }
+        if ($request->has('date_to') && $request->date_to) {
+            $date_to = Carbon::createFromFormat('Y-m-d',$request->date_to )->startOfDay()->addDay()->toDateTimeString();
+            $query->where('created_at','<', $date_to);
+        }
+        $inputs = $request->all();
+
+        $products = $query->where('active', 1)
+            ->latest()
+            ->get(); 
+        $categories = Category::where('active',1)
+            ->latest()
+            ->get();
+        $suppliers = Supplier::where('active',1)
+            ->latest()
+            ->get();
+
+        return view('panel.products.filters.filter-price',compact('products','suppliers', 'categories', 'inputs'));
+
+    }
+
+    public function update_price(Request $request) {
+        // $products =json_decode($request->get('products'), true);
+        $inputs = json_decode($request->get('inputs'), true);
+
+        $query = Product::query();
+
+        if ($inputs['name'] && Str::length((trim($inputs['name'])))>0) {
+            $query->where('name','like', '%'.$inputs['name'].'%');
+        }
+        if ($inputs['supplier_id']) {
+            $query->where('supplier_id', $inputs['supplier_id']);
+        }
+        if ($inputs['category_id']) {
+            $query->where('category_id', $inputs['category_id']);
+        }
+        if ($inputs['date_since']) {
+            $query->where('created_at','>=', $inputs['date_since']);
+        }
+        if ($inputs['date_to']) {
+            $date_to = Carbon::createFromFormat('Y-m-d',$inputs['date_to'] )->startOfDay()->addDay()->toDateTimeString();
+            $query->where('created_at','<', $date_to);
+        }
+        $products = $query->where('active', 1)->get();
+        $products_update = [];
+        // dd($products);
+        if ($request->percentage && $request->percentage !== '') {
+            foreach ($products as $product) {
+                $price = $product->price;
+                $percentage = $request->percentage;
+
+                $price = $price * (1 + $percentage/100);
+
+                $product_update = Product::find($product->id);
+                $product_update->price = $price;
+                $product_update->update();
+                $products_update[] = $product_update;
+                
+            }
+        }
+
+        $categories = Category::where('active',1)
+            ->latest()
+            ->get();
+        $suppliers = Supplier::where('active',1)
+            ->latest()
+            ->get();
+        $products = $products_update;
+        // return redirect('product.filter-price')->with('inputs',$inputs);
+        return view('panel.products.filters.filter-price',compact('products','suppliers', 'categories', 'inputs'));
+
+    }
 }

@@ -313,8 +313,8 @@ return [
                 'text' => 'Generar Orden de Compra',
                 'route' => 'supplier.index',
                 //'url' => 'panel/product', Esta seria otra manera de como especificar la ruta
-                'icon' => 'far fa-file-alt',   //Icono de fontawesome
-                //'can' => 'product_list'  <i class="fa-regular fa-eye"></i>   //Permiso del vendedor
+                'icon' => 'far fa-file-alt', // Icono de fontawesome
+                //'can' => 'product_list'  // Permiso del vendedor
             ],
         ['header' => 'Precios'],
             [
@@ -325,7 +325,7 @@ return [
             ],
             [
                 'text' => 'Actualizar Precios',
-                'route' => 'supplier.index',
+                'route' => 'product.filter-price',
                 //'url' => 'panel/product', Esta seria otra manera de como especificar la ruta
                 'icon' => 'fas fa-hand-holding-usd',   //Icono de fontawesome
                 //'can' => 'product_list'  <i class="fa-regular fa-eye"></i>   //Permiso del vendedor

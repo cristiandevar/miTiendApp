@@ -11,7 +11,8 @@ use App\Http\Controllers\SupplierController;
 Route::resource('/products', ProductController::class)->names('product');
 // Ruta para filtro de productos
 Route::get('/products-filter', [App\Http\Controllers\ProductController::class, 'filter'])->name('product.filter');
-
+Route::get('/products-filter-price', [App\Http\Controllers\ProductController::class, 'filter_price'])->name('product.filter-price');
+Route::get('/products-filter-price-update', [App\Http\Controllers\ProductController::class, 'update_price'])->name('product.update-price');
 
 // Rutas para el CRUD de categorias
 Route::resource('/categories', CategoryController::class)->names('category');
