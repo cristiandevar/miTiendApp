@@ -290,84 +290,236 @@ return [
     */
 
     'menu' => [
-        ['header' => 'Principal'],
-        [
-            'text' => 'Productos',
-            'submenu' => [
-                [
-                    'text' => 'Ver Productos',
-                    'route' => 'product.index',
-                    'icon' => 'far fa-eye',   //Icono de fontawesome
-                    //'can' => 'products_list'     //Permiso del vendedor
-                ],
-                [
-                    'text' => 'Filtrar Productos',
-                    'route' => 'product.filter',
-                    'icon' => 'fas fa-filter'
-                ],
-                [
-                    'text' => 'Actualizar Precios',
-                    'url' => '#',
-                    // 'route' => '',
-                    'icon' => ''
-                ],
-            ]
-        ],
-        [
-            'text' => 'Categorias',
-            'submenu' => [
-                [
-                    'text' => 'Ver Categorias',
-                    'route' => 'category.index',
-                    'icon' => 'far fa-eye',   //Icono de fontawesome
-                    //'can' => 'product_list'     //Permiso del vendedor
-                ],
-                [
-                    'text' => 'Filtrar',
-                    'url' => '#',
-                    // 'route' => ''
-                    'icon' => ''
-                ]
+        ['header' => 'Compra - Venta'],
+            [
+                'text' => 'Registrar Venta',
+                'route' => 'product.filter',
+                'icon' => 'fas fa-dollar-sign'  //Icono de fontawesome
+                //'can' => 'products_list'     //Permiso del vendedor
+            ],
+            [
+                'text' => 'Controlar Stock',
+                'route' => 'product.filter',
+                'icon' => 'fas fa-tasks'  //Icono de fontawesome
+                //'can' => 'products_list'     //Permiso del vendedor
+            ],
+            [
+                'text' => 'Registrar Compra',
+                'route' => 'product.filter',
+                'icon' => 'fas fa-cart-plus'  //Icono de fontawesome
+                //'can' => 'products_list'     //Permiso del vendedor
+            ],
+            [
+                'text' => 'Generar Orden de Compra',
+                'route' => 'supplier.index',
+                //'url' => 'panel/product', Esta seria otra manera de como especificar la ruta
+                'icon' => 'far fa-file-alt',   //Icono de fontawesome
+                //'can' => 'product_list'  <i class="fa-regular fa-eye"></i>   //Permiso del vendedor
+            ],
+        ['header' => 'Precios'],
+            [
+                'text' => 'Consultar Precios',
+                'route' => 'product.filter',
+                'icon' => 'fas fa-eye'  //Icono de fontawesome
+                //'can' => 'products_list'     //Permiso del vendedor
+            ],
+            [
+                'text' => 'Actualizar Precios',
+                'route' => 'supplier.index',
+                //'url' => 'panel/product', Esta seria otra manera de como especificar la ruta
+                'icon' => 'fas fa-hand-holding-usd',   //Icono de fontawesome
+                //'can' => 'product_list'  <i class="fa-regular fa-eye"></i>   //Permiso del vendedor
+            ],
+            [
+                'text' => 'Generar Listados',
+                'route' => 'product.filter',
+                'icon' => 'far fa-file-pdf',   //Icono de fontawesome
+                //'can' => 'product_list'     //Permiso del vendedor
+            ],
+        ['header' => 'Administrar'],
+            [
+                'text' => 'Productos',
+                'route' => 'product.index',
+                'icon' => 'fas fa-box-open',   //Icono de fontawesome
+                //'can' => 'products_list'     //Permiso del vendedor
+            ],
+            [
+                'text' => 'Proveedores',
+                'route' => 'supplier.index',
+                //'url' => 'panel/product', Esta seria otra manera de como especificar la ruta
+                'icon' => 'fas fa-user-tie',   //Icono de fontawesome
+                //'can' => 'product_list'  <i class="fa-regular fa-eye"></i>   //Permiso del vendedor
+            ],
+            [
+                'text' => 'Categorias',
+                'route' => 'category.index',
+                'icon' => 'far fa-object-group',  //Icono de fontawesome
+                //'can' => 'product_list'     //Permiso del vendedor
+            ],
+            [
+                'text' => 'Empleados',
+                'route' => 'employee.index',
+                'icon' => 'fas fa-users',   //Icono de fontawesome
+                //'can' => 'product_list'     //Permiso del vendedor
+            ],
+        // [
+        //     'text' => 'Compra - Venta',
+        //     'submenu' => [
+        //         [
+        //             'text' => 'Registrar Venta',
+        //             'route' => 'product.filter',
+        //             'icon' => 'fas fa-eye'  //Icono de fontawesome
+        //             //'can' => 'products_list'     //Permiso del vendedor
+        //         ],
+        //         [
+        //             'text' => 'Generar Orden de Compra',
+        //             'route' => 'supplier.index',
+        //             //'url' => 'panel/product', Esta seria otra manera de como especificar la ruta
+        //             'icon' => 'far fa-eye',   //Icono de fontawesome
+        //             //'can' => 'product_list'  <i class="fa-regular fa-eye"></i>   //Permiso del vendedor
+        //         ],
+        //         [
+        //             'text' => 'Generar Listados',
+        //             'route' => 'category.index',
+        //             'icon' => 'fas fa-tasks',   //Icono de fontawesome
+        //             //'can' => 'product_list'     //Permiso del vendedor
+        //         ],
+        //     ]
+        // ],
+        // [
+        //     'text' => 'Acciones',
+        //     'submenu' => [
+        //         [
+        //             'text' => 'Consultar Precios',
+        //             'route' => 'product.filter',
+        //             'icon' => 'fas fa-eye'  //Icono de fontawesome
+        //             //'can' => 'products_list'     //Permiso del vendedor
+        //         ],
+        //         [
+        //             'text' => 'Actualizar Precios',
+        //             'route' => 'supplier.index',
+        //             //'url' => 'panel/product', Esta seria otra manera de como especificar la ruta
+        //             'icon' => 'fas fa-hand-holding-usd',   //Icono de fontawesome
+        //             //'can' => 'product_list'  <i class="fa-regular fa-eye"></i>   //Permiso del vendedor
+        //         ],
+        //         [
+        //             'text' => 'Generar Listados',
+        //             'route' => 'category.index',
+        //             'icon' => 'far fa-file-pdf',   //Icono de fontawesome
+        //             //'can' => 'product_list'     //Permiso del vendedor
+        //         ],
+        //     ]
+        // ],
+        // [
+        //     'text' => 'Administrar',
+        //     'submenu' => [
+        //         [
+        //             'text' => 'Productos',
+        //             'route' => 'product.index',
+        //             'icon' => 'fas fa-box-open',   //Icono de fontawesome
+        //             //'can' => 'products_list'     //Permiso del vendedor
+        //         ],
+        //         [
+        //             'text' => 'Proveedores',
+        //             'route' => 'supplier.index',
+        //             //'url' => 'panel/product', Esta seria otra manera de como especificar la ruta
+        //             'icon' => 'fas fa-user-tie',   //Icono de fontawesome
+        //             //'can' => 'product_list'  <i class="fa-regular fa-eye"></i>   //Permiso del vendedor
+        //         ],
+        //         [
+        //             'text' => 'Categorias',
+        //             'route' => 'category.index',
+        //             'icon' => 'far fa-object-group',  //Icono de fontawesome
+        //             //'can' => 'product_list'     //Permiso del vendedor
+        //         ],
+        //         [
+        //             'text' => 'Empleados',
+        //             'route' => 'employee.index',
+        //             'icon' => 'fas fa-users',   //Icono de fontawesome
+        //             //'can' => 'product_list'     //Permiso del vendedor
+        //         ],
+        //     ]
+        // ],
+        
+        // ],
+        // ['header' => 'Administrar'],
+        // [
+        //     'text' => 'Productos',
+        //     'submenu' => [
+        //         [
+        //             'text' => 'Ver Productos',
+        //             'route' => 'product.index',
+        //             'icon' => 'far fa-eye',   //Icono de fontawesome
+        //             //'can' => 'products_list'     //Permiso del vendedor
+        //         ],
+        //         [
+        //             'text' => 'Filtrar Productos',
+        //             'route' => 'product.filter',
+        //             'icon' => 'fas fa-filter'
+        //         ],
+        //         [
+        //             'text' => 'Actualizar Precios',
+        //             'url' => '#',
+        //             // 'route' => '',
+        //             'icon' => ''
+        //         ],
+        //     ]
+        // ],
+        // [
+        //     'text' => 'Categorias',
+        //     'submenu' => [
+        //         [
+        //             'text' => 'Ver Categorias',
+        //             'route' => 'category.index',
+        //             'icon' => 'far fa-eye',   //Icono de fontawesome
+        //             //'can' => 'product_list'     //Permiso del vendedor
+        //         ],
+        //         [
+        //             'text' => 'Filtrar',
+        //             'url' => '#',
+        //             // 'route' => ''
+        //             'icon' => ''
+        //         ]
                     
-            ]
-        ],
-        [
-            'text' => 'Empleados',
-            'submenu' => [
-                [
-                    'text' => 'Ver Empleados',
-                    'route' => 'employee.index',
-                    'icon' => 'far fa-eye',   //Icono de fontawesome
-                    //'can' => 'product_list'     //Permiso del vendedor
-                ],
-                [
-                    'text' => 'Filtrar',
-                    'url' => '#',
-                    // 'route' => ''
-                    'icon' => ''
-                ]
+        //     ]
+        // ],
+        // [
+        //     'text' => 'Empleados',
+        //     'submenu' => [
+        //         [
+        //             'text' => 'Ver Empleados',
+        //             'route' => 'employee.index',
+        //             'icon' => 'far fa-eye',   //Icono de fontawesome
+        //             //'can' => 'product_list'     //Permiso del vendedor
+        //         ],
+        //         [
+        //             'text' => 'Filtrar',
+        //             'url' => '#',
+        //             // 'route' => ''
+        //             'icon' => ''
+        //         ]
                 
-            ]
-        ],
-        [
-            'text' => 'Proveedores',
-            'submenu' => [
-                [
-                    'text' => 'Ver Proveedores',
-                    'route' => 'supplier.index',
-                    //'url' => 'panel/product', Esta seria otra manera de como especificar la ruta
-                    'icon' => 'far fa-eye',   //Icono de fontawesome
-                    //'can' => 'product_list'  <i class="fa-regular fa-eye"></i>   //Permiso del vendedor
-                ],
-                [
-                    'text' => 'Filtrar',
-                    'url' => '#',
-                    // 'route' => ''
-                    'icon' => ''
-                ]
+        //     ]
+        // ],
+        // [
+        //     'text' => 'Proveedores',
+        //     'submenu' => [
+        //         [
+        //             'text' => 'Ver Proveedores',
+        //             'route' => 'supplier.index',
+        //             //'url' => 'panel/product', Esta seria otra manera de como especificar la ruta
+        //             'icon' => 'far fa-eye',   //Icono de fontawesome
+        //             //'can' => 'product_list'  <i class="fa-regular fa-eye"></i>   //Permiso del vendedor
+        //         ],
+        //         [
+        //             'text' => 'Filtrar',
+        //             'url' => '#',
+        //             // 'route' => ''
+        //             'icon' => ''
+        //         ]
                 
-            ]
-        ],
+        //     ]
+        // ],
 
 
         // Navbar items:

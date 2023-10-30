@@ -66,6 +66,7 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col" class="text-uppercase">Nombre</th>
+                                <th scope="col" class="text-uppercase">Precio</th>
                                 <th scope="col" class="text-uppercase">Categoría</th>
                                 <th scope="col" class="text-uppercase">Proveedor</th>
                                 <th scope="col" class="text-uppercase">Imagen</th>
@@ -77,6 +78,7 @@
                             <tr>
                                 <td>{{ $product->id }}</td>
                                 <td>{{ $product->name }}</td>
+                                <td>{{ $product->price }}</td>
                                 <td>{{ $product->category->name }}</td>
                                 <td>{{ $product->supplier->companyname }}</td>
                                 <td>
@@ -84,16 +86,16 @@
                                 </td>
                                 <td>
                                     <div class="d-flex">
-                                        <a href="{{ route('product.show', $product) }}" class="btn btn-sm btn-info text-white text-uppercase me-1">
+                                        <a href="{{ route('product.show', $product) }}" class="btn btn-sm btn-info text-white text-uppercase me-1 m-1">
                                             Ver
                                         </a>
-                                        <a href="{{ route('product.edit', $product) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1">
+                                        <a href="{{ route('product.edit', $product) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
                                             Editar
                                         </a>
                                         <form action="{{ route('product.destroy', $product) }}" method="POST">
                                             @csrf 
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger text-uppercase">
+                                            <button type="submit" class="btn btn-sm btn-danger text-uppercase m-1">
                                                 Eliminar
                                             </button>
                                         </form>
