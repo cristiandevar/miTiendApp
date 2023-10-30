@@ -264,7 +264,8 @@ class ProductController extends Controller
                 $product_update = Product::find($product->id);
                 $product_update->price = $price;
                 $product_update->update();
-                $products_update[] = $product_update;
+
+                $products_update[] = Product::find($product->id);
                 
             }
         }
@@ -276,7 +277,7 @@ class ProductController extends Controller
             ->latest()
             ->get();
         $products = $products_update;
-        // return redirect('product.filter-price')->with('inputs',$inputs);
+
         return view('panel.products.filters.filter-price',compact('products','suppliers', 'categories', 'inputs'));
 
     }
