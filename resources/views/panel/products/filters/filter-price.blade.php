@@ -50,7 +50,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('product.filter-price') }}" method='GET'>
+                    <form action="{{ route('product.filter-price') }}" method='GET' id="form-filter">
                         <div class="form-group row">
                             <input class="form-control col-xs-12 col-2 m-1" type="text" id="name" name="name" placeholder="Nombre" value={{ isset($inputs) && isset($inputs['name'])? $inputs['name'] : '' }}>
                             <select id="supplier_id" name="supplier_id" class="form-control col-xs-12 col-2 m-1">
@@ -71,18 +71,19 @@
                             </select>
                             <input class="form-control col-xs-12 col-1 m-1" type="date" id="date_since" name="date_since" placeholder="Fecha desde..." value={{ isset($inputs['date_since'])? $inputs['date_since'] : '' }}>
                             <input class="form-control col-xs-12 col-1 m-1" type="date" id="date_to" name="date_to" placeholder="Fecha hasta..." value={{ isset($inputs['date_to'])? $inputs['date_to'] : '' }}>
-                            <button type="submit" class="form-control col-xs-12 col-1 m-1 btn btn-success text-uppercase">
+                            <button id="btn-filter-1" type="submit" class="form-control col-xs-12 col-1 m-1 btn btn-success text-uppercase">
                                 Filtrar
                             </button>
                         </div>
                     </form>
-                    <form action="{{ route('product.update-price') }}" method='GET'>
+                    <form action="{{ route('product.update-price') }}" method='GET' id="form-update">
+                        {{ csrf_field() }}
                         <div class="form-group row">
                             <input class="form-control col-xs-12 col-2 m-1" type="hidden" id="inputs" name="inputs" value="{{isset($inputs)?json_encode($inputs):''}}">
                             <input class="form-control col-xs-12 col-2 m-1" type="hidden" id="products" name="products" value="{{isset($products)?json_encode($products):''}}">
                            
                             <input class="form-control col-xs-12 col-2 m-1" type="number" id="percentage" name="percentage" placeholder="ingrese porcentaje ..." >
-                            <button type="submit" class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
+                            <button id="btn-update-1" type="submit" class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
                                 Actualizar Precio
                             </button>
                         </div>
@@ -140,5 +141,93 @@
 
 {{-- Importacion de Archivos JS --}}
 @section('js')
+<script>
+    $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        }
+    );
+    document.addEventListener('DOMContentLoaded', function (e) {
+        $('#form-update').hide();
 
+        $('#btn-filter-1').on('click', function (e) {
+            e.preventDefault();
+            var $inputs_form_filter = $('#form-filter :input')
+            var values = {};
+            $inputs_form_filter.each(function() {
+                values[this.name] = $(this).val();
+            });
+
+            var data_filter = {
+                name : values['name'],
+                supplier_id : values['supplier_id'],
+                category_id : values['category_id'],
+                date_since : values['date_since'],
+                date_to : values['date_to'],
+            }
+            $.ajax({
+                    url: 'products-filter-price-async',
+                    type: 'GET',
+                    data: data_filter,
+                    success: function(response) {
+                        console.log(response);
+                        $('#form-update').show();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                }
+            );
+
+        });
+
+        $('#btn-update-1').on('click', function(e) {
+            e.preventDefault();
+            const products_filtered = '{{ $products }}';
+            const categories_filtered = '{{ $categories }}';
+            const suppliers_filtered = '{{ $suppliers }}';
+            const $inputs_form_update = $('#form-update :input')
+            const $inputs_form_filter = $('#form-filter :input')
+            var values = {};
+            var data_filter;
+
+            $inputs_form_update.each(function() {
+                values[this.name] = $(this).val();
+            });
+
+            $inputs_form_filter.each(function() {
+                values[this.name] = $(this).val();
+            });
+
+            data_filter = {
+                percentage : values['percentage'],
+                products : products_filtered,
+                categories : categories_filtered,
+                suppliers : suppliers_filtered,
+                name : values['name'],
+                supplier_id : values['supplier_id'],
+                category_id : values['category_id'],
+                date_since : values['date_since'],
+                date_to : values['date_to'],
+            }
+
+            $.ajax({
+                    url: 'products-filter-price-update-async',
+                    type: 'POST',
+                    data: data_filter,
+                    success: function(response) {
+                        // console.log(response.products);
+                        miVariable = decodeURIComponent(response.products.replace(/&quot;/g, '"'));    
+                        var miArray = JSON.parse(miVariable);
+                        console.log(miArray);   
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                }
+            );
+        });
+    });
+</script>
 @stop
