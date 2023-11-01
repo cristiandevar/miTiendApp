@@ -28,7 +28,7 @@
         
         @if(session('alert'))
             <div class="col-12">
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <div class="alert alert-success alert-dismissible show" role="alert">
                     {{ session('alert') }}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -39,7 +39,7 @@
 
         @if(session('error'))
             <div class="col-12">
-                <div class="alert alert-danger alert-dismissible fade show" role="error">
+                <div class="alert alert-danger alert-dismissible show" role="error">
                     {{ session('error') }}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -50,7 +50,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('product.filter-price') }}" method='GET' id="form-filter">
+                    <form action="{{ route('product.filter') }}" method='GET' id="form-filter">
                         <div class="form-group row">
                             <input class="form-control col-xs-12 col-2 m-1" type="text" id="name" name="name" placeholder="Nombre" value={{ isset($inputs) && isset($inputs['name'])? $inputs['name'] : '' }}>
                             <select id="supplier_id" name="supplier_id" class="form-control col-xs-12 col-2 m-1">

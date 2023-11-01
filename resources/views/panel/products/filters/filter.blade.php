@@ -50,7 +50,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('product.filter') }}" method='GET'>
+                    <form id="form-filter" action="{{ route('product.filter') }}" method='GET'>
                         <div class="form-group row">
                             <input class="form-control col-xs-12 col-2 m-1" type="text" id="name" name="name" placeholder="Nombre" value={{ isset($inputs) && isset($inputs['name'])? $inputs['name'] : '' }}>
                             <select id="supplier_id" name="supplier_id" class="form-control col-xs-12 col-2 m-1">
@@ -74,7 +74,7 @@
                             <input class="form-control col-xs-12 col-2 m-1" type="date" id="date_since" name="date_since" placeholder="Fecha desde..." value={{ isset($inputs['date_since'])? $inputs['date_since'] : '' }}>
                             <input class="form-control col-xs-12 col-2 m-1" type="date" id="date_to" name="date_to" placeholder="Fecha hasta..." value={{ isset($inputs['date_to'])? $inputs['date_to'] : '' }}>
                         </div>
-                        <button type="submit" class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
+                        <button id="btn-filter-1" type="submit" class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
                             Filtrar
                         </button>
                     </form>
@@ -84,10 +84,10 @@
     
         <div class="col-12">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body" id="card-table">
                     @if(count($products)>0)
                         {{-- @include('panel.products.tables.table-main') --}}
-                        <table id="tabla-productos" class="table table-striped table-hover w-100">
+                        <table id="table-products" class="table table-striped table-hover w-100">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -98,7 +98,7 @@
                                     <th scope="col" class="text-uppercase">Imagen</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="body-table-products">
                                 @foreach ($products as $product)
                                 <tr>
                                     <td>{{ $product->id }}</td>
@@ -114,7 +114,7 @@
                             </tbody>
                         </table>
                     @else
-                        <p class='alert alert-danger small'>Ningun producto coincide</p>                    
+                        <p class='alert alert-danger small'>No tiene productos cargados</p>                    
                     @endif
                 </div>
             </div>
@@ -131,5 +131,6 @@
 
 {{-- Importacion de Archivos JS --}}
 @section('js')
-
+<script src="{{ '/storage/js/panel/products/filters/create-table-products.js' }}"></script>
+<script src="{{ '/storage/js/panel/products/filters/filter-products.js' }}"></script>
 @stop

@@ -12,7 +12,7 @@ Route::resource('/products', ProductController::class)->names('product');
 // Ruta para filtro de productos
 Route::get('/products-filter', [App\Http\Controllers\ProductController::class, 'filter'])->name('product.filter');
 Route::get('/products-filter-price', [App\Http\Controllers\ProductController::class, 'filter_price'])->name('product.filter-price');
-Route::get('/products-filter-price-async', [App\Http\Controllers\ProductController::class, 'filter_price_async'])->name('product.filter-price-async');
+Route::get('/products-filter-async', [App\Http\Controllers\ProductController::class, 'filter_async'])->name('product.filter-async');
 Route::get('/products-filter-price-update', [App\Http\Controllers\ProductController::class, 'update_price'])->name('product.update-price');
 Route::post('/products-filter-price-update-async', [App\Http\Controllers\ProductController::class, 'update_price_async'])->name('product.update-price-async');
 
