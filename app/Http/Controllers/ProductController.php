@@ -231,6 +231,10 @@ class ProductController extends Controller
 
     public function update_price(Request $request) {
         // $products =json_decode($request->get('products'), true);
+        $request->validate([
+            'percentage' => 'numeric|max:100|min:-100',
+        ]);
+        
         $inputs = json_decode($request->get('inputs'), true);
 
         $query = Product::query();
@@ -333,32 +337,35 @@ class ProductController extends Controller
 
     public function update_price_async(Request $request) {
         // $products =json_decode($request->get('products'), true);
-        $inputs = json_decode($request->get('inputs'), true);
+        // $inputs = json_decode($request->get('inputs'), true);
+        $request->validate([
+            'percentage' => 'numeric|max:100|min:-100',
+        ]);
+        $query = Product::query();
+        $inputs = $request->all();
 
-        // $query = Product::query();
+        if (isset($inputs['name']) && $inputs['name'] && Str::length((trim($inputs['name'])))>0) {
+            $query->where('name','like', '%'.$inputs['name'].'%');
+        }
+        if (isset($inputs['supplier_id']) && $inputs['supplier_id']) {
+            $query->where('supplier_id', $inputs['supplier_id']);
+        }
+        if (isset($inputs['category_id']) && $inputs['category_id']) {
+            $query->where('category_id', $inputs['category_id']);
+        }
+        if (isset($inputs['date_since']) && $inputs['date_since']) {
+            $query->where('created_at','>=', $inputs['date_since']);
+        }
+        if (isset($inputs['date_to']) && $inputs['date_to']) {
+            $date_to = Carbon::createFromFormat('Y-m-d',$inputs['date_to'] )->startOfDay()->addDay()->toDateTimeString();
+            $query->where('created_at','<', $date_to);
+        }
 
-        // if (isset($inputs['name']) && $inputs['name'] && Str::length((trim($inputs['name'])))>0) {
-        //     $query->where('name','like', '%'.$inputs['name'].'%');
-        // }
-        // if (isset($inputs['supplier_id']) && $inputs['supplier_id']) {
-        //     $query->where('supplier_id', $inputs['supplier_id']);
-        // }
-        // if (isset($inputs['category_id']) && $inputs['category_id']) {
-        //     $query->where('category_id', $inputs['category_id']);
-        // }
-        // if (isset($inputs['date_since']) && $inputs['date_since']) {
-        //     $query->where('created_at','>=', $inputs['date_since']);
-        // }
-        // if (isset($inputs['date_to']) && $inputs['date_to']) {
-        //     $date_to = Carbon::createFromFormat('Y-m-d',$inputs['date_to'] )->startOfDay()->addDay()->toDateTimeString();
-        //     $query->where('created_at','<', $date_to);
-        // }
-
-        // $products = $query->where('active', 1)->get();
+        $products = $query->where('active', 1)->get();
         
-        $products_update = collect();
-        if ($request->percentage && $request->percentage !== '') {
-            foreach ($request->products as $product) {
+        if ($request->percentage && $request->percentage !== '' && count($products) > 0) {
+            $products_update = collect();
+            foreach ($products as $product) {
                 $price = $product->price;
                 $percentage = $request->percentage;
 
@@ -373,9 +380,6 @@ class ProductController extends Controller
             }
             $products = $products_update;
         }
-        else {
-            $products = $request->get('products');
-        }
 
         $categories = Category::where('active',1)
             ->latest()
@@ -385,13 +389,12 @@ class ProductController extends Controller
             ->get();
         
         $percentage = $request->percentage;
+        
         return response()->json(
             [
-                'inputs' => $inputs,
                 'products' => $products,
                 'categories' => $categories,
                 'suppliers' => $suppliers,
-                'percentage' => $percentage
             ]
         );
         // return view('panel.products.filters.filter-price',compact('products','suppliers', 'categories', 'inputs'));
