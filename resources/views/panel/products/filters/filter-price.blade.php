@@ -94,7 +94,7 @@
     
         <div class="col-12">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body" >
                     @if(count($products)>0)
                         {{-- @include('panel.products.tables.table-main') --}}
                         <table id="tabla-productos" class="table table-striped table-hover w-100">
@@ -108,19 +108,7 @@
                                     <th scope="col" class="text-uppercase">Imagen</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach ($products as $product)
-                                <tr>
-                                    <td>{{ $product->id }}</td>
-                                    <td>{{ $product->name }}</td>
-                                    <td>{{ $product->price }}</td>
-                                    <td>{{ $product->category->name }}</td>
-                                    <td>{{ $product->supplier->companyname }}</td>
-                                    <td>
-                                        <img src="{{ $product->image }}" alt="{{ $product->name }}" class="img-fluid" style="width: 150px;">
-                                    </td>
-                                </tr>
-                                @endforeach
+                            <tbody id="body-table-products">
                             </tbody>
                         </table>
                     @else
@@ -150,14 +138,30 @@
     );
     document.addEventListener('DOMContentLoaded', function (e) {
         $('#form-update').hide();
-
+        $('#body-table-products').html(`
+            @foreach ($products as $product)
+                <tr>
+                    <td>{{ $product->id }}</td>
+                    <td>{{ $product->name }}</td>
+                    <td>{{ $product->price }}</td>
+                    <td>{{ $product->category->name }}</td>
+                    <td>{{ $product->supplier->companyname }}</td>
+                    <td>
+                        <img src="{{ $product->image }}" alt="{{ $product->name }}" class="img-fluid" style="width: 150px;">
+                    </td>
+                </tr>
+            @endforeach
+        `);
         $('#btn-filter-1').on('click', function (e) {
             e.preventDefault();
-            var $inputs_form_filter = $('#form-filter :input')
-            var values = {};
-            $inputs_form_filter.each(function() {
-                values[this.name] = $(this).val();
-            });
+            var my_array;
+            var values = carge_values('form-filter');
+            // var $inputs_form_filter = $('#form-filter :input')
+            // var values = {};
+            // var miArray;
+            // $inputs_form_filter.each(function() {
+            //     values[this.name] = $(this).val();
+            // });
 
             var data_filter = {
                 name : values['name'],
@@ -173,6 +177,15 @@
                     success: function(response) {
                         console.log(response);
                         $('#form-update').show();
+                        try{
+                            my_array = JSON.parse(decodeURIComponent(response.products));
+                        }
+                        catch (e) {
+                            console.log('Error al leer el array products');
+                            my_array = response.products;
+                        }
+                        carge_table(my_array, response.categories, response.suppliers);
+                        
                     },
                     error: function(xhr, status, error) {
                         console.error(error);
@@ -184,32 +197,17 @@
 
         $('#btn-update-1').on('click', function(e) {
             e.preventDefault();
-            const products_filtered = '{{ $products }}';
-            const categories_filtered = '{{ $categories }}';
-            const suppliers_filtered = '{{ $suppliers }}';
-            const $inputs_form_update = $('#form-update :input')
-            const $inputs_form_filter = $('#form-filter :input')
-            var values = {};
+            var values_filter = carge_values('form-filter');
+            var values_update = carge_values('form-update');
             var data_filter;
 
-            $inputs_form_update.each(function() {
-                values[this.name] = $(this).val();
-            });
-
-            $inputs_form_filter.each(function() {
-                values[this.name] = $(this).val();
-            });
-
             data_filter = {
-                percentage : values['percentage'],
-                products : products_filtered,
-                categories : categories_filtered,
-                suppliers : suppliers_filtered,
-                name : values['name'],
-                supplier_id : values['supplier_id'],
-                category_id : values['category_id'],
-                date_since : values['date_since'],
-                date_to : values['date_to'],
+                percentage : values_update['percentage'],
+                name : values_filter['name'],
+                supplier_id : values_filter['supplier_id'],
+                category_id : values_filter['category_id'],
+                date_since : values_filter['date_since'],
+                date_to : values_filter['date_to'],
             }
 
             $.ajax({
@@ -229,5 +227,36 @@
             );
         });
     });
+
+    function carge_table(products, categories, suppliers) {
+        let div = document.getElementById('body-table-products');
+        let cadena="";
+        for (let product of products) {
+            console.log(product);
+            cadena += `
+            <tr>
+                    <td>${product["id"]}</td>
+                    <td>${product["name"]}</td>
+                    <td>${product["price"]}</td>
+                    <td>${categories[product["category_id"]-1]["name"]}</td>
+                    <td>${suppliers[product["supplier_id"]-1]["companyname"]}</td>
+                    <td>
+                        <img src="${product["image"]}" alt="${product["name"]}" class="img-fluid" style="width: 150px;">
+                    </td>
+                </tr>
+            `
+        }
+        div.innerHTML = cadena;
+    }
+
+    function carge_values(id) {
+        let values= {};
+        let $inputs_form = $("#" + id + " :input");
+        $inputs_form.each(function() {
+                values[this.name] = $(this).val();
+        });
+        return values;
+    }
 </script>
 @stop
+

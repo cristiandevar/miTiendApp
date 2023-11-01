@@ -387,7 +387,6 @@ class ProductController extends Controller
         $percentage = $request->percentage;
         return response()->json(
             [
-                'products' => $products,
                 'inputs' => $inputs,
                 'products' => $products,
                 'categories' => $categories,
