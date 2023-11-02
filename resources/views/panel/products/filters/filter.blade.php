@@ -50,7 +50,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form id="form-filter" action="{{ route('product.filter') }}" method='GET'>
+                    <form id="form-filter" action="{{ route('products.export-file') }}" method='GET'>
                         <div class="form-group row">
                             <input class="form-control col-xs-12 col-2 m-1" type="text" id="name" name="name" placeholder="Nombre" value={{ isset($inputs) && isset($inputs['name'])? $inputs['name'] : '' }}>
                             <select id="supplier_id" name="supplier_id" class="form-control col-xs-12 col-2 m-1">
@@ -76,6 +76,10 @@
                         </div>
                         <button id="btn-filter-1" type="submit" class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
                             Filtrar
+                        </button>
+                        <button type="submit" name="action" value="excel" class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase"title="Exportar datos en formato .XLSX"><i class="fas fa-file-excel"></i>
+                        </button>
+                        <button type="submit" name="action" value="pdf" class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase"title="Exportar datos en formato .PDF"><i class="fas fa-file-pdf"></i>
                         </button>
                     </form>
                 </div>

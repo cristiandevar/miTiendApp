@@ -8,6 +8,10 @@ use App\Models\Supplier;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Exports\ProductsExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\PDF;
+use Illuminate\Database\Eloquent\Collection;
 
 class ProductController extends Controller
 {
@@ -32,11 +36,13 @@ class ProductController extends Controller
     {
         // Creamos un producto nuevo para cargarle datos
         $product = new Product();
+
         // Recuperamos todas las categorias de la BD
         $categories = Category::where('active', 1)->get(); // Recordar importar el modelo Categoria!!
         
         $suppliers = Supplier::where('active', 1)->get(); // Recordar importar el modelo Categoria!!
         // Retornamos la vista de creacion de productos, enviamos el producto y las categorias
+        
         return view('panel.products.crud.create', compact('product', 'categories','suppliers'));
     }
 
@@ -153,7 +159,7 @@ class ProductController extends Controller
     }
 
     public function filter(Request $request) {
-
+        
         $query = Product::query();
         
         if ($request->has('name') && Str::length((trim($request->name)))>0) {
@@ -404,5 +410,59 @@ class ProductController extends Controller
         );
         // return view('panel.products.filters.filter-price',compact('products','suppliers', 'categories', 'inputs'));
 
+    }
+
+    public function export_file(Request $request)
+    {
+        if ($request->action == 'excel') {
+            $content = $this->filter_gral($request);
+            return Excel::download(new ProductsExport($content),'productos.xlsx');
+        }
+        else if ($request->action == 'pdf') {
+            $content = $this->filter_gral($request)->latest()->get();
+            return $this->export_pdf($content, 'Productos', 'Listado filtrado', 'Listado filtrado de productos');
+        }
+    }
+
+    
+    public function filter_gral (Request $request) {
+        $query = Product::query();
+        
+        if ($request->has('name') && Str::length((trim($request->name)))>0) {
+            $query->where('name','like', '%'.$request->name.'%');
+        }
+        if ($request->has('supplier_id') && $request->supplier_id) {
+            $query->where('supplier_id', $request->supplier_id);
+        }
+        if ($request->has('category_id') && $request->category_id) {
+            $query->where('category_id', $request->category_id);
+        }
+        if ($request->has('price_since') && $request->price_since) {
+            $query->where('price','>=', $request->price_since);
+        }
+        if ($request->has('price_to') && $request->price_to) {
+            $query->where('price','<=', $request->price_to);
+        }
+        if ($request->has('date_since') && $request->date_since) {
+            $query->where('created_at','>=', $request->date_since);
+        }
+        if ($request->has('date_to') && $request->date_to) {
+            $date_to = Carbon::createFromFormat('Y-m-d',$request->date_to )->startOfDay()->addDay()->toDateTimeString();
+            $query->where('created_at','<', $date_to);
+        }
+        
+        return $query->where('active', 1);
+    }
+
+    public function export_pdf(Collection $content, string $title, string $subtitle, string $file_title){
+        $data = [
+            'title' => $title,
+            'heading' => $subtitle,
+            'content' => $content,
+        ];
+        
+        $pdf = PDF::loadView('product_list', $data);
+        
+        return $pdf->download($file_title);
     }
 }
