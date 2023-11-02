@@ -457,12 +457,12 @@ class ProductController extends Controller
     public function export_pdf(Collection $content, string $title, string $subtitle, string $file_title){
         $data = [
             'title' => $title,
-            'heading' => $subtitle,
-            'content' => $content,
+            'subtitle' => $subtitle,
+            'products' => $content,
         ];
         
-        $pdf = PDF::loadView('product_list', $data);
+        $pdf = PDF::loadView('pdf.product_list', $data);
         
-        return $pdf->download($file_title);
+        return $pdf->download($file_title.'.pdf');
     }
 }

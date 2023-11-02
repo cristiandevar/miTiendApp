@@ -77,9 +77,9 @@
                         <button id="btn-filter-1" type="submit" class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
                             Filtrar
                         </button>
-                        <button type="submit" name="action" value="excel" class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase"title="Exportar datos en formato .XLSX"><i class="fas fa-file-excel"></i>
+                        <button id="btn-excel-1" type="submit" name="action" value="excel" class="form-control col-xs-12 col-1 m-1 btn btn-success "title="Exportar datos en formato .XLSX"><i class="fas fa-file-excel"></i>
                         </button>
-                        <button type="submit" name="action" value="pdf" class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase"title="Exportar datos en formato .PDF"><i class="fas fa-file-pdf"></i>
+                        <button id="btn-pdf-1" type="submit" name="action" value="pdf" class="form-control col-xs-12 col-1 m-1 btn btn-success "title="Exportar datos en formato .PDF"><i class="fas fa-file-pdf"></i>
                         </button>
                     </form>
                 </div>
