@@ -51,7 +51,17 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'code' => 'required',
+            'price' => 'required|max: 99999999',
+            'stock' => 'required|max: 9999',
+            'category_id' => 'required',
+            'supplier_id' => 'required',
+        ]);
+
         $product = new Product();
+
         if ($request->description) {
             $product->description = $request->get('description');
         }
@@ -69,9 +79,11 @@ class ProductController extends Controller
         }
         
         $product->name = $request->get('name');
+        $product->code = $request->get('code');
         $product->price = $request->get('price');
+        $product->stock = $request->get('stock');
         $product->category_id = $request->get('category_id');
-        $product->supplier_id = auth()->user()->id;
+        $product->supplier_id = $request->get('supplier_id');
 
         // Almacena la info del producto en la BD
         $product->save();
@@ -106,13 +118,22 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        if ($request->hasFile('image')) {
-        // Subida de la imagen nueva al servidor
-            $this->deleteImage($product->image);
-            $image_url = $request->file('image')->store('public/product');
-            $product->image = asset(str_replace('public', 'storage', $image_url));
-        }
+        $request->validate([
+            'name' => 'required',
+            'code' => 'required',
+            'price' => 'required|max: 99999999',
+            'stock' => 'required|max: 9999',
+            'category_id' => 'required',
+            'supplier_id' => 'required',
+        ]);
 
+        $product->name = $request->get('name');
+        $product->code = $request->get('code');
+        $product->price = $request->get('price');
+        $product->stock = $request->get('stock');
+        $product->category_id = $request->get('category_id');
+        $product->supplier_id = $request->get('supplier_id');
+        
         if ($request->get('active')) {
             $product->active = 1;
         }
@@ -122,11 +143,13 @@ class ProductController extends Controller
         if ($request->get('description')) {
             $product->description = $request->get('description');
         }
+        if ($request->hasFile('image')) {
+        // Subida de la imagen nueva al servidor
+            $this->deleteImage($product->image);
+            $image_url = $request->file('image')->store('public/product');
+            $product->image = asset(str_replace('public', 'storage', $image_url));
+        }
         
-        $product->name = $request->get('name');
-        $product->price = $request->get('price');
-        $product->category_id = $request->get('category_id');
-        $product->supplier_id = $request->get('supplier_id');
         
         // Actualiza la info del producto en la BD
         $product->update();

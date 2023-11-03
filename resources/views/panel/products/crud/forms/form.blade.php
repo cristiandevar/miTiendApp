@@ -9,17 +9,6 @@
         <div class="card-body">
 
             <div class="mb-3 row">
-                <img src="{{ $product->image ?? 'https://via.placeholder.com/1024'}}" alt="{{ $product->name }}" id="image_preview" class="img-fluid" style="object-fit: cover; object-position: center; height: 420px; width: 100%;">
-            </div>
-
-            <div class="mb-3 row">
-                <label for="image" class="col-sm-4 col-form-label"> * Imagen </label>
-                <div class="col-sm-8">
-                    <input class="form-control" type="file" id="image" name="image" accept="image/*" required>
-                </div>
-            </div>
-            
-            <div class="mb-3 row">
                 <label for="name" class="col-sm-4 col-form-label"> * Nombre </label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" id="name" name="name" value="{{ old('name', optional($product)->name) }}" required>
@@ -27,9 +16,9 @@
             </div>
 
             <div class="mb-3 row">
-                <label for="description" class="col-sm-4 col-form-label"> * Descripción </label>
+                <label for="code" class="col-sm-4 col-form-label"> * Código </label>
                 <div class="col-sm-8">
-                    <textarea class="form-control" id="description" name="description" rows="10" >{{ old('description', optional($product)->description) }}</textarea>
+                    <input type="text" class="form-control" id="code" name="code" value="{{ old('code', optional($product)->code) }}" required>
                 </div>
             </div>
 
@@ -37,6 +26,13 @@
                 <label for="price" class="col-sm-4 col-form-label"> * Precio </label>
                 <div class="col-sm-8">
                     <input type="number" class="form-control" id="price" name="price" value="{{ old('price', optional($product)->price) }}" required>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="stock" class="col-sm-4 col-form-label"> * Stock </label>
+                <div class="col-sm-8">
+                    <input type="number" class="form-control" id="stock" name="stock" value="{{ old('stock', optional($product)->stock) }}" required>
                 </div>
             </div>
 
@@ -72,6 +68,24 @@
                 </div>
             </div>
         
+        </div>
+
+        <div class="mb-3 row">
+            <label for="description" class="col-sm-4 col-form-label"> Descripción (opcional) </label>
+            <div class="col-sm-8">
+                <textarea class="form-control" id="description" name="description" rows="10" >{{ old('description', optional($product)->description) }}</textarea>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <label for="image" class="col-sm-4 col-form-label"> Imagen (opcional) </label>
+            <div class="col-sm-8">
+                <input class="form-control" type="file" id="image" name="image" accept="image/*">
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <img src="{{ $product->image ?? 'https://via.placeholder.com/1024'}}" alt="{{ $product->name }}" id="image_preview" class="img-fluid" style="object-fit: cover; object-position: center; height: 420px; width: 100%;">
         </div>
 
         <div class="card-footer">

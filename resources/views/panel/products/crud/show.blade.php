@@ -24,11 +24,14 @@
                     <div class="mb-3">    
                         <h2>Nombre: {{ $product->name }}</h2>
                     </div>
-                    <div class="mb-3">
-                        <p>Descripción: <strong>{{ $product->description }}</strong></p>
+                    <div class="mb-3">    
+                        <h2>Código: {{ $product->code }}</h2>
                     </div>
                     <div class="mb-3">
                         <p>Precio: <strong>{{ $product->price }}.</strong></p>
+                    </div>
+                    <div class="mb-3">
+                        <p>Stock: <strong>{{ $product->stock }}.</strong></p>
                     </div>
                     <div class="mb-3">
                         <p>Categoria: <strong>{{ $product->category->name }}</strong></p>
@@ -41,6 +44,9 @@
                     </div>
                     <div class="mb-3">
                         <p>Modificación: <strong>{{ $product->modified_at }}</strong></p>
+                    </div>
+                    <div class="mb-3">
+                        <p>Descripción: <strong>{{ $product->description }}</strong></p>
                     </div>
                 </div>
             </div>
