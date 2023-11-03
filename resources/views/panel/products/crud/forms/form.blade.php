@@ -37,6 +37,13 @@
             </div>
 
             <div class="mb-3 row">
+                <label for="stock" class="col-sm-4 col-form-label"> Stock Minimo (opcional) </label>
+                <div class="col-sm-8">
+                    <input type="number" class="form-control" id="stock" name="stock" value="{{ old('stock', optional($product)->stock) }}" required>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
                 <label for="active" class="col-sm-4 col-form-label"> * Activo </label>
                 <div class="">
                     <input type="checkbox" class="form-control" id="active" name="active" {{ $product->active ? 'checked' : ''}} >

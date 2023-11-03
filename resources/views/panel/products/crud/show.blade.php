@@ -22,10 +22,10 @@
                         <img src="{{ $product->image }}" alt="{{ $product->name }}" id="image_preview" class="img-fluid" style="object-fit: cover; object-position: center; height: 420px; width: 100%;">
                     </div>
                     <div class="mb-3">    
-                        <h2>Nombre: {{ $product->name }}</h2>
+                        <h2>Código: {{ $product->code }}</h2>
                     </div>
                     <div class="mb-3">    
-                        <h2>Código: {{ $product->code }}</h2>
+                        <h2>Nombre: {{ $product->name }}</h2>
                     </div>
                     <div class="mb-3">
                         <p>Precio: <strong>{{ $product->price }}.</strong></p>

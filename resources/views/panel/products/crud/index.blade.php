@@ -64,9 +64,8 @@
                     <table id="tabla-productos" class="table table-striped table-hover w-100">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col" class="text-uppercase">Nombre</th>
                                 <th scope="col" class="text-uppercase">Código</th>
+                                <th scope="col" class="text-uppercase">Nombre</th>
                                 <th scope="col" class="text-uppercase">Precio</th>
                                 <th scope="col" class="text-uppercase">Stock</th>
                                 <th scope="col" class="text-uppercase">Categoría</th>
@@ -78,9 +77,8 @@
                         <tbody>
                             @foreach ($products as $product)
                             <tr>
-                                <td>{{ $product->id }}</td>
-                                <td>{{ $product->name }}</td>
                                 <td>{{ $product->code }}</td>
+                                <td>{{ $product->name }}</td>
                                 <td>{{ $product->price }}</td>
                                 <td>{{ $product->stock }}</td>
                                 <td>{{ $product->category->name }}</td>

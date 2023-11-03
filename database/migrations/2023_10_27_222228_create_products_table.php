@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->decimal('price', 10, 2)->unsigned();
             $table->integer('stock')->nullable()->unsigned();
+            $table->integer('minstock')->nullable()->unsigned()->default(10);
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('supplier_id');
             $table->tinyInteger('active')->default(1);
