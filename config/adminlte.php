@@ -319,7 +319,7 @@ return [
         ['header' => 'Precios'],
             [
                 'text' => 'Consultar Precios',
-                'route' => 'product.filter',
+                'route' => 'product.query-price',
                 'icon' => 'fas fa-eye'  //Icono de fontawesome
                 //'can' => 'products_list'     //Permiso del vendedor
             ],

@@ -175,42 +175,17 @@ class ProductController extends Controller
             ->with('alert', 'Producto "'.$product->name.'" eliminado exitosamente.');
     }
 
-    public function deleteImage(string $path) {
+    public function deleteImage(string $path)
+    {
         $image_url = str_replace(asset(''), public_path().'/',$path);
         $image_url = str_replace('\\', '/', $image_url);
         unlink($image_url);
     }
 
-    public function filter(Request $request) {
-        
-        $query = Product::query();
-        
-        if ($request->has('name') && Str::length((trim($request->name)))>0) {
-            $query->where('name','like', '%'.$request->name.'%');
-        }
-        if ($request->has('supplier_id') && $request->supplier_id) {
-            $query->where('supplier_id', $request->supplier_id);
-        }
-        if ($request->has('category_id') && $request->category_id) {
-            $query->where('category_id', $request->category_id);
-        }
-        if ($request->has('price_since') && $request->price_since) {
-            $query->where('price','>=', $request->price_since);
-        }
-        if ($request->has('price_to') && $request->price_to) {
-            $query->where('price','<=', $request->price_to);
-        }
-        if ($request->has('date_since') && $request->date_since) {
-            $query->where('created_at','>=', $request->date_since);
-        }
-        if ($request->has('date_to') && $request->date_to) {
-            $date_to = Carbon::createFromFormat('Y-m-d',$request->date_to )->startOfDay()->addDay()->toDateTimeString();
-            $query->where('created_at','<', $date_to);
-        }
+    public function filter(Request $request) 
+    {
 
-        $inputs = $request->all();
-
-        $products = $query->where('active', 1)
+        $products = $this->filter_gral($request)
             ->latest()
             ->get(); 
         $categories = Category::where('active',1)
@@ -220,33 +195,14 @@ class ProductController extends Controller
             ->latest()
             ->get();
 
-        return view('panel.products.filters.filter',compact('products','suppliers', 'categories', 'inputs'));
+        return view('panel.products.filters.filter',compact('products','suppliers', 'categories'));
 
     }
 
-    public function filter_price(Request $request) {
+    public function filter_price(Request $request) 
+    {
 
-        $query = Product::query();
-
-        if ($request->has('name') && Str::length((trim($request->name)))>0) {
-            $query->where('name','like', '%'.$request->name.'%');
-        }
-        if ($request->has('supplier_id') && $request->supplier_id) {
-            $query->where('supplier_id', $request->supplier_id);
-        }
-        if ($request->has('category_id') && $request->category_id) {
-            $query->where('category_id', $request->category_id);
-        }
-        if ($request->has('date_since') && $request->date_since) {
-            $query->where('created_at','>=', $request->date_since);
-        }
-        if ($request->has('date_to') && $request->date_to) {
-            $date_to = Carbon::createFromFormat('Y-m-d',$request->date_to )->startOfDay()->addDay()->toDateTimeString();
-            $query->where('created_at','<', $date_to);
-        }
-        $inputs = $request->all();
-
-        $products = $query->where('active', 1)
+        $products = $this->filter_gral($request)
             ->latest()
             ->get(); 
         $categories = Category::where('active',1)
@@ -256,102 +212,14 @@ class ProductController extends Controller
             ->latest()
             ->get();
 
-        return view('panel.products.filters.filter-price',compact('products','suppliers', 'categories', 'inputs'));
+        return view('panel.products.filters.filter-price',compact('products','suppliers', 'categories'));
 
     }
 
-    // public function update_price(Request $request) {
-    //     // $products =json_decode($request->get('products'), true);
-    //     $request->validate([
-    //         'percentage' => 'numeric|max:100|min:-100',
-    //     ]);
-        
-    //     $inputs = json_decode($request->get('inputs'), true);
+    public function filter_async(Request $request) 
+    {
 
-    //     $query = Product::query();
-
-    //     if (isset($inputs['name']) && $inputs['name'] && Str::length((trim($inputs['name'])))>0) {
-    //         $query->where('name','like', '%'.$inputs['name'].'%');
-    //     }
-    //     if (isset($inputs['supplier_id']) && $inputs['supplier_id']) {
-    //         $query->where('supplier_id', $inputs['supplier_id']);
-    //     }
-    //     if (isset($inputs['category_id']) && $inputs['category_id']) {
-    //         $query->where('category_id', $inputs['category_id']);
-    //     }
-    //     if (isset($inputs['date_since']) && $inputs['date_since']) {
-    //         $query->where('created_at','>=', $inputs['date_since']);
-    //     }
-    //     if (isset($inputs['date_to']) && $inputs['date_to']) {
-    //         $date_to = Carbon::createFromFormat('Y-m-d',$inputs['date_to'] )->startOfDay()->addDay()->toDateTimeString();
-    //         $query->where('created_at','<', $date_to);
-    //     }
-
-    //     $products = $query->where('active', 1)->get();
-        
-    //     if ($request->percentage && $request->percentage !== '') {
-    //         dd($products);
-    //         $products_update = [];
-    //         foreach ($products as $product) {
-    //             $price = $product->price;
-    //             $percentage = $request->percentage;
-
-    //             $price = $price * (1 + $percentage/100);
-
-    //             $product_update = Product::find($product->id);
-    //             $product_update->price = $price;
-    //             $product_update->update();
-
-    //             $products_update[] = Product::find($product->id);
-                
-    //         }
-    //     }
-    //     else {
-    //         $products_update = $products;
-    //     }
-
-    //     $categories = Category::where('active',1)
-    //         ->latest()
-    //         ->get();
-    //     $suppliers = Supplier::where('active',1)
-    //         ->latest()
-    //         ->get();
-    //     $products = $products_update;
-
-    //     return view('panel.products.filters.filter-price',compact('products','suppliers', 'categories', 'inputs'));
-
-    // }
-
-    public function filter_async(Request $request) {
-
-        $query = Product::query();
-
-        if ($request->has('name') && Str::length((trim($request->name)))>0) {
-            $query->where('name','like', '%'.$request->name.'%');
-        }
-        if ($request->has('supplier_id') && $request->supplier_id) {
-            $query->where('supplier_id', $request->supplier_id);
-        }
-        if ($request->has('category_id') && $request->category_id) {
-            $query->where('category_id', $request->category_id);
-        }
-        if ($request->has('price_since') && $request->price_since) {
-            $query->where('price','>=', $request->price_since);
-        }
-        if ($request->has('price_to') && $request->price_to) {
-            $query->where('price','<=', $request->price_to);
-        }
-        if ($request->has('date_since') && $request->date_since) {
-            $query->where('created_at','>=', $request->date_since);
-        }
-        if ($request->has('date_to') && $request->date_to) {
-            $date_to = Carbon::createFromFormat('Y-m-d',$request->date_to )->startOfDay()->addDay()->toDateTimeString();
-            $query->where('created_at','<', $date_to);
-        }
-
-        $inputs = $request->all();
-
-        $products = $query->where('active', 1)
+        $products = $this->filter_gral($request)
             ->latest()
             ->get(); 
         $categories = Category::where('active',1)
@@ -363,7 +231,7 @@ class ProductController extends Controller
 
         return response()->json(
             [
-                'inputs' => $inputs,
+                // 'inputs' => $inputs,
                 'products' => $products,
                 'categories' => $categories,
                 'suppliers' => $suppliers
@@ -371,33 +239,15 @@ class ProductController extends Controller
         );
     }
 
-    public function update_price_async(Request $request) {
+    public function update_price_async(Request $request) 
+    {
         $request->validate([
             'percentage' => 'numeric|max:100|min:-100',
         ]);
-        $query = Product::query();
-        $inputs = $request->all();
-
-        if (isset($inputs['name']) && $inputs['name'] && Str::length((trim($inputs['name'])))>0) {
-            $query->where('name','like', '%'.$inputs['name'].'%');
-        }
-        if (isset($inputs['supplier_id']) && $inputs['supplier_id']) {
-            $query->where('supplier_id', $inputs['supplier_id']);
-        }
-        if (isset($inputs['category_id']) && $inputs['category_id']) {
-            $query->where('category_id', $inputs['category_id']);
-        }
-        if (isset($inputs['date_since']) && $inputs['date_since']) {
-            $query->where('created_at','>=', $inputs['date_since']);
-        }
-        if (isset($inputs['date_to']) && $inputs['date_to']) {
-            $date_to = Carbon::createFromFormat('Y-m-d',$inputs['date_to'] )->startOfDay()->addDay()->toDateTimeString();
-            $query->where('created_at','<', $date_to);
-        }
-
-        $products = $query->where('active', 1)->get();
         
-        if ($request->percentage && $request->percentage !== '' && count($products) > 0) {
+        $products = $this->filter_gral($request)->latest()->get();
+
+        if ($request->has('percentage') && $request->percentage !== '' && count($products) > 0) {
             $products_update = collect();
             foreach ($products as $product) {
                 $price = $product->price;
@@ -422,8 +272,6 @@ class ProductController extends Controller
             ->latest()
             ->get();
         
-        $percentage = $request->percentage;
-        
         return response()->json(
             [
                 'products' => $products,
@@ -431,11 +279,39 @@ class ProductController extends Controller
                 'suppliers' => $suppliers,
             ]
         );
-        // return view('panel.products.filters.filter-price',compact('products','suppliers', 'categories', 'inputs'));
 
     }
 
-    public function export_file(Request $request)
+    public function query_price(Request $request){
+
+        $products = $this->filter_gral($request)
+            ->latest()
+            ->get(); 
+        $categories = Category::where('active',1)
+            ->latest()
+            ->get();
+        $suppliers = Supplier::where('active',1)
+            ->latest()
+            ->get();
+            
+        if (count($request->all())) {
+
+            return response()->json(
+                [
+                    // 'inputs' => $inputs,
+                    'products' => $products,
+                    'categories' => $categories,
+                    'suppliers' => $suppliers
+                ]
+            );
+        }
+        else {
+            return view('panel.products.filters.query-price', compact('products', 'categories', 'suppliers'));
+        }
+
+    }    
+
+    public function export_file(Request $request) 
     {
         if ($request->action == 'excel') {
             $content = $this->filter_gral($request);
@@ -448,11 +324,16 @@ class ProductController extends Controller
     }
 
     
-    public function filter_gral (Request $request) {
+    public function filter_gral (Request $request) 
+    {
         $query = Product::query();
         
         if ($request->has('name') && Str::length((trim($request->name)))>0) {
             $query->where('name','like', '%'.$request->name.'%');
+        }
+        if ($request->has('code') && Str::length((trim($request->code)))>0) {
+            $query->where('code','like', '%'.$request->code.'%');
+            // dd('entro');
         }
         if ($request->has('supplier_id') && $request->supplier_id) {
             $query->where('supplier_id', $request->supplier_id);
@@ -477,7 +358,8 @@ class ProductController extends Controller
         return $query->where('active', 1);
     }
 
-    public function export_pdf(Collection $content, string $title, string $subtitle, string $file_title){
+    public function export_pdf(Collection $content, string $title, string $subtitle, string $file_title)
+    {
         $data = [
             'title' => $title,
             'subtitle' => $subtitle,

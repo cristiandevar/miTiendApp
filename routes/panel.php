@@ -15,6 +15,8 @@ Route::get('/products-filter-price', [App\Http\Controllers\ProductController::cl
 Route::get('/products-filter-async', [App\Http\Controllers\ProductController::class, 'filter_async'])->name('product.filter-async');
 Route::get('/products-filter-price-update', [App\Http\Controllers\ProductController::class, 'update_price'])->name('product.update-price');
 Route::post('/products-filter-price-update-async', [App\Http\Controllers\ProductController::class, 'update_price_async'])->name('product.update-price-async');
+Route::get('/products-query-price', [App\Http\Controllers\ProductController::class, 'query_price'])->name('product.query-price');
+Route::get('/products-query-price-async', [App\Http\Controllers\ProductController::class, 'query_price_async'])->name('product.query-price-async');
 // Ruta para exportar archivos
 Route::get('/products-export-file', [App\Http\Controllers\ProductController::class, 'export_file'])->name('products.export-file'); 
 

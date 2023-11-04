@@ -52,10 +52,10 @@
                 <div class="card-body">
                     <form action="{{ route('product.filter') }}" method='GET' id="form-filter">
                         <div class="form-group row">
+                            <input class="form-control col-xs-12 col-2 m-1" type="text" id="code" name="code" placeholder="Código..." value={{ isset($inputs) && isset($inputs['code'])? $inputs['code'] : '' }}>
                             <input class="form-control col-xs-12 col-2 m-1" type="text" id="name" name="name" placeholder="Nombre..." value={{ isset($inputs) && isset($inputs['name'])? $inputs['name'] : '' }}>
-                            <input class="form-control col-xs-12 col-2 m-1" type="text" id="code" name="code" placeholder="Código..." value={{ isset($inputs) && isset($inputs['code'])? $inputs['name'] : '' }}>
-                            <select id="supplier_id" name="supplier_id" class="form-control col-xs-12 col-2 m-1">
-                            <option value="" {{ !isset($inputs['supplier_id']) || $inputs['supplier_id']==''? 'selected':''}}>Proveedor...</option>
+                            {{-- <select id="supplier_id" name="supplier_id" class="form-control col-xs-12 col-2 m-1">
+                                <option value="" {{ !isset($inputs['supplier_id']) || $inputs['supplier_id']==''? 'selected':''}}>Proveedor...</option>
                                 @foreach ($suppliers as $supplier)
                                     <option {{ isset($inputs['supplier_id']) && $inputs['supplier_id'] == $supplier->id ? 'selected': ''}} value="{{ $supplier->id }}"> 
                                         {{ $supplier->companyname }}
@@ -69,23 +69,9 @@
                                         {{ $category->name }}
                                     </option>
                                 @endforeach
-                            </select>
-                            <input class="form-control col-xs-12 col-1 m-1" type="date" id="date_since" name="date_since" placeholder="Fecha desde..." value={{ isset($inputs['date_since'])? $inputs['date_since'] : '' }}>
-                            <input class="form-control col-xs-12 col-1 m-1" type="date" id="date_to" name="date_to" placeholder="Fecha hasta..." value={{ isset($inputs['date_to'])? $inputs['date_to'] : '' }}>
+                            </select> --}}
                             <button id="btn-filter-1" type="submit" class="form-control col-xs-12 col-1 m-1 btn btn-success text-uppercase">
-                                Filtrar
-                            </button>
-                        </div>
-                    </form>
-                    <form action="{{ route('product.update-price') }}" method='GET' id="form-update">
-                        {{ csrf_field() }}
-                        <div class="form-group row">
-                            <input class="form-control col-xs-12 col-2 m-1" type="hidden" id="inputs" name="inputs" value="{{isset($inputs)?json_encode($inputs):''}}">
-                            <input class="form-control col-xs-12 col-2 m-1" type="hidden" id="products" name="products" value="{{isset($products)?json_encode($products):''}}">
-                           
-                            <input class="form-control col-xs-12 col-2 m-1" type="number" id="percentage" name="percentage" placeholder="ingrese porcentaje ..." >
-                            <button id="btn-update-1" type="submit" class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
-                                Actualizar Precio
+                                Consultar
                             </button>
                         </div>
                     </form>
@@ -102,28 +88,25 @@
                             <p class='alert alert-danger small'>Ningun producto coincide</p>`
                         </div>
                         <table class="table table-striped table-hover w-100" id="table-products">
-                            <thead>
+                            <thead id="thead-products">
                                 <tr>
-                                    <th scope="col">CÓDIGO</th>
-                                    <th scope="col" class="text-uppercase">Nombre</th>
-                                    <th scope="col" class="text-uppercase">Precio</th>
-                                    <th scope="col" class="text-uppercase">Categoría</th>
-                                    <th scope="col" class="text-uppercase">Proveedor</th>
-                                    <th scope="col" class="text-uppercase">Imagen</th>
+                                    <th scope="col" class="text-uppercase">PRECIO</th>
+                                    <th scope="col" class="text-uppercase">NOMBRE</th>
+                                    <th scope="col" class="text-uppercase">CÓDIGO</th>
+                                    {{-- <th scope="col" class="text-uppercase">IMAGEN</th> --}}
                                 </tr>
                             </thead>
                             <tbody id="tbody-products">
                                 @foreach ($products as $product)
-                                    <tr>
-                                        <td>{{ $product->code }}</td>
-                                        <td>{{ $product->name }}</td>
-                                        <td>{{ $product->price }}</td>
-                                        <td>{{ $product->category->name }}</td>
-                                        <td>{{ $product->supplier->companyname }}</td>
-                                        <td>
-                                            <img src="{{ $product->image }}" alt="{{ $product->name }}" class="img-fluid" style="width: 150px;">
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td>{{ $product->price }}</td>
+                                    <td>{{ $product->name }}</td>
+                                    <td>{{ $product->code }}</td>
+                                    {{-- <td>
+                                        <img src="{{ $product->image }}" alt="{{ $product->name }}" class="img-fluid" style="width: 150px;">
+                                    </td> --}}
+                                    {{-- <td><a href="{{ route('product.show', $product->id) }}">{{ $product->code }}</a></td> --}}
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -145,7 +128,7 @@
 
 {{-- Importacion de Archivos JS --}}
 @section('js')
-<script src="{{ '/storage/js/panel/products/filters/create-table-products.js' }}"></script>
+<script src="{{ '/storage/js/panel/products/filters/create-table-products-query.js' }}"></script>
 <script src="{{ '/storage/js/panel/products/filters/filter-products.js' }}"></script>
 <script src="{{ '/storage/js/panel/products/filters/update-price-products.js' }}"></script>
 @stop

@@ -91,10 +91,13 @@
                 <div class="card-body" id="card-table">
                     @if(count($products)>0)
                         {{-- @include('panel.products.tables.table-main') --}}
+                        <div id='alert-table' hidden>
+                            <p class='alert alert-danger small'>Ningun producto coincide</p>`
+                        </div>
                         <table id="table-products" class="table table-striped table-hover w-100">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
+                                    <th scope="col">CÓDIGO</th>
                                     <th scope="col" class="text-uppercase">Nombre</th>
                                     <th scope="col" class="text-uppercase">Precio</th>
                                     <th scope="col" class="text-uppercase">Categoría</th>
@@ -102,10 +105,10 @@
                                     <th scope="col" class="text-uppercase">Imagen</th>
                                 </tr>
                             </thead>
-                            <tbody id="body-table-products">
+                            <tbody id="tbody-products">
                                 @foreach ($products as $product)
                                 <tr>
-                                    <td>{{ $product->id }}</td>
+                                    <td>{{ $product->code }}</td>
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->price }}</td>
                                     <td>{{ $product->category->name }}</td>
