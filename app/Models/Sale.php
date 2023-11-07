@@ -14,11 +14,23 @@ class Sale extends Model
         'employee_id',
     ];
 
-    public function detalles() {
-        return SalesDetails::where('active', 1)
+    public function details() {
+        return SaleDetail::where('active', 1)
             ->where('sales_id',$this->id)
             ->latest()
             ->get();
+    }
+    public function qty_products(){
+        $products = SaleDetail::where('active', 1)
+            ->where('sales_id',$this->id)
+            ->latest()
+            ->get();
+        
+        return count($products); 
+    }
+    public function total(){
+        $details = $this->details();
+        count($details->price);
     }
     // public function productos(){
     //     return Product::where('active', 1)

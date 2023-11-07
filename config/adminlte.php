@@ -293,7 +293,7 @@ return [
         ['header' => 'Compra - Venta'],
             [
                 'text' => 'Registrar Venta',
-                'route' => 'product.filter',
+                'route' => 'sale.index',
                 'icon' => 'fas fa-dollar-sign'  //Icono de fontawesome
                 //'can' => 'products_list'     //Permiso del vendedor
             ],

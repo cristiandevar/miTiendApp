@@ -35,3 +35,7 @@ Route::resource('/employees', EmployeeController::class)->names('employee');
 Route::get('/', [HomeController::class, 'index'])->name('panel');
 Route::get('/home', [HomeController::class, 'index']);
 
+
+// Rutas para CRUD ventas
+Route::resource('/sales', SaleController::class)->names('sale');
+
