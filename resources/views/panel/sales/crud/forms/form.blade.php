@@ -1,8 +1,8 @@
 <div class="card mb-5">
-    <form action="{{ $product->id ? route('product.update', $product) : route('product.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ $sale->id ? route('sale.update', $sale) : route('sale.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         
-        @if ($product->id)
+        @if ($sale->id)
             @method('PUT')
         @endif
 
@@ -11,7 +11,7 @@
             <div class="mb-3 row">
                 <label for="name" class="col-sm-4 col-form-label"> * Fecha </label>
                 <div class="col-sm-8">
-                    <input type="date" class="form-control" id="date" name="date" value="{{ old('name', optional($product)->name) }}" required>
+                    <input type="date" class="form-control" id="date" name="date" value="{{ old('date', optional($sale)->created_at) }}" required>
                 </div>
             </div>
 
@@ -21,7 +21,7 @@
                     <select id="employee_id" name="employee_id" class="form-control" required>
                         @foreach ($employees as $employee)
                             <option {{ $employee->employee_id && $employee->employee_id == $employee->id ? 'selected': ''}} value="{{ $employee->id }}"> 
-                                {{ $employee->name }}
+                                {{ $employee->lastname.' '.$employee->firstname }}
                             </option>
                         @endforeach
                     </select>
@@ -30,7 +30,7 @@
             
             <div class="card-footer">
                 <button type="submit" class="btn btn-success text-uppercase">
-                    {{ $product->id ? 'Actualizar' : 'Crear' }}
+                    {{ $sale->id ? 'Actualizar' : 'Crear' }}
                 </button>
             </div>
 

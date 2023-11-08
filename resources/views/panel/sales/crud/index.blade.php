@@ -15,7 +15,7 @@
     <div class="row">
         <div class="col-12 mb-3">
             
-            @if ($products->first())
+            @if ($products->first() && $employees->first())
                 <a href="{{ route('sale.create') }}" class="btn btn-success btn-sm text-uppercase">
                     Nueva Venta
                 </a>
@@ -24,7 +24,12 @@
                     <div>
                         <p>Ingrese primero un Producto desde <a href="{{ route('product.index') }}">aqui</a></p>
                     </div>
-                @endif                    
+                @endif   
+                @if (!$employees->first())
+                    <div>
+                        <p>Ingrese primero un Empleado desde <a href="{{ route('employee.index') }}">aqui</a></p>
+                    </div>
+                @endif                   
             @endif
         </div>
         
@@ -53,7 +58,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                @if(count($products)>0)
+                @if(count($sales)>0)
                     <table id="tabla-productos" class="table table-striped table-hover w-100">
                         <thead>
                             <tr>
