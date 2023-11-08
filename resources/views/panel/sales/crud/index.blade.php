@@ -74,17 +74,31 @@
                             <tr>
                                 <td>{{ $sale->id }}</td>
                                 <td>{{ $sale->created_at }}</td>
-                                <td>{{ $sale->qty_products }}</td>
-                                <td>{{ $sale->total }}</td>
+                                <td>{{ $sale->details->count() }}</td>
+                                    
+                                @if($sale->details)
+                                <td><?php
+                                            $total = 0;
+                                            foreach ($sale->details as $detail) {
+                                                $total += $detail->price * $detail->quantity;
+                                            }
+                                            echo $total;
+                                        ?>
+                                    </td>
+                                @else
+                                <td>0</td>
+                                <td>0
+                                </td>
+                                @endif
                                 <td>
                                     <div class="d-flex">
-                                        <a href="{{ route('Sale.show', $Sale) }}" class="btn btn-sm btn-info text-white text-uppercase me-1 m-1">
+                                        <a href="{{ route('sale.show', $sale) }}" class="btn btn-sm btn-info text-white text-uppercase me-1 m-1">
                                             Ver
                                         </a>
-                                        <a href="{{ route('Sale.edit', $Sale) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
+                                        <a href="{{ route('sale.edit', $sale) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
                                             Editar
                                         </a>
-                                        <form action="{{ route('Sale.destroy', $Sale) }}" method="POST">
+                                        <form action="{{ route('sale.destroy', $sale) }}" method="POST">
                                             @csrf 
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger text-uppercase m-1">

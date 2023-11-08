@@ -36,12 +36,14 @@ class SaleController extends Controller
         // Creamos un producto nuevo para cargarle datos
         $sale = new Sale();
 
+        $today = date("d-m-Y");
+
         // Recuperamos todas las categorias de la BD
         $employees = Employee::where('active', 1)
         ->latest() //Ordena de manera DESC por el campo 'created_at'
         ->get();
 
-        return view('panel.sales.crud.create', compact('sale', 'employees'));
+        return view('panel.sales.crud.create', compact('sale', 'employees', 'today'));
     
     }
 
@@ -51,21 +53,11 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'date' => 'required',
+            // 'date' => 'required',
             'employee_id' => 'required'
         ]);
 
         $sale = new Sale();
-
-        if ($request->date) {
-            $sale-> = $request->get('date');
-        }
-
-        if ($request->hasFile('image')) {
-            // Subida de imagen al servidor (public > storage)
-            $image_url = $request->file('image')->store('public/sale');
-            $sale->image = asset(str_replace('public', 'storage', $image_url));
-        }
 
         if ($request->get('active')) {
             $sale->active = 1;
@@ -73,20 +65,14 @@ class SaleController extends Controller
         else {
             $sale->active = 0;
         }
-        
-        $sale->name = $request->get('name');
-        $sale->code = $request->get('code');
-        $sale->price = $request->get('price');
-        $sale->stock = $request->get('stock');
-        $sale->category_id = $request->get('category_id');
-        $sale->supplier_id = $request->get('supplier_id');
+        $sale->employee_id = $request->get('employee_id');
 
         // Almacena la info del saleo en la BD
         $sale->save();
 
         return redirect()
             ->route('sale.index')
-            ->with('alert', 'saleo "' . $sale->name . '" agregado exitosamente.');
+            ->with('alert', 'Venta nro:"' . $sale->id . '" agregada exitosamente.');
     
     }
 

@@ -11,7 +11,7 @@
             <div class="mb-3 row">
                 <label for="name" class="col-sm-4 col-form-label"> * Fecha </label>
                 <div class="col-sm-8">
-                    <input type="date" class="form-control" id="date" name="date" value="{{ old('date', optional($sale)->created_at) }}" required>
+                    <input type="text" class="form-control" id="date" name="date" value={{$today}} disabled>
                 </div>
             </div>
 
@@ -25,6 +25,13 @@
                             </option>
                         @endforeach
                     </select>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="active" class="col-sm-4 col-form-label"> * Activa </label>
+                <div class="">
+                    <input type="checkbox" class="form-control" id="active" name="active" {{ $sale->active ? 'checked' : ''}} >
                 </div>
             </div>
             

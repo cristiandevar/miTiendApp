@@ -15,23 +15,23 @@ class Sale extends Model
     ];
 
     public function details() {
-        return SaleDetail::where('active', 1)
-            ->where('sales_id',$this->id)
-            ->latest()
-            ->get();
+        // return SaleDetail::where('active', 1)
+        //     ->where('sale_id',$this->id)
+        //     ->latest();
+        return $this->hasMany(SaleDetail::class, 'sale_id');
     }
-    public function qty_products(){
-        $products = SaleDetail::where('active', 1)
-            ->where('sales_id',$this->id)
-            ->latest()
-            ->get();
+    // public function products(){
+    //     $products = SaleDetail::where('active', 1)
+    //         ->where('sale_id',$this->id)
+    //         ->latest()
+    //         ->get();
         
-        return count($products); 
-    }
-    public function total(){
-        $details = $this->details();
-        count($details->price);
-    }
+    //     return c$products; 
+    // }
+    // public function total(){
+    //     $details = $this->details();
+    //     count($details->price);
+    
     // public function productos(){
     //     return Product::where('active', 1)
     //         ->where('supplier_id', $this->id)
