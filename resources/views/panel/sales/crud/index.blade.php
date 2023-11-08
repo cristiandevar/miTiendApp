@@ -2,11 +2,11 @@
 @extends('adminlte::page')
 
 {{-- Titulo en las tabulaciones del Navegador --}}
-@section('title', 'Productos')
+@section('title', 'Ventas')
 
 {{-- Titulo en el contenido de la Pagina --}}
 @section('content_header')
-    <h1>Lista de Productos</h1>
+    <h1>Lista de Ventas</h1>
 @stop
 
 {{-- Contenido de la Pagina --}}
@@ -22,7 +22,7 @@
             @else
                 @if (!$products->first())
                     <div>
-                        <p>Ingrese primero un Producto desde <a href="{{ route('category.index') }}">aqui</a></p>
+                        <p>Ingrese primero un Producto desde <a href="{{ route('product.index') }}">aqui</a></p>
                     </div>
                 @endif                    
             @endif
@@ -70,21 +70,16 @@
                                 <td>{{ $sale->id }}</td>
                                 <td>{{ $sale->created_at }}</td>
                                 <td>{{ $sale->qty_products }}</td>
-                                <td>{{ $sale->stock }}</td>
-                                <td>{{ $sale->category->name }}</td>
-                                <td>{{ $sale->supplier->companyname }}</td>
-                                <td>
-                                    <img src="{{ $product->image }}" alt="{{ $product->name }}" class="img-fluid" style="width: 150px;">
-                                </td>
+                                <td>{{ $sale->total }}</td>
                                 <td>
                                     <div class="d-flex">
-                                        <a href="{{ route('product.show', $product) }}" class="btn btn-sm btn-info text-white text-uppercase me-1 m-1">
+                                        <a href="{{ route('Sale.show', $Sale) }}" class="btn btn-sm btn-info text-white text-uppercase me-1 m-1">
                                             Ver
                                         </a>
-                                        <a href="{{ route('product.edit', $product) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
+                                        <a href="{{ route('Sale.edit', $Sale) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
                                             Editar
                                         </a>
-                                        <form action="{{ route('product.destroy', $product) }}" method="POST">
+                                        <form action="{{ route('Sale.destroy', $Sale) }}" method="POST">
                                             @csrf 
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger text-uppercase m-1">
@@ -98,7 +93,7 @@
                         </tbody>
                     </table>
                 @else
-                    <p class='alert alert-danger small'>No tiene productos registrados</p>                    
+                    <p class='alert alert-danger small'>No tiene Ventas registradas</p>                    
 
                 @endif
             </div>

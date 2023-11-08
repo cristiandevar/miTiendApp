@@ -10,43 +10,26 @@
 <div class="container">
     <div class="row">
         <div class="col-12 mb-3">
-            <h1>Datos del Producto "{{ $product->name }}"</h1>
-            <a href="{{ route('product.index') }}" class="btn btn-sm btn-secondary text-uppercase">
+            <h1>Datos de la Venta nro: "{{ $sale->id }}"</h1>
+            <a href="{{ route('sale.index') }}" class="btn btn-sm btn-secondary text-uppercase">
                 Volver al Listado
             </a>
         </div>
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="mb-3">
-                        <img src="{{ $product->image }}" alt="{{ $product->name }}" id="image_preview" class="img-fluid" style="object-fit: cover; object-position: center; height: 420px; width: 100%;">
+                    <div class="mb-3">    
+                        <h2>Nro: {{ $sale->id }}</h2>
                     </div>
                     <div class="mb-3">    
-                        <h2>Código: {{ $product->code }}</h2>
-                    </div>
-                    <div class="mb-3">    
-                        <h2>Nombre: {{ $product->name }}</h2>
+                        <h2>Fecha: {{ $sale->created_at }}</h2>
                     </div>
                     <div class="mb-3">
-                        <p>Precio: <strong>{{ $product->price }}.</strong></p>
+                        <p>cantidad de Productos: <strong>{{ $sale->qty_products }}.</strong></p>
                     </div>
                     <div class="mb-3">
-                        <p>Stock: <strong>{{ $product->stock }}.</strong></p>
+                        <p>total: <strong>{{ $sale->total }}.</strong></p>
                     </div>
-                    <div class="mb-3">
-                        <p>Categoria: <strong>{{ $product->category->name }}</strong></p>
-                    </div>
-                    <div class="mb-3">
-                        <p>Proveedor: <strong>{{ $product->supplier->companyname }}</strong></p>
-                    </div>
-                    <div class="mb-3">
-                        <p>Creación: <strong>{{ $product->created_at }}</strong></p>
-                    </div>
-                    <div class="mb-3">
-                        <p>Modificación: <strong>{{ $product->modified_at }}</strong></p>
-                    </div>
-                    <div class="mb-3">
-                        <p>Descripción: <strong>{{ $product->description }}</strong></p>
                     </div>
                 </div>
             </div>
