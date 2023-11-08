@@ -1,16 +1,8 @@
-// import 'create-table-products.js';
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-}
-);
 document.addEventListener('DOMContentLoaded', function (e) {
     
     $('#alert-table').hide();
     $('#btn-filter-1').on('click', function (e) {
         e.preventDefault();
-        var my_array;
         var values = carge_values('form-filter');
         var data_filter = {
             code : values['code'],

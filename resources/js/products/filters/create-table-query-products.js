@@ -6,18 +6,13 @@ function carge_table(products, categories, suppliers) {
         for (let product of products) {
             cadena += `
                 <tr>
-                    <td>${product["code"]}</td>
-                    <td>${product["name"]}</td>
                     <td>${product["price"]}</td>
-                    <td>${categories[product["category_id"]-1]["name"]}</td>
-                    <td>${suppliers[product["supplier_id"]-1]["companyname"]}</td>
-                    <td>
-                        <img src="${product["image"]}" alt="${product["name"]}" class="img-fluid" style="width: 150px;">
-                    </td>
+                    <td>${product["name"]}</td>
+                    <td>${product["code"]}</td>
                 </tr>
             `;
         }
-        $('#tbody-products').html = cadena;
+        $('#tbody-products').html(cadena);
     }
     else {
         $('#alert-table').show();

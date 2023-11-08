@@ -140,6 +140,6 @@
 @section('js')
 {{-- <script type="text/javascript" src="{{ asset('products/js/create-table-filter-products.js') }}"></script> --}}
 
-<script type="text/javascript" src="{{ asset('products/js/create-table-filter-products.js') }}"></script>
-<script type="text/javascript" src="{{ asset('products/js/filter-products.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/products/filters/create-table-filter-products.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/products/filters/filter-products.js') }}"></script>
 @stop

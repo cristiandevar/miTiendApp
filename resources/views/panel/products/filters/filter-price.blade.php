@@ -6,7 +6,7 @@
 
 {{-- Titulo en el contenido de la Pagina --}}
 @section('content_header')
-    <h1>Filtro de Productos</h1>
+    <h1>Actualiza Productos</h1>
 @stop
 
 {{-- Contenido de la Pagina --}}
@@ -97,8 +97,7 @@
             <div class="card">
                 <div class="card-body" id="card-table">
                     @if(count($products)>0)
-                        {{-- @include('panel.products.tables.table-main') --}}
-                        <div id='alert-table' hidden>
+                        <div id='alert-table'>
                             <p class='alert alert-danger small'>Ningun producto coincide</p>`
                         </div>
                         <table class="table table-striped table-hover w-100" id="table-products">
@@ -145,8 +144,8 @@
 
 {{-- Importacion de Archivos JS --}}
 @section('js')
-<script src="{{ '/storage/js/panel/products/filters/create-table-products.js' }}"></script>
-<script src="{{ '/storage/js/panel/products/filters/filter-products.js' }}"></script>
-<script src="{{ '/storage/js/panel/products/filters/update-price-products.js' }}"></script>
+<script type="text/javascript" src="{{ asset('js/products/filters/create-table-filter-products.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/products/filters/filter-products.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/products/filters/update-price-products.js') }}"></script>
 @stop
 
