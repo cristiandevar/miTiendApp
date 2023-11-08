@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->integer('employee_id')->nullable()->unsigned();
+            $table->unsignedBigInteger('employee_id');
             $table->timestamps();
 
             $table->foreign('employee_id')->references('id')->on('employees');

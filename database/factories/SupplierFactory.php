@@ -19,7 +19,7 @@ class SupplierFactory extends Factory
     {
         return [
             'companyname' => $this->faker->sentence(),
-            'email' => $this->faker->paragraph(),
+            'email' => $this->faker->sentence(),
             'phone' => $this->faker->randomNumber(9),
             'address' => $this->faker->paragraph(1),
             'active' => 1,
