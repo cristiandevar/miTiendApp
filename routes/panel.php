@@ -38,4 +38,6 @@ Route::get('/home', [HomeController::class, 'index']);
 
 // Rutas para CRUD ventas
 Route::resource('/sales', SaleController::class)->names('sale');
+Route::get('/sales-register', [SaleController::class, 'register'])->names('sale.register');
+
 

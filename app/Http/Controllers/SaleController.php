@@ -62,4 +62,8 @@ class SaleController extends Controller
     {
         //
     }
+
+    public function register(){
+        return view('sales.');
+    }
 }
