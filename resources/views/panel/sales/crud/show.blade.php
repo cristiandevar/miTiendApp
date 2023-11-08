@@ -19,16 +19,21 @@
             <div class="card">
                 <div class="card-body">
                     <div class="mb-3">    
-                        <h2>Nro: {{ $sale->id }}</h2>
+                        <p>Nro: {{ $sale->id }}</p>
                     </div>
                     <div class="mb-3">    
-                        <h2>Fecha: {{ $sale->created_at }}</h2>
+                        <p>Fecha: {{ $sale->created_at }}<p>
                     </div>
                     <div class="mb-3">
-                        <p>cantidad de Productos: <strong>{{ $sale->qty_products }}.</strong></p>
+                        <p>cantidad de Productos: <strong>{{ $sale->details->count() }}</strong></p>
                     </div>
                     <div class="mb-3">
-                        <p>total: <strong>{{ $sale->total }}.</strong></p>
+                        <p>total: <strong>
+                            {{ 
+                                
+                                $sale->details->sum($sale->details->price * $sale->details->quantity ) 
+                            
+                            }}.</strong></p>
                     </div>
                     </div>
                 </div>
