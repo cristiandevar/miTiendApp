@@ -60,10 +60,17 @@ class SaleController extends Controller
      */
     public function destroy(Sale $sale)
     {
-        //
+        $sale->active = 0;
+        
+        $sale->update();
+
+        return redirect()
+            ->route('sale.index')
+            ->with('alert', 'Venta "'.$sale->name.'" eliminada exitosamente.');
+    
     }
 
-    public function register(){
-        return view('sales.');
+    public function register(Request $request){
+        return view('sale.index');
     }
 }
