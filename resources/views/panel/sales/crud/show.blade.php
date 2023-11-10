@@ -43,7 +43,12 @@
                         <p>Creación: <strong>{{ $product->created_at }}</strong></p>
                     </div>
                     <div class="mb-3">
-                        <p>Modificación: <strong>{{ $product->modified_at }}</strong></p>
+                        <p>total: <strong>
+                            {{ 
+                                
+                                $sale->details->sum($sale->details->price * $sale->details->quantity ) 
+                            
+                            }}</strong></p>
                     </div>
                     <div class="mb-3">
                         <p>Descripción: <strong>{{ $product->description }}</strong></p>
