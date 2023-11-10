@@ -4,6 +4,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SupplierController;
 
 
@@ -38,6 +39,6 @@ Route::get('/home', [HomeController::class, 'index']);
 
 // Rutas para CRUD ventas
 Route::resource('/sales', SaleController::class)->names('sale');
-Route::get('/sales-register', [SaleController::class, 'register'])->names('sale.register');
+Route::get('/sales-register', [SaleController::class, 'register'])->name('sale.register');
 
 
