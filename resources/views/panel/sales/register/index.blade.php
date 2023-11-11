@@ -117,7 +117,7 @@
                                 <p class='alert alert-danger small'>No tiene productos cargados</p>                    
                             @endif
                         </div>
-                        <button id='add-product' class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
+                        <button id='add-products' class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
                             Agregar
                         </button>
                     </form>
@@ -126,9 +126,32 @@
         </div>
         <div class="col-12">
             <div class="card">
-                <div class="card-body" id="card-table">
-                    
-                </div>
+                <h5 class="card-header">Detalles de venta</h5>
+                <form action="#" method="post">
+                    <div class="card-body" id="card-table">
+                        <div class="form-group row" style='height:15em;overflow-y:auto;'>
+                            <table id="table-sale" class="table table-sm table-striped table-hover w-100">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="text-uppercase">Código</th>
+                                        <th scope="col" class="text-uppercase">Nombre</th>
+                                        <th scope="col" class="text-uppercase">Precio</th>
+                                        <th scope="col" class="text-uppercase">Cantidad</th>
+                                        {{-- <th scope="col" class="text-uppercase">Categoría</th>
+                                        <th scope="col" class="text-uppercase">Proveedor</th> --}}
+                                        <th scope="col" class="text-uppercase">Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-sale">
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <button id='add-sale' class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase" >
+                            Registrar
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -145,6 +168,7 @@
 @section('js')
 {{-- <script type="text/javascript" src="{{ asset('products/js/create-table-filter-products.js') }}"></script> --}}
 
-<script type="text/javascript" src="{{ asset('js/products/filters/create-table-sale-products.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/products/filters/filter-products.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/sales/filters/create-table-sale-products.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/sales/filters/filter-products.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/sales/register/add-products-checked.js') }}"></script>
 @stop
