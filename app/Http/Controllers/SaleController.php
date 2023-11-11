@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Employee;
 use App\Models\Product;
 use App\Models\Sale;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 
 class SaleController extends Controller
@@ -140,6 +142,9 @@ class SaleController extends Controller
     }
 
     public function register(Request $request){
-        return view('sale.index');
+        $products = Product::where('active', 1)->latest()->get();
+        $categories = Category::where('active', 1)->latest()->get();
+        $suppliers = Supplier::where('active', 1)->latest()->get();
+        return view('panel.sales.register.index', compact('products', 'categories', 'suppliers'));
     }
 }
