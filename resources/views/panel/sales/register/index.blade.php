@@ -46,12 +46,13 @@
 
         <div class="col-12">
             <div class="card">
+                <h5 class="card-header">Elija sus productos</h5>
                 <div class="card-body">
                     <form id="form-filter" action="#" method='GET'>
                         <div class="form-group row">
                             <input class="form-control col-xs-12 col-2 m-1" type="text" id="name" name="name" placeholder="Nombre" value={{ isset($inputs) && isset($inputs['name'])? $inputs['name'] : '' }}>
                             <input class="form-control col-xs-12 col-2 m-1" type="text" id="code" name="code" placeholder="Código" value={{ isset($inputs) && isset($inputs['code'])? $inputs['code'] : '' }}>
-                            <select id="supplier_id" name="supplier_id" class="form-control col-xs-12 col-2 m-1">
+                            {{-- <select id="supplier_id" name="supplier_id" class="form-control col-xs-12 col-2 m-1">
                                 <option value="" {{ !isset($inputs['supplier_id']) || $inputs['supplier_id']==''? 'selected':''}}>Proveedor...</option>
                                 @foreach ($suppliers as $supplier)
                                     <option {{ isset($inputs['supplier_id']) && $inputs['supplier_id'] == $supplier->id ? 'selected': ''}} value="{{ $supplier->id }}"> 
@@ -66,18 +67,18 @@
                                         {{ $category->name }}
                                     </option>
                                 @endforeach
-                            </select>
+                            </select> --}}
                             <button id="btn-filter-1" type="submit" class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
                                 Filtrar
                             </button>
                         </div>
                     </form>
-                </div>
+                {{-- </div>
             </div>
         </div>
         <div class="col-12">
             <div class="card">
-                <div class="card-body" id="card-table">
+                <div class="card-body" id="card-table"> --}}
                     <form action="#" method="get">
                         <div class="form-group row" style='height:15em;overflow-y:auto;'>
                             @if(count($products)>0)
@@ -85,15 +86,16 @@
                                 <div id='alert-table'>
                                     <p class='alert alert-danger small'>Ningun producto coincide</p>`
                                 </div>
-                                <h5 class="card-header">Productos filtrados</h5>
+                                
                                     <table id="table-products" class="table table-sm table-striped table-hover w-100">
                                         <thead>
                                             <tr>
                                                 <th scope="col" class="text-uppercase">Código</th>
                                                 <th scope="col" class="text-uppercase">Nombre</th>
                                                 <th scope="col" class="text-uppercase">Precio</th>
-                                                <th scope="col" class="text-uppercase">Categoría</th>
-                                                <th scope="col" class="text-uppercase">Proveedor</th>
+                                                <th scope="col" class="text-uppercase">Cantidad</th>
+                                                {{-- <th scope="col" class="text-uppercase">Categoría</th>
+                                                <th scope="col" class="text-uppercase">Proveedor</th> --}}
                                                 <th scope="col" class="text-uppercase">Seleccionar</th>
                                             </tr>
                                         </thead>
@@ -103,8 +105,9 @@
                                                 <td>{{ $product->code }}</td>
                                                 <td>{{ $product->name }}</td>
                                                 <td>{{ $product->price }}</td>
-                                                <td>{{ $product->category->name }}</td>
-                                                <td>{{ $product->supplier->companyname }}</td>
+                                                {{-- <td>{{ $product->category->name }}</td>
+                                                <td>{{ $product->supplier->companyname }}</td> --}}
+                                                <td><input type="number" name='{{ "qty-".$product->id }}' id='{{ "qty-".$product->id }}'></td>
                                                 <td><input type="checkbox" name='{{ "ckbx-".$product->id }}' id='{{ "ckbx-".$product->id }}'></td>
                                             </tr>
                                             @endforeach
@@ -121,9 +124,17 @@
                 </div>
             </div>
         </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body" id="card-table">
+                    
+                </div>
+            </div>
+        </div>
 
 
-        
+
+
     </div>
 </div>
 
@@ -134,6 +145,6 @@
 @section('js')
 {{-- <script type="text/javascript" src="{{ asset('products/js/create-table-filter-products.js') }}"></script> --}}
 
-<script type="text/javascript" src="{{ asset('js/products/filters/create-table-filter-products.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/products/filters/create-table-sale-products.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/products/filters/filter-products.js') }}"></script>
 @stop
