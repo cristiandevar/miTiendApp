@@ -129,6 +129,7 @@
                             <table id="table-sale" class="table table-sm table-striped table-hover w-100">
                                 <thead>
                                     <tr>
+                                        <th scope="col"></th>
                                         <th scope="col" class="text-uppercase">Código</th>
                                         <th scope="col" class="text-uppercase">Nombre</th>
                                         <th scope="col" class="text-uppercase">Precio</th>
@@ -137,8 +138,9 @@
                                     </tr>
                                 </thead>
                                 <tbody id="tbody-sale">
-                                    <tr id="trsale-total">
+                                    <tr id="trsale-total" style="border-top:solid 1px;">
                                         <th>Total</th>
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
