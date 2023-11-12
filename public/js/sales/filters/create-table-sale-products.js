@@ -5,12 +5,11 @@ function carge_table(products, categories, suppliers) {
         let cadena = '';
         for (let product of products) {
             cadena += `
-                <tr>
+                <tr id='${"trproduct-"+product["id"]}'>
                     <td>${product["code"]}</td>
                     <td>${product["name"]}</td>
                     <td>${product["price"]}</td>
                     <td><input type="number" name='${"qty-"+product["id"] }' id='${"qty-"+product["id"] }'></td>
-                    <td><input type="checkbox" name='${"ckbx-"+product["id"] }' id='${"ckbx-"+product["id"] }'></td>
                 </tr>
             `;
         }

@@ -96,19 +96,15 @@
                                                 <th scope="col" class="text-uppercase">Cantidad</th>
                                                 {{-- <th scope="col" class="text-uppercase">Categoría</th>
                                                 <th scope="col" class="text-uppercase">Proveedor</th> --}}
-                                                <th scope="col" class="text-uppercase">Seleccionar</th>
                                             </tr>
                                         </thead>
                                         <tbody id="tbody-products">
                                             @foreach ($products as $product)
-                                            <tr>
+                                            <tr id='{{ "trproduct-".$product->id}}'>
                                                 <td>{{ $product->code }}</td>
                                                 <td>{{ $product->name }}</td>
                                                 <td>{{ $product->price }}</td>
-                                                {{-- <td>{{ $product->category->name }}</td>
-                                                <td>{{ $product->supplier->companyname }}</td> --}}
                                                 <td><input type="number" name='{{ "qty-".$product->id }}' id='{{ "qty-".$product->id }}'></td>
-                                                <td><input type="checkbox" name='{{ "ckbx-".$product->id }}' id='{{ "ckbx-".$product->id }}'></td>
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -137,13 +133,17 @@
                                         <th scope="col" class="text-uppercase">Nombre</th>
                                         <th scope="col" class="text-uppercase">Precio</th>
                                         <th scope="col" class="text-uppercase">Cantidad</th>
-                                        {{-- <th scope="col" class="text-uppercase">Categoría</th>
-                                        <th scope="col" class="text-uppercase">Proveedor</th> --}}
                                         <th scope="col" class="text-uppercase">Subtotal</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbody-sale">
-                                    
+                                    <tr id="trsale-total">
+                                        <th>Total</th>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>0</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
