@@ -174,4 +174,5 @@
 <script type="text/javascript" src="{{ asset('js/sales/filters/filter-products.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/sales/register/add-products-checked.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/sales/register/register-sale.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/sales/register/controller-stock-products.js') }}"></script>
 @stop

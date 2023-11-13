@@ -370,4 +370,14 @@ class ProductController extends Controller
         
         return $pdf->download($file_title.'.pdf');
     }
+
+    public function get_product(Request $request){
+        $product = Product::where('id', $request->id);
+
+        return response()->json(
+            [
+                'product'=>$product
+            ]
+        );
+    }
 }
