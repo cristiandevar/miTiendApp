@@ -173,4 +173,5 @@
 <script type="text/javascript" src="{{ asset('js/sales/filters/create-table-sale-products.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/sales/filters/filter-products.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/sales/register/add-products-checked.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/sales/register/register-sale.js') }}"></script>
 @stop

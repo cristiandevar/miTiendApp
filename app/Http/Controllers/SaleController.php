@@ -6,8 +6,11 @@ use App\Models\Category;
 use App\Models\Employee;
 use App\Models\Product;
 use App\Models\Sale;
+use App\Models\SaleDetail;
 use App\Models\Supplier;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SaleController extends Controller
 {
@@ -20,13 +23,13 @@ class SaleController extends Controller
             ->latest() //Ordena de manera DESC por el campo 'created_at'
             ->get(); //Convierte los datos extraidos de la BD en un array
         $products = Product::where('active', 1)
-        ->latest() //Ordena de manera DESC por el campo 'created_at'
-        ->get(); 
-        $employees = Employee::where('active', 1)
-        ->latest() //Ordena de manera DESC por el campo 'created_at'
-        ->get(); 
+            ->latest() //Ordena de manera DESC por el campo 'created_at'
+            ->get(); 
+        $users = User::where('active', 1)
+            ->latest() //Ordena de manera DESC por el campo 'created_at'
+            ->get(); 
             // Retornamos una vista y enviamos la variable 'sales'
-        return view('panel.sales.crud.index', compact('sales', 'products', 'employees'));
+        return view('panel.sales.crud.index', compact('sales', 'products', 'users'));
     
     }
 
@@ -41,11 +44,11 @@ class SaleController extends Controller
         $today = date("d-m-Y");
 
         // Recuperamos todas las categorias de la BD
-        $employees = Employee::where('active', 1)
-        ->latest() //Ordena de manera DESC por el campo 'created_at'
-        ->get();
+        $users = User::where('active', 1)
+            ->latest() //Ordena de manera DESC por el campo 'created_at'
+            ->get();
 
-        return view('panel.sales.crud.create', compact('sale', 'employees', 'today'));
+        return view('panel.sales.crud.create', compact('sale', 'users', 'today'));
     
     }
 
@@ -67,7 +70,7 @@ class SaleController extends Controller
         else {
             $sale->active = 0;
         }
-        $sale->employee_id = $request->get('employee_id');
+        $sale->user_id = $request->get('user_id');
 
         // Almacena la info del saleo en la BD
         $sale->save();
@@ -91,12 +94,12 @@ class SaleController extends Controller
      */
     public function edit(Sale $sale)
     {
-        $employees = Employee::where('active', 1)
+        $users = User::where('active', 1)
         ->latest() //Ordena de manera DESC por el campo 'created_at'
         ->get();
 
-        $today = date("d-m-Y");
-        return view('panel.sales.crud.edit', compact('sale', 'employees'));
+        $today = $sale->created_at;
+        return view('panel.sales.crud.edit', compact('sale', 'users', 'today'));
     }
 
     /**
@@ -106,7 +109,7 @@ class SaleController extends Controller
     {
         $request->validate([
             // 'date' => 'required',
-            'employee_id' => 'required'
+            'user_id' => 'required'
         ]);
 
         if ($request->get('active')) {
@@ -115,7 +118,7 @@ class SaleController extends Controller
         else {
             $sale->active = 0;
         }
-        $sale->employee_id = $request->get('employee_id');
+        $sale->user_id = $request->get('user_id');
 
         // Almacena la info de la venta en la BD
         $sale->update();
@@ -141,10 +144,47 @@ class SaleController extends Controller
     
     }
 
-    public function register(Request $request){
+    public function register_index(Request $request){
         $products = Product::where('active', 1)->latest()->get();
         $categories = Category::where('active', 1)->latest()->get();
         $suppliers = Supplier::where('active', 1)->latest()->get();
         return view('panel.sales.register.index', compact('products', 'categories', 'suppliers'));
+    }
+
+    public function register_action(Request $request) {
+        $sale = new Sale();
+
+        $sale->user_id = Auth::user()->id;
+
+        $sale->save();
+        // dd($request);
+        for ($i = 0; $i<$request->qty;$i++){
+            $r = $request->$i;
+            // dd($r['product_id']);
+            $saledetail = new SaleDetail();
+            $saledetail->sale_id = $sale->id;
+            $saledetail->product_id = $r['product_id'];
+            $saledetail->price = $r['price'];
+            $saledetail->quantity = $r['quantity'];
+            $saledetail->save();
+        }
+        // dd('finalizo');
+        // foreach($request as $key => $r) {
+        //     dd($key);
+        //     $saledetail = new SaleDetail();
+        //     $saledetail->sale_id = $sale->id;
+        //     $saledetail->product_id = $r->product_id;
+        //     $saledetail->price = $r->price;
+        //     $saledetail->quantity = $r->quantity;
+        //     $saledetail->save();
+        // }
+        
+        // dd($sale);
+
+        return response()->json(
+            [
+                'products' => null
+            ]
+        );
     }
 }

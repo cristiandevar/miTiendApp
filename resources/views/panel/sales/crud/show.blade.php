@@ -29,11 +29,13 @@
                     </div>
                     <div class="mb-3">
                         <p>total: <strong>
-                            {{ 
-                                
-                                $sale->details->sum($sale->details->price * $sale->details->quantity ) 
-                            
-                            }}.</strong></p>
+                            <?php 
+                                $acum = 0;
+                                foreach ($sale->details as $detail){
+                                    $acum += $detail->price * $detail->quantity;
+                                }
+                                echo $acum;                      
+                            ?>.</strong></p>
                     </div>
                     </div>
                 </div>

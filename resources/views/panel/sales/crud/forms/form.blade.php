@@ -18,10 +18,10 @@
             <div class="mb-3 row">
                 <label for="category" class="col-sm-4 col-form-label"> * Empleado </label>
                 <div class="col-sm-8">
-                    <select id="employee_id" name="employee_id" class="form-control" required>
-                        @foreach ($employees as $employee)
-                            <option {{ $employee->employee_id && $employee->employee_id == $employee->id ? 'selected': ''}} value="{{ $employee->id }}"> 
-                                {{ $employee->lastname.' '.$employee->firstname }}
+                    <select id="user_id" name="user_id" class="form-control" required>
+                        @foreach ($users as $user)
+                            <option {{ $user->id && $user->id == $user->id ? 'selected': ''}} value="{{ $user->id }}"> 
+                                {{ $user->name }}
                             </option>
                         @endforeach
                     </select>
