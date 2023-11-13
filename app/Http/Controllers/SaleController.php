@@ -153,33 +153,23 @@ class SaleController extends Controller
 
     public function register_action(Request $request) {
         $sale = new Sale();
-
         $sale->user_id = Auth::user()->id;
-
         $sale->save();
-        // dd($request);
+        
         for ($i = 0; $i<$request->qty;$i++){
             $r = $request->$i;
-            // dd($r['product_id']);
             $saledetail = new SaleDetail();
             $saledetail->sale_id = $sale->id;
             $saledetail->product_id = $r['product_id'];
             $saledetail->price = $r['price'];
             $saledetail->quantity = $r['quantity'];
+
+            $product = Product::where('id',$r['product_id']);
+            $product->stock -= $r['quantity'];
+            $product->update();
+            
             $saledetail->save();
         }
-        // dd('finalizo');
-        // foreach($request as $key => $r) {
-        //     dd($key);
-        //     $saledetail = new SaleDetail();
-        //     $saledetail->sale_id = $sale->id;
-        //     $saledetail->product_id = $r->product_id;
-        //     $saledetail->price = $r->price;
-        //     $saledetail->quantity = $r->quantity;
-        //     $saledetail->save();
-        // }
-        
-        // dd($sale);
 
         return response()->json(
             [
