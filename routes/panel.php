@@ -51,5 +51,7 @@ Route::post('/sales-register-action', [SaleController::class, 'register_action']
 
 // Ruta para generar orden de compra y sus detalles
 Route::get('/purchase-generate-index', [PurchaseController::class, 'generate_index'])->name('purchase.generate-index');
+Route::post('/purchase-generate-action', [PurchaseController::class, 'generate_action'])->name('purchase.generate-action');
 Route::get('/purchase-filter-supplier-async', [App\Http\Controllers\PurchaseController::class, 'filter_supplier_async'])->name('purchase.filter-supplier-async');
+Route::get('/purchase-filter-code-async', [App\Http\Controllers\PurchaseController::class, 'filter_code_async'])->name('purchase.filter-code-async');
 

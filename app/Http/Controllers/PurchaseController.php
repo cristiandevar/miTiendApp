@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Purchase;
+use App\Models\PurchaseDetail;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -147,12 +148,60 @@ class PurchaseController extends Controller
     }
 
     public function generate_index(){
-        $products = Product::where('active', 1)->latest()->get();
+        
+        $query = Product::query();
+
+        $query->whereRaw('stock <= minstock');
+        
+        
+        $products = $query->where('active', 1)
+            ->latest()
+            ->get();
         $categories = Category::where('active', 1)->latest()->get();
         $suppliers = Supplier::where('active', 1)->latest()->get();
         
         return view('panel.purchases.generate.index', compact('products', 'categories', 'suppliers'));
     
+    }
+
+    public function generate_action(Request $request){
+        
+        $query = Supplier::query();
+
+        if ( $request->has('supplier_id') ) {
+            $query -> where('id',$request->supplier_id );
+        }
+
+        $suppliers = $query->where('active',1)->get();
+        
+        $b = 0;
+        $purchase = new Purchase();
+        
+        foreach ( $suppliers as $supplier ) {
+            if ( $b==1 ) {
+                $purchase = new Purchase();
+                $b=0;
+            }
+            $purchase->supplier_id = $supplier->id;
+            for ($i = 0; $i<$request->qty;$i++){
+                $product = Product::where('id',$request->$i['product_id'])->first();
+                if ($product->supplier_id == $supplier->id){
+                    $detail = new PurchaseDetail();
+                    $detail->product_id = $product->id;
+                    $detail->quantity = $request->$i['quantity'];
+                    if($b==0){
+                        $purchase->save();
+                        $b=1;
+                    }
+                    $detail->purchase_id = $purchase->id;
+                    $detail->save();
+                }
+            }
+        }
+
+        return response()->json([
+            'msj'=> 'Respuesta',
+        ]);
     }
 
     public function filter_supplier_async(Request $request){
@@ -166,11 +215,30 @@ class PurchaseController extends Controller
         $query = $query->whereRaw('stock <= minstock');
     
         $products = $query
-        ->where('active',1)
-        ->latest()
-        ->get();
+            ->where('active',1)
+            ->latest()
+            ->get();
         
-        // dd($products);
+        return response()->json(
+            [
+                'products' => $products,
+            ]
+        );
+        
+    }
+    public function filter_code_async(Request $request){
+        
+        $query = Product::query();
+
+        if ($request->has('code') && Str::length((trim($request->code)))>0) {
+            $query->where('code', 'like' ,'%'.$request->code.'%');
+        }
+    
+        $products = $query
+            ->where('active',1)
+            ->latest()
+            ->get();
+        
         return response()->json(
             [
                 'products' => $products,

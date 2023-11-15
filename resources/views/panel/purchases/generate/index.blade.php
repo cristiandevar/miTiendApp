@@ -60,15 +60,32 @@
                         
                         <div class="form-group row">
                             <input id="input-code-1" type="text" class="form-control col-2 m-1" placeholder="Código.."/>
-                            <input id="input-name-1" type="text" class="form-control col-2 m-1" placeholder="Nombre.." disabled/>
+                            <input id="input-name-1" type="text" class="form-control col-2 m-1" placeholder="Nombre.." />
                             <input id="input-stock-1" type="text" class="form-control col-2 m-1" placeholder="Stock.." disabled/>
                             <input id="input-stock-2" type="number" class="form-control col-2 m-1" placeholder="Solicitar.."/>
                             <a id="add-row-1" class="btn btn-primary col-2 m-1">+</a>
+                            <div id='alert-table-options'>
+                                <p class='alert alert-danger small'>Ningun producto elegido/sugerido</p>`
+                            </div>
+                            <table id="table-options-1" class="table table-sm table-striped table-hover w-100 col-12">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Nombre</th>
+                                        <th>Stock Actual</th>
+                                        <th>Stock Minimo</th>
+                                        <th>Stock Sugerido</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-options">
+
+                                </tbody>
+                            </table>
                         </div>
                     </form>
                     <div class="row">
                         <h6 class="card-header col-4 col-xs-12">Productos Elegidos/Sugeridos</h6>
-                        <button id='add-sale' class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase" >
+                        <button id='add-purchase' class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase" >
                             Generar
                         </button>
                     </div>
@@ -89,7 +106,15 @@
                                         </tr>
                                     </thead>
                                     <tbody id="tbody-purchase">
-                                        
+                                        @foreach($products as $product)
+                                            <tr id='{{ "trproduct-".$product->id}}'>
+                                                <td>{{ $product->code }}</td>
+                                                <td>{{ $product->name }}</td>
+                                                <td>{{ $product->stock }}</td>
+                                                <td>{{ $product->minstock }}</td>
+                                                <td></td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -221,6 +246,7 @@
 {{-- <script type="text/javascript" src="{{ asset('products/js/create-table-filter-products.js') }}"></script> --}}
 <script type="text/javascript" src="{{ asset('js/purchases/generate/create-table-purchase-products.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/purchases/generate/generate-index.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/purchases/filters/filter-products.js') }}"></script>
 
 {{-- <script type="text/javascript" src="{{ asset('js/sales/filters/create-table-sale-products.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/sales/filters/filter-products.js') }}"></script>
