@@ -43,11 +43,11 @@
 
         <div class="col-12">
             <div class="card">
-                <h5 class="card-header">Elija su Proveedor</h5>
                 <div class="card-body">
+                    <h6 class="card-header">Elija su Proveedor</h6>
                     <form id="form-1" action="#" method='GET'>
                         <div class="form-group row">
-                            <select id="supplier_id" name="supplier_id" class="form-control col-xs-12 col-2 m-1">
+                            <select id="select-supplier" name="supplier_id" class="form-control col-xs-12 col-2 m-1">
                                 <option value="" {{ !isset($inputs['supplier_id']) || $inputs['supplier_id']==''? 'selected':''}}>Proveedor...</option>
                                 @foreach ($suppliers as $supplier)
                                     <option {{ isset($inputs['supplier_id']) && $inputs['supplier_id'] == $supplier->id ? 'selected': ''}} value="{{ $supplier->id }}"> 
@@ -55,6 +55,15 @@
                                     </option>
                                 @endforeach
                             </select>
+                        </div>
+                        <h6 class="card-header col-4 col-xs-12">Agregue sus productos</h6>
+                        
+                        <div class="form-group row">
+                            <input id="input-code-1" type="text" class="form-control col-2 m-1" placeholder="Código.."/>
+                            <input id="input-name-1" type="text" class="form-control col-2 m-1" placeholder="Nombre.." disabled/>
+                            <input id="input-stock-1" type="text" class="form-control col-2 m-1" placeholder="Stock.." disabled/>
+                            <input id="input-stock-2" type="number" class="form-control col-2 m-1" placeholder="Solicitar.."/>
+                            <a id="add-row-1" class="btn btn-primary col-2 m-1">+</a>
                         </div>
                     </form>
                     <div class="row">
@@ -66,26 +75,29 @@
                     <form id="form-2" action="#" method="post">
                         <div class="card-body" id="card-table">
                             <div class="form-group row" style='height:15em;overflow-y:auto;'>
-                                
-                                <table id="table-sale" class="table table-sm table-striped table-hover w-100">
+                                <div id='alert-table-purchase'>
+                                    <p class='alert alert-danger small'>Ningun producto elegido/sugerido</p>`
+                                </div>
+                                <table id="table-purchase" class="table table-sm table-striped table-hover w-100">
                                     <thead>
                                         <tr>
                                             <th scope="col" class="text-uppercase">Código</th>
                                             <th scope="col" class="text-uppercase">Nombre</th>
                                             <th scope="col" class="text-uppercase">Stock Actual</th>
                                             <th scope="col" class="text-uppercase">Cant. a pedir</th>
+                                            <th scope="col" class="text-uppercase">Opciones</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tbody-sale">
-                                        <tr id="trsale-total" style="border-top:solid 1px;">
-                                        </tr>
+                                    <tbody id="tbody-purchase">
+                                        
                                     </tbody>
                                 </table>
                             </div>
+                            
                         </div>
                     </form>
                 </div>
-                <h5 class="card-header">Elija sus Productos</h5>
+                {{-- <h5 class="card-header">Elija sus Productos</h5>
                 <div class="card-body">
                     <form id="form-filter-2" action="#" method='GET'>
                         <div class="form-group row">
@@ -104,19 +116,18 @@
                             </button>
                         </div>
                     </form>
-                {{-- </div>
+                </div> --}}
             </div>
         </div>
-        <div class="col-12">
+        
+        {{-- <div class="col-12">
             <div class="card">
-                <div class="card-body" id="card-table"> --}}
+                <div class="card-body" id="card-table">
                     <form action="#" method="get" novalidate>
                         <div class="form-group row" style='height:15em;overflow-y:auto;'>
                             @if(count($products)>0)
-                                {{-- @include('panel.products.tables.table-main') --}}
-                                <div id='alert-table'>
-                                    <p class='alert alert-danger small'>Ningun producto coincide</p>`
-                                </div>
+                                 @include('panel.products.tables.table-main')
+                                
                                 
                                     <table id="table-products" class="table table-sm table-striped table-hover w-100">
                                         <thead>
@@ -126,7 +137,7 @@
                                                 <th scope="col" class="text-uppercase">Precio</th>
                                                 <th scope="col" class="text-uppercase">Cantidad</th>
                                                 {{-- <th scope="col" class="text-uppercase">Categoría</th>
-                                                <th scope="col" class="text-uppercase">Proveedor</th> --}}
+                                                <th scope="col" class="text-uppercase">Proveedor</th>
                                             </tr>
                                         </thead>
                                         <tbody id="tbody-products">
@@ -189,7 +200,7 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div> --}}
 
 
 
@@ -201,17 +212,19 @@
 @stop
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/sales/register/controller-stock-products.css')}}" >
+{{-- <link rel="stylesheet" href="{{ asset('css/sales/register/controller-stock-products.css')}}" > --}}
 @stop
 
 
 {{-- Importacion de Archivos JS --}}
 @section('js')
 {{-- <script type="text/javascript" src="{{ asset('products/js/create-table-filter-products.js') }}"></script> --}}
+<script type="text/javascript" src="{{ asset('js/purchases/generate/create-table-purchase-products.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/purchases/generate/generate-index.js') }}"></script>
 
-<script type="text/javascript" src="{{ asset('js/sales/filters/create-table-sale-products.js') }}"></script>
+{{-- <script type="text/javascript" src="{{ asset('js/sales/filters/create-table-sale-products.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/sales/filters/filter-products.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/sales/register/add-products-checked.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/sales/register/register-sale.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/sales/register/controller-stock-products.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/sales/register/controller-stock-products.js') }}"></script> --}}
 @stop

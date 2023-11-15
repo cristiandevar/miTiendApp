@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PurchaseController extends Controller
 {
@@ -149,7 +150,32 @@ class PurchaseController extends Controller
         $products = Product::where('active', 1)->latest()->get();
         $categories = Category::where('active', 1)->latest()->get();
         $suppliers = Supplier::where('active', 1)->latest()->get();
+        
         return view('panel.purchases.generate.index', compact('products', 'categories', 'suppliers'));
     
+    }
+
+    public function filter_supplier_async(Request $request){
+        
+        $query = Product::query();
+
+        if ($request->has('supplier_id') && Str::length((trim($request->supplier_id)))>0) {
+            $query->where('supplier_id', $request->supplier_id);
+        }
+
+        $query = $query->whereRaw('stock <= minstock');
+    
+        $products = $query
+        ->where('active',1)
+        ->latest()
+        ->get();
+        
+        // dd($products);
+        return response()->json(
+            [
+                'products' => $products,
+            ]
+        );
+        
     }
 }
