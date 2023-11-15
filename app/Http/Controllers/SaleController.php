@@ -164,8 +164,9 @@ class SaleController extends Controller
             $saledetail->price = $r['price'];
             $saledetail->quantity = $r['quantity'];
 
-            $product = Product::where('id',$r['product_id']);
-            $product->stock -= $r['quantity'];
+            $product = Product::where('id',$r['product_id'])->first();
+            // dd($product);
+            $product->stock = $product->stock - $r['quantity'];
             $product->update();
             
             $saledetail->save();

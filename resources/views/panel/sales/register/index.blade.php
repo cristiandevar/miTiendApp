@@ -22,19 +22,17 @@
                 </div>             
             @endif
         </div> --}}
-        @if(session('alert'))
-        <div class="col-12">
+        <div id="div-alert-1" class="col-12">
             <div class="alert alert-success alert-dismissible show" role="alert">
-                {{ session('alert') }}
+                
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>                    
             </div>
         </div>
-        @endif
 
-        @if(session('error'))
-        <div class="col-12">
+        
+        <div id="div-error-1" class="col-12">
             <div class="alert alert-danger alert-dismissible show" role="error">
                 {{ session('error') }}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -42,7 +40,6 @@
                 </button>                    
             </div>
         </div>
-        @endif
 
         <div class="col-12">
             <div class="card">

@@ -1,3 +1,11 @@
+document.addEventListener('DOMContentLoaded',
+    function(){
+        $('#div-alert-1').hide();
+        $('#div-error-1').hide();
+    }
+);
+
+
 $.ajaxSetup(
     {
         headers: {
@@ -14,28 +22,33 @@ $('#add-sale').on('click', function(e) {
     let data = carge_rows();
 
     if (Object.keys(data).length > 0) {
-        // values_filter = carge_values('form-filter');
-        // data_filter = {
-        //     percentage : values_update['percentage'],
-        //     name : values_filter['name'],
-        //     supplier_id : values_filter['supplier_id'],
-        //     category_id : values_filter['category_id'],
-        //     date_since : values_filter['date_since'],
-        //     date_to : values_filter['date_to'],
-        // }
-        console.log('llego');
+        let div_alert,div_error;
+        
+        div_alert = $('#div-alert-1');
+        div_error = $('#div-error-1');
+                    
         $.ajax({
                 url: 'sales-register-action',
                 type: 'POST',
                 data: data,
                 success: function(response) {
-                    console.log(response);
-                    // carge_table(response.products, response.categories, response.suppliers);
+                    div_alert.children().first().text('La venta se registro con exito');
+                    div_alert.show();
+                    div_error.hide();
+                    $('html, body').animate({scrollTop:0}, 'slow');
                 },
                 error: function(xhr, status, error) {
-                    console.error(error);
+                    div_error.children().first().text('La venta no se pudo registrar');
+                    div_error.show();
+                    div_alert.hide();
+                    $('html, body').animate({scrollTop:0}, 'slow');
                 }
             }
+        ).always(
+            function(){
+                clear_tables();
+            }
+
         );
     }
 });
@@ -46,7 +59,7 @@ function carge_rows () {
     set_rows = {};
     count = 0;
     rows = $('#tbody-sale').find('tr');
-
+    console.log(rows);
     rows.each(
         function () {
             if ($(this).attr('id') != 'trsale-total'){
@@ -65,4 +78,17 @@ function carge_rows () {
     );
     set_rows['qty'] = count;
     return set_rows;
+}
+
+function clear_tables(){
+    $('#tbody-products').find('tr').each(
+        function(){
+            $(this).find('td').eq(3).children().first().val('');
+            $(this).find('td').eq(3).children().last().text('');
+            $(this).find('td').eq(3).children().last().attr('class','error');
+        }
+    );
+    let last_tr = $('#tbody-sale').children().last();
+    last_tr.children().last().text('0');
+    $('#tbody-sale').html(last_tr);
 }

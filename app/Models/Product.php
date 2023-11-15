@@ -21,6 +21,7 @@ class Product extends Model
         'image',
         'category_id',
         'supplier_id',
+        'stock',
     ];
 
     // INNER JOIN con la tabla Categories por medio de la FK category_id

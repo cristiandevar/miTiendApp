@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded',
                 trtotal_ultimo = tbody.find('#trsale-total');
                 trtotal = trtotal_ultimo.clone(true);
                 trtotal_ultimo.remove();
-                
+                // console.log(rows);
                 rows.each(
                     function(){
                         $(this).find('input[type=number]').each(
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded',
 
                 for (let i=0 ; i<ids.length ; i++) {
                     row = $('#table-products').find("#trproduct-"+ids[i]);
-                    console.log(row.children().last().children().last().attr('class'));
+                    // console.log(row.children().last().children().last().attr('class'));
                     if (!tbody.find('#trsale-'+ids[i]).length && row.children().last().children().last().attr('class') != 'error active') {
 
                         tr = document.createElement('tr');
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded',
                         // console.log('indice', i,'cantidad: ', vals[i]);
 
                         td5 = document.createElement('td');
-                        dot = parseFloat(row.find('td').eq(2).text()) * parseInt(vals[i]);
+                        dot = (parseFloat(row.find('td').eq(2).text()) * parseInt(vals[i])).toFixed(2);
                         td5.innerHTML = dot;
                         tr.appendChild(td5);
 
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded',
 
                         row_update.find('td').eq(4).text(vals[i]);
                         
-                        dot = parseFloat(row_update.find('td').eq(3).text()) * vals[i];
+                        dot = (parseFloat(row_update.find('td').eq(3).text()) * vals[i]).toFixed(2);
                         row_update.find('td').eq(5).text(dot);
                     }
                 }
@@ -102,7 +102,7 @@ function calcule_total() {
             }
         }
     );
-    return acum;
+    return (acum).toFixed(2);
 }
 
 function delete_row(id) {
