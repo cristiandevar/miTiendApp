@@ -79,7 +79,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body" id="card-table"> --}}
-                    <form action="#" method="get">
+                    <form action="#" method="get" novalidate>
                         <div class="form-group row" style='height:15em;overflow-y:auto;'>
                             @if(count($products)>0)
                                 {{-- @include('panel.products.tables.table-main') --}}
@@ -104,7 +104,10 @@
                                                 <td>{{ $product->code }}</td>
                                                 <td>{{ $product->name }}</td>
                                                 <td>{{ $product->price }}</td>
-                                                <td><input type="number" name='{{ "qty-".$product->id }}' id='{{ "qty-".$product->id }}'></td>
+                                                <td>
+                                                    <input type="number" name='{{ "qty-".$product->id }}' id='{{ "qty-".$product->id }}'><br>
+                                                    <span id='{{"sp-".$product->id }}' class="error" aria-live="polite"></span>
+                                                </td>
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -165,6 +168,11 @@
 
 
 @stop
+
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/sales/register/controller-stock-products.css')}}" >
+@stop
+
 
 {{-- Importacion de Archivos JS --}}
 @section('js')

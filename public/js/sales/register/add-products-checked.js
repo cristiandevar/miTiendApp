@@ -32,7 +32,8 @@ document.addEventListener('DOMContentLoaded',
 
                 for (let i=0 ; i<ids.length ; i++) {
                     row = $('#table-products').find("#trproduct-"+ids[i]);
-                    if (!tbody.find('#trsale-'+ids[i]).length) {
+                    console.log(row.children().last().children().last().attr('class'));
+                    if (!tbody.find('#trsale-'+ids[i]).length && row.children().last().children().last().attr('class') != 'error active') {
 
                         tr = document.createElement('tr');
                         tr.setAttribute('id','trsale-'+ids[i]);

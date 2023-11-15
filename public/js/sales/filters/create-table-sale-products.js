@@ -9,7 +9,10 @@ function carge_table(products, categories, suppliers) {
                     <td>${product["code"]}</td>
                     <td>${product["name"]}</td>
                     <td>${product["price"]}</td>
-                    <td><input type="number" name='${"qty-"+product["id"] }' id='${"qty-"+product["id"] }'></td>
+                    <td>
+                    <input type="number" name='${"qty-"+product["id"] }' id='${"qty-"+product["id"] }'>
+                    <span id='${"sp-"+product["id"] }' class="error" aria-live="polite"></span>
+                    </td>
                 </tr>
             `;
         }

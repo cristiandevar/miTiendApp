@@ -328,6 +328,10 @@ class ProductController extends Controller
     {
         $query = Product::query();
         
+        if ($request->has('id') && Str::length((trim($request->id)))>0) {
+            $query->where('id', $request->id);
+        }
+
         if ($request->has('name') && Str::length((trim($request->name)))>0) {
             $query->where('name','like', '%'.$request->name.'%');
         }
