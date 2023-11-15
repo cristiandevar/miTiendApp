@@ -49,4 +49,6 @@ Route::get('/products-export-file', [App\Http\Controllers\ProductController::cla
 Route::get('/sales-register-index', [SaleController::class, 'register_index'])->name('sale.register-index');
 Route::post('/sales-register-action', [SaleController::class, 'register_action'])->name('sale.register-action');
 
+// Ruta para generar orden de compra y sus detalles
+Route::get('/purchase-generate-index', [PurchaseController::class, 'generate_index'])->name('purchase.generate-index');
 

@@ -305,13 +305,13 @@ return [
             ],
             [
                 'text' => 'Registrar Compra',
-                'route' => 'product.filter',
+                'route' => 'purchase.create',
                 'icon' => 'fas fa-cart-plus'  //Icono de fontawesome
                 //'can' => 'products_list'     //Permiso del vendedor
             ],
             [
                 'text' => 'Generar Orden de Compra',
-                'route' => 'supplier.index',
+                'route' => 'purchase.generate-index',
                 //'url' => 'panel/product', Esta seria otra manera de como especificar la ruta
                 'icon' => 'far fa-file-alt', // Icono de fontawesome
                 //'can' => 'product_list'  // Permiso del vendedor

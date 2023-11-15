@@ -1,11 +1,11 @@
 @extends('adminlte::page')
 
 {{-- Titulo en las tabulaciones del Navegador --}}
-@section('title', 'Registrar Venta')
+@section('title', 'Generar Orden de Compra')
 
 {{-- Titulo en el contenido de la Pagina --}}
 @section('content_header')
-    <h1>Registre su Venta</h1>
+    <h1>Genere su Orden</h1>
 @stop
 @section('content')
 <div class="container-fluid">
@@ -43,13 +43,11 @@
 
         <div class="col-12">
             <div class="card">
-                <h5 class="card-header">Elija sus productos</h5>
+                <h5 class="card-header">Elija su Proveedor</h5>
                 <div class="card-body">
-                    <form id="form-filter" action="#" method='GET'>
+                    <form id="form-1" action="#" method='GET'>
                         <div class="form-group row">
-                            <input class="form-control col-xs-12 col-2 m-1" type="text" id="name" name="name" placeholder="Nombre" value={{ isset($inputs) && isset($inputs['name'])? $inputs['name'] : '' }}>
-                            <input class="form-control col-xs-12 col-2 m-1" type="text" id="code" name="code" placeholder="Código" value={{ isset($inputs) && isset($inputs['code'])? $inputs['code'] : '' }}>
-                            {{-- <select id="supplier_id" name="supplier_id" class="form-control col-xs-12 col-2 m-1">
+                            <select id="supplier_id" name="supplier_id" class="form-control col-xs-12 col-2 m-1">
                                 <option value="" {{ !isset($inputs['supplier_id']) || $inputs['supplier_id']==''? 'selected':''}}>Proveedor...</option>
                                 @foreach ($suppliers as $supplier)
                                     <option {{ isset($inputs['supplier_id']) && $inputs['supplier_id'] == $supplier->id ? 'selected': ''}} value="{{ $supplier->id }}"> 
@@ -57,6 +55,42 @@
                                     </option>
                                 @endforeach
                             </select>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <h6 class="card-header col-4 col-xs-12">Productos Elegidos/Sugeridos</h6>
+                        <button id='add-sale' class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase" >
+                            Generar
+                        </button>
+                    </div>
+                    <form id="form-2" action="#" method="post">
+                        <div class="card-body" id="card-table">
+                            <div class="form-group row" style='height:15em;overflow-y:auto;'>
+                                
+                                <table id="table-sale" class="table table-sm table-striped table-hover w-100">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="text-uppercase">Código</th>
+                                            <th scope="col" class="text-uppercase">Nombre</th>
+                                            <th scope="col" class="text-uppercase">Stock Actual</th>
+                                            <th scope="col" class="text-uppercase">Cant. a pedir</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody-sale">
+                                        <tr id="trsale-total" style="border-top:solid 1px;">
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <h5 class="card-header">Elija sus Productos</h5>
+                <div class="card-body">
+                    <form id="form-filter-2" action="#" method='GET'>
+                        <div class="form-group row">
+                            <input class="form-control col-xs-12 col-2 m-1" type="text" id="name" name="name" placeholder="Nombre" value={{ isset($inputs) && isset($inputs['name'])? $inputs['name'] : '' }}>
+                            <input class="form-control col-xs-12 col-2 m-1" type="text" id="code" name="code" placeholder="Código" value={{ isset($inputs) && isset($inputs['code'])? $inputs['code'] : '' }}>
                             <select id="category_id" name="category_id" class="form-control col-xs-12 col-2 m-1">
                                 <option value=""  {{ !isset($inputs['category_id'])? 'selected':''}}>Categoria...</option>
                                 @foreach ($categories as $category)
@@ -64,7 +98,7 @@
                                         {{ $category->name }}
                                     </option>
                                 @endforeach
-                            </select> --}}
+                            </select>
                             <button id="btn-filter-1" type="submit" class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
                                 Filtrar
                             </button>

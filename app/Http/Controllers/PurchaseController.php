@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
@@ -140,6 +142,14 @@ class PurchaseController extends Controller
             ->route('purchase.index')
             ->with('alert', 'Compra nro: "'.$purchase->id.'" eliminada exitosamente.');
     
+    
+    }
+
+    public function generate_index(){
+        $products = Product::where('active', 1)->latest()->get();
+        $categories = Category::where('active', 1)->latest()->get();
+        $suppliers = Supplier::where('active', 1)->latest()->get();
+        return view('panel.purchases.generate.index', compact('products', 'categories', 'suppliers'));
     
     }
 }
