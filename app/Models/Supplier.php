@@ -15,7 +15,8 @@ class Supplier extends Model
         'companyname',
         'email',
         'phone',
-        'address'
+        'address',
+        'active',
     ];
 
     public function productos(){

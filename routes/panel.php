@@ -4,6 +4,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SupplierController;
 
@@ -22,6 +23,11 @@ Route::resource('/employees', EmployeeController::class)->names('employee');
 
 // Rutas para CRUD ventas
 Route::resource('/sales', SaleController::class)->names('sale');
+
+// Rutas para CRUD compras
+Route::resource('/purchases', PurchaseController::class)->names('purchase');
+
+
 
 // Rutas para redirigir al login o al panel segun corresponda
 Route::get('/', [HomeController::class, 'index'])->name('panel');

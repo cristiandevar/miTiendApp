@@ -368,6 +368,12 @@ return [
                 'icon' => 'fas fa-users',   //Icono de fontawesome
                 //'can' => 'product_list'     //Permiso del vendedor
             ],
+            [
+                'text' => 'Compras',
+                'route' => 'purchase.index',
+                'icon' => 'fas fa-users',   //Icono de fontawesome
+                //'can' => 'product_list'     //Permiso del vendedor
+            ],
         // [
         //     'text' => 'Compra - Venta',
         //     'submenu' => [
