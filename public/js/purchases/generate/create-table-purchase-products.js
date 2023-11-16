@@ -1,4 +1,4 @@
-function carge_table(products) {
+function carge_table_purchase(products) {
     if (products.length > 0) {
         $('#alert-table-purchase').hide();
         $('#table-purchase').show();

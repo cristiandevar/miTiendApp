@@ -54,4 +54,5 @@ Route::get('/purchase-generate-index', [PurchaseController::class, 'generate_ind
 Route::post('/purchase-generate-action', [PurchaseController::class, 'generate_action'])->name('purchase.generate-action');
 Route::get('/purchase-filter-supplier-async', [App\Http\Controllers\PurchaseController::class, 'filter_supplier_async'])->name('purchase.filter-supplier-async');
 Route::get('/purchase-filter-code-async', [App\Http\Controllers\PurchaseController::class, 'filter_code_async'])->name('purchase.filter-code-async');
+Route::get('/purchase-filter-async', [App\Http\Controllers\PurchaseController::class, 'filter_async'])->name('purchase.filter-async');
 

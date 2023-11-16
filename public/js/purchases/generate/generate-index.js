@@ -18,50 +18,22 @@ document.addEventListener('DOMContentLoaded',
         alert_4 = $('#alert-table-options');
 
         table_1 = $('#table-purchase');
-        table_2 = $('#table-options-1');
+        // table_2 = $('#table-options-1');
 
         alert_1.hide();
         alert_2.hide();
         alert_3.hide();
         alert_4.hide();
 
-        table_2.hide();
+        // table_2.hide();
 
-        $('#select-supplier').on('change',
-            function ( e ) {
-                let option = $(this).val();
-                // console.log(option);
-                let data_filter = {};
-
-                if ( option != '' ) {
-                    option = parseInt(option);
-                    data_filter = {
-                        'supplier_id' : option,
-                    }
-                }
-
-                $.ajax(
-                    {
-                        url: 'purchase-filter-supplier-async',
-                        type: 'GET',
-                        data: data_filter,
-                        success: function(response) {
-                            carge_table(response.products, response.categories, response.suppliers);
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(error);
-                        }
-                    }
-                );
-            }
-        );
 
         $('#add-purchase').on('click',
             function () {
                 e.preventDefault();
                 let data = carge_rows();
 
-                if (Object.keys(data).length > 0) {
+                if (Object.keys(data).length > 1) {
                     let div_alert,div_error;
                     
                     div_alert = $('#div-alert-1');
@@ -119,10 +91,7 @@ function carge_rows () {
             row = {};
             tds = $(this).find('td');
             row['product_id'] = $(this).attr('id').split('-')[1];
-            // row['code'] = tds.eq(1).text();
-            // row['name'] = tds.eq(2).text();
-            // row['stock'] = tds.eq(3).text();
-            row['quantity'] = tds.eq(3).text();
+            row['quantity'] = tds.eq(4).text();
 
             set_rows[count] = row;
             count += 1;

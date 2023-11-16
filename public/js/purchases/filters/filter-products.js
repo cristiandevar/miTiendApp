@@ -1,26 +1,72 @@
 document.addEventListener('DOMContentLoaded', function (e) {
     
-    $('#alert-table').hide();
-    $('#input-code-1').on('change', function (e) {
+    $('#alert-table-options').hide();
+
+    $('#select-supplier').on('change',
+        function ( e ) {
+            let option = $(this).val();
+            let data_filter = {};
+
+            if ( option != '' ) {
+                option = parseInt(option);
+                data_filter = {
+                    'supplier_id' : option,
+                    'code': $('#input-code-1').val(),
+                    'name': $('#input-name-1').val(),
+                }
+            }
+
+            $.ajax(
+                {
+                    url: 'purchase-filter-async',
+                    type: 'GET',
+                    data: data_filter,
+                    success: function(response) {
+                        show_products(response.products, response.categories, response.suppliers);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                }
+            );
+        }
+    );
+
+    $('#input-code-1').on('input', function (e) {
         e.preventDefault();
         // var values = carge_values('form-filter');
         console.log($(this).val());
         let data_filter = {
             code: $(this).val(),
+            supplier_id:$('#select-supplier').val(),
         };
-
-        // data_filter = {
-        //     code : values['code'],
-        //     name : values['name'],
-        //     supplier_id : values['supplier_id'],
-        //     category_id : values['category_id'],
-        //     price_since : values['price_since'],
-        //     price_to : values['price_to'],
-        //     date_since : values['date_since'],
-        //     date_to : values['date_to'],
-        // }
         $.ajax({
-                url: 'purchase-filter-code-async',
+                url: 'purchase-filter-async',
+                type: 'GET',
+                data: data_filter,
+                success: function(response) {
+                    console.log(response.products.length);
+                    show_products(response.products);
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            }
+        );
+
+    });
+
+    $('#input-name-1').on('input', function (e) {
+        e.preventDefault();
+        // var values = carge_values('form-filter');
+        console.log($(this).val());
+        let data_filter = {
+            code: $(this).val(),
+            supplier_id:$('#select-supplier').val(),
+            name: $('#input-name-1').val(),
+        };
+        $.ajax({
+                url: 'purchase-filter-async',
                 type: 'GET',
                 data: data_filter,
                 success: function(response) {
@@ -47,13 +93,7 @@ function show_products(products){
                     <td>${product["code"]}</td>
                     <td>${product["name"]}</td>
                     <td>${product["stock"]}</td>
-                    <td>${product["minstock"]}</td>
-                    <td>${Math.max(product["minstock"], product["minstock"] - product["stock"])}</td>
-                    <td>
-                        <a href='#' id="link-${product["id"]}"><i class="fas fa-check" style="color: #00ff1e;"></i></a>
-                        <a></a>
-                        <a></a>
-                    </td>
+                    <td><input type='number'/></td>
                 </tr>
             `;
         }

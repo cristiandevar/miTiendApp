@@ -204,41 +204,73 @@ class PurchaseController extends Controller
         ]);
     }
 
-    public function filter_supplier_async(Request $request){
+    // public function filter_supplier_async(Request $request){
         
-        $query = Product::query();
+    //     $query = Product::query();
 
-        if ($request->has('supplier_id') && Str::length((trim($request->supplier_id)))>0) {
-            $query->where('supplier_id', $request->supplier_id);
-        }
+    //     if ($request->has('supplier_id') && Str::length((trim($request->supplier_id)))>0) {
+    //         $query->where('supplier_id', $request->supplier_id);
+    //     }
 
-        $query = $query->whereRaw('stock <= minstock');
+    //     $query = $query->whereRaw('stock <= minstock');
     
-        $products = $query
-            ->where('active',1)
-            ->latest()
-            ->get();
+    //     $products = $query
+    //         ->where('active',1)
+    //         ->latest()
+    //         ->get();
         
-        return response()->json(
-            [
-                'products' => $products,
-            ]
-        );
+    //     return response()->json(
+    //         [
+    //             'products' => $products,
+    //         ]
+    //     );
         
-    }
-    public function filter_code_async(Request $request){
+    // }
+    // public function filter_code_async(Request $request){
+        
+    //     $query = Product::query();
+
+    //     if ($request->has('code') && Str::length((trim($request->code)))>0) {
+    //         $query->where('code', 'like' ,'%'.$request->code.'%');
+    //     }
+    //     if ($request->has('supplier_id') && Str::length((trim($request->supplier_id)))>0) {
+    //         $query->where('supplier_id', '=' ,$request->supplier_id);
+    //     }
+    
+    //     $products = $query
+    //         ->where('active',1)
+    //         ->latest()
+    //         ->get();
+    //     return response()->json(
+    //         [
+    //             'products' => $products,
+    //         ]
+    //     );
+        
+    // }
+
+    
+    public function filter_async(Request $request){
         
         $query = Product::query();
 
         if ($request->has('code') && Str::length((trim($request->code)))>0) {
             $query->where('code', 'like' ,'%'.$request->code.'%');
         }
+        if ($request->has('name') && Str::length((trim($request->name)))>0) {
+            $query->where('name', 'like' ,'%'.$request->name.'%');
+        }
+        if ($request->has('supplier_id') && Str::length((trim($request->supplier_id)))>0) {
+            $query->where('supplier_id', '=' ,$request->supplier_id);
+        }
+        if (Str::length((trim($request->code))) == 0 && Str::length((trim($request->name))) == 0 && Str::length((trim($request->supplier_id))) == 0) {
+            $query->whereRaw('stock <= minstock');
+        }
     
         $products = $query
             ->where('active',1)
             ->latest()
             ->get();
-        
         return response()->json(
             [
                 'products' => $products,
@@ -246,4 +278,5 @@ class PurchaseController extends Controller
         );
         
     }
+
 }
