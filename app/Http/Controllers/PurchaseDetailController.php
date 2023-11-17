@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use App\Models\Purchase;
 use App\Models\PurchaseDetail;
 use Illuminate\Http\Request;
 
@@ -18,9 +20,25 @@ class PurchaseDetailController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Purchase $purchase)
     {
-        //
+        $purchasedetail = new PurchaseDetail();
+        if ( $purchase ) {
+            $purchasedetail->purchase_id = $purchase->id;
+            
+            $products = Product::where('active', 1)
+            ->where('supplier_id',$purchase->supplier_id)
+            ->latest() //Ordena de manera DESC por el campo 'created_at'
+            ->get();
+        }
+        else{
+            $products = Product::where('active', 1)
+            ->latest() //Ordena de manera DESC por el campo 'created_at'
+            ->get();
+        }
+
+        return view('panel.purchasedetails.crud.create',compact('purchasedetail','products','purchase'));
+
     }
 
     /**

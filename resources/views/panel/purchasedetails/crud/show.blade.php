@@ -37,9 +37,9 @@
             <div class="card">
                 <h3>Detalles de la compra</h3>
                 <div class="card-body">
-                    {{-- <a href="{{ route('purchasedetail.create', $purchase) }}" class="btn btn-success btn-sm text-uppercase">
+                    <a href="{{ route('purchasedetail.create', $purchase) }}" class="btn btn-success btn-sm text-uppercase">
                         Nuevo Detalle
-                    </a> --}}
+                    </a>
                     @if($purchase->details->count()>0)
                     <table id="tabla-purchase-details" class="table table-striped table-hover w-100">
                         <thead>
@@ -49,7 +49,7 @@
                                 <th scope="col" class="text-uppercase">Cant. Pedida</th>
                                 <th scope="col" class="text-uppercase">Cant. Recibida</th>
                                 <th scope="col" class="text-uppercase">Precio Costo</th>
-                                {{-- <th scope="col" class="text-uppercase">Opciones</th> --}}
+                                <th scope="col" class="text-uppercase">Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,7 +60,7 @@
                                 <td>{{ $detail->quantity_ordered }}</td>
                                 <td>{{ $detail->quantity_received }}</td>
                                 <td>{{ $detail->cost_price }}</td>
-                                {{-- <td>
+                                <td>
                                     <div class="d-flex">
                                         <a href="{{ route('purchasedetail.show', $detail) }}" class="btn btn-sm btn-info text-white text-uppercase me-1 m-1">
                                             Ver
@@ -76,7 +76,7 @@
                                             </button>
                                         </form>
                                     </div>
-                                </td> --}}
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

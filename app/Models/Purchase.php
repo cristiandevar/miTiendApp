@@ -22,6 +22,6 @@ class Purchase extends Model
     
     }
     public function details() {
-        return $this->hasMany(PurchaseDetail::class, 'purchase_id');
+        return $this->hasMany(PurchaseDetail::class, 'purchase_id')->where('active',1);
     }
 }
