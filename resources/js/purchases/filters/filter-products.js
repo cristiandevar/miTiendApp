@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
 
             $.ajax(
                 {
-                    url: 'purchase-filter-async',
+                    url: 'purchase-filter-async-products',
                     type: 'GET',
                     data: data_filter,
                     success: function(response) {
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
             supplier_id:$('#select-supplier').val(),
         };
         $.ajax({
-                url: 'purchase-filter-async',
+                url: 'purchase-filter-async-products',
                 type: 'GET',
                 data: data_filter,
                 success: function(response) {
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
             name: $('#input-name-1').val(),
         };
         $.ajax({
-                url: 'purchase-filter-async',
+                url: 'purchase-filter-async-products',
                 type: 'GET',
                 data: data_filter,
                 success: function(response) {

@@ -58,5 +58,10 @@ Route::get('/purchase-generate-index', [PurchaseController::class, 'generate_ind
 Route::post('/purchase-generate-action', [PurchaseController::class, 'generate_action'])->name('purchase.generate-action');
 Route::get('/purchase-filter-supplier-async', [App\Http\Controllers\PurchaseController::class, 'filter_supplier_async'])->name('purchase.filter-supplier-async');
 Route::get('/purchase-filter-code-async', [App\Http\Controllers\PurchaseController::class, 'filter_code_async'])->name('purchase.filter-code-async');
-Route::get('/purchase-filter-async', [App\Http\Controllers\PurchaseController::class, 'filter_async'])->name('purchase.filter-async');
+Route::get('/purchase-filter-async-products', [App\Http\Controllers\PurchaseController::class, 'filter_async_products'])->name('purchase.filter-async');
+
+// Rutas para registrar compras
+Route::get('/purchase-register-index', [PurchaseController::class, 'register_index'])->name('purchase.register-index');
+Route::post('/purchase-register-action', [PurchaseController::class, 'register_action'])->name('purchase.register-action');
+Route::get('/purchase-filter-async-purchases-register', [App\Http\Controllers\PurchaseController::class, 'filter_async_purchases_register'])->name('purchase.filter-async-purchases-register');
 

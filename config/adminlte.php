@@ -305,7 +305,7 @@ return [
             ],
             [
                 'text' => 'Registrar Compra',
-                'route' => 'purchase.create',
+                'route' => 'purchase.register-index',
                 'icon' => 'fas fa-cart-plus'  //Icono de fontawesome
                 //'can' => 'products_list'     //Permiso del vendedor
             ],

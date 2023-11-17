@@ -9,8 +9,8 @@ function carge_table(products, categories, suppliers) {
                     <td>${product["code"]}</td>
                     <td>${product["name"]}</td>
                     <td>${product["price"]}</td>
-                    <td>${categories[product["category_id"]-1]["name"]}</td>
-                    <td>${suppliers[product["supplier_id"]-1]["companyname"]}</td>
+                    <td>${get_object(categories,product["category_id"])["name"]}</td>
+                    <td>${get_object(suppliers,product["supplier_id"])["companyname"]}</td>
                     <td>
                         <img src="${product["image"]}" alt="${product["name"]}" class="img-fluid" style="width: 150px;">
                     </td>
@@ -32,4 +32,16 @@ function carge_values(id) {
             values[this.name] = $(this).val();
     });
     return values;
+}
+function get_object(list_object, id){
+    let i = 0;
+    while ( i<list_object.length && list_object[i]['id'] != id) {
+        i+=1;
+    }
+    if ( i<list_object.length ) {
+        return list_object[i];
+    }
+    else {
+        return null;
+    }
 }

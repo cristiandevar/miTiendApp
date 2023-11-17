@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
 
             $.ajax(
                 {
-                    url: 'purchase-filter-async',
+                    url: 'purchase-filter-async-products',
                     type: 'GET',
                     data: data_filter,
                     success: function(response) {
@@ -39,9 +39,10 @@ document.addEventListener('DOMContentLoaded', function (e) {
         let data_filter = {
             code: $(this).val(),
             supplier_id:$('#select-supplier').val(),
+            name: $('#input-name-1').val(),
         };
         $.ajax({
-                url: 'purchase-filter-async',
+                url: 'purchase-filter-async-products',
                 type: 'GET',
                 data: data_filter,
                 success: function(response) {
@@ -61,12 +62,12 @@ document.addEventListener('DOMContentLoaded', function (e) {
         // var values = carge_values('form-filter');
         console.log($(this).val());
         let data_filter = {
-            code: $(this).val(),
+            name: $(this).val(),
             supplier_id:$('#select-supplier').val(),
-            name: $('#input-name-1').val(),
+            code: $('#input-code-1').val(),
         };
         $.ajax({
-                url: 'purchase-filter-async',
+                url: 'purchase-filter-async-products',
                 type: 'GET',
                 data: data_filter,
                 success: function(response) {

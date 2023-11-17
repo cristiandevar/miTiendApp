@@ -145,9 +145,9 @@ class PurchaseController extends Controller
         
         $query = Supplier::query();
 
-        if ( $request->has('supplier_id') ) {
-            $query -> where('id',$request->supplier_id );
-        }
+        // if ( $request->has('supplier_id') ) {
+        //     $query -> where('id',$request->supplier_id );
+        // }
 
         $suppliers = $query->where('active',1)->get();
         
@@ -181,7 +181,7 @@ class PurchaseController extends Controller
         ]);
     }
     
-    public function filter_async(Request $request){
+    public function filter_async_products(Request $request){
         
         $query = Product::query();
 
@@ -205,6 +205,87 @@ class PurchaseController extends Controller
         return response()->json(
             [
                 'products' => $products,
+            ]
+        );
+        
+    }
+
+    public function register_index(){
+        
+        $suppliers = Supplier::where('active', 1)->latest()->get();
+        $purchases = Purchase::where('active', 1)
+            ->whereNull('received_date')
+            ->latest()
+            ->get();
+
+
+        return view('panel.purchases.register.index', compact('purchases', 'suppliers'));
+    
+    }
+
+    public function register_action(Request $request){
+        
+        $query = Supplier::query();
+
+        // if ( $request->has('supplier_id') ) {
+        //     $query -> where('id',$request->supplier_id );
+        // }
+
+        $suppliers = $query->where('active',1)->get();
+        
+        $b = 0;
+        $purchase = new Purchase();
+        
+        foreach ( $suppliers as $supplier ) {
+            if ( $b==1 ) {
+                $purchase = new Purchase();
+                $b=0;
+            }
+            $purchase->supplier_id = $supplier->id;
+            for ($i = 0; $i<$request->qty;$i++){
+                $product = Product::where('id',$request->$i['product_id'])->first();
+                if ($product->supplier_id == $supplier->id){
+                    $detail = new PurchaseDetail();
+                    $detail->product_id = $product->id;
+                    $detail->quantity_ordered = $request->$i['quantity'];
+                    if($b==0){
+                        $purchase->save();
+                        $b=1;
+                    }
+                    $detail->purchase_id = $purchase->id;
+                    $detail->save();
+                }
+            }
+        }
+
+        return response()->json([
+            'msj'=> 'Respuesta',
+        ]);
+    }
+
+    public function filter_async_purchases_register(Request $request){
+        
+        $query = Purchase::query();
+
+        $query->whereNull('received_date');
+
+        if ($request->has('supplier_id') && Str::length((trim($request->supplier_id)))>0) {
+            $query->where('supplier_id', '=' ,$request->supplier_id);
+        }
+    
+        $purchases = $query
+            ->where('active',1)
+            ->latest()
+            ->get();
+
+        $suppliers = Supplier::where('active',1)
+            ->latest()
+            ->get();
+        
+        return response()->json(
+            [
+                'purchases' => $purchases,
+                'suppliers' => $suppliers,
             ]
         );
         
