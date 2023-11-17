@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('12345')
         ])->each(
             function ( User $user ) {
-                $user->assingRole('admin');
+                $user->assignRole('admin');
             }
         );    
 
@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('12345')
         ])->each(
             function ( User $user ) {
-                $user->assingRole('seller');
+                $user->assignRole('seller');
             }
         );
         // ->each(function(User $user) {
@@ -47,7 +47,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('12345')
         ])->each(
             function ( User $user ) {
-                $user->assingRole('boss');
+                $user->assignRole('boss');
             }
         );
         // ->each(function(User $user) {
