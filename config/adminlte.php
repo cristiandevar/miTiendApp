@@ -297,12 +297,12 @@ return [
                 'icon' => 'fas fa-dollar-sign'  //Icono de fontawesome
                 //'can' => 'products_list'     //Permiso del vendedor
             ],
-            [
-                'text' => 'Controlar Stock',
-                'route' => 'product.filter',
-                'icon' => 'fas fa-tasks'  //Icono de fontawesome
-                //'can' => 'products_list'     //Permiso del vendedor
-            ],
+            // [
+            //     'text' => 'Controlar Stock',
+            //     'route' => 'product.filter',
+            //     'icon' => 'fas fa-tasks'  //Icono de fontawesome
+            //     //'can' => 'products_list'     //Permiso del vendedor
+            // ],
             [
                 'text' => 'Registrar Compra',
                 'route' => 'purchase.register-index',

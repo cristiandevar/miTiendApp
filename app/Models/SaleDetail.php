@@ -18,12 +18,9 @@ class SaleDetail extends Model
         'active'
     ];
 
-    // public function product(){
-    //     return Product::where('active', 1)
-    //         ->where('product_id', $this->product_id)
-    //         ->latest()
-    //         ->get();
-    // }
+    public function product(){
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 
     // public function sale(){
     //     return Sale::where('active', 1)

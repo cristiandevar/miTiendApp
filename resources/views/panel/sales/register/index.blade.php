@@ -68,6 +68,10 @@
                             <button id="btn-filter-1" type="submit" class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
                                 Filtrar
                             </button>
+                            
+                            <button id='add-products' class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
+                                Agregar
+                            </button>
                         </div>
                     </form>
                 {{-- </div>
@@ -113,9 +117,6 @@
                                 <p class='alert alert-danger small'>No tiene productos cargados</p>                    
                             @endif
                         </div>
-                        <button id='add-products' class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
-                            Agregar
-                        </button>
                     </form>
                 </div>
             </div>
