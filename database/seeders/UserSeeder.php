@@ -18,7 +18,11 @@ class UserSeeder extends Seeder
             'name' => 'admin',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('12345')
-        ]);    
+        ])->each(
+            function ( User $user ) {
+                $user->assingRole('admin');
+            }
+        );    
 
         // ])->each(function(User $user) {
         //     $user->assignRole('admin');
@@ -28,16 +32,24 @@ class UserSeeder extends Seeder
             'name' => 'seller',
             'email' => 'seller@gmail.com',
             'password' => Hash::make('12345')
-        ]);
+        ])->each(
+            function ( User $user ) {
+                $user->assingRole('seller');
+            }
+        );
         // ->each(function(User $user) {
         //     $user->assignRole('seller');
         // });
            
         User::factory(1)->create([
-            'name' => 'client',
-            'email' => 'client@gmail.com',
+            'name' => 'boss',
+            'email' => 'boss@gmail.com',
             'password' => Hash::make('12345')
-        ]);
+        ])->each(
+            function ( User $user ) {
+                $user->assingRole('boss');
+            }
+        );
         // ->each(function(User $user) {
         //     $user->assignRole('client');
         // });
