@@ -106,6 +106,7 @@
                                     <th scope="col">CÓDIGO</th>
                                     <th scope="col" class="text-uppercase">Nombre</th>
                                     <th scope="col" class="text-uppercase">Precio</th>
+                                    <th scope="col" class="text-uppercase">Stock</th>
                                     <th scope="col" class="text-uppercase">Categoría</th>
                                     <th scope="col" class="text-uppercase">Proveedor</th>
                                     <th scope="col" class="text-uppercase">Imagen</th>
@@ -117,6 +118,7 @@
                                         <td>{{ $product->code }}</td>
                                         <td>{{ $product->name }}</td>
                                         <td>{{ $product->price }}</td>
+                                        <td>{{ $product->stock }}</td>
                                         <td>{{ $product->category->name }}</td>
                                         <td>{{ $product->supplier->companyname }}</td>
                                         <td>

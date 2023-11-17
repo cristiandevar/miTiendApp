@@ -35,13 +35,15 @@ document.addEventListener('DOMContentLoaded',
                     data: data_filter,
                     success: function(response) {
                         show_purchases(response.purchases, response.suppliers);
-                        console.log(option);
+                        carge_links();
+                        // console.log(option);
                     },
                     error: function(xhr, status, error) {
                         console.error(error);
                     }
                 }
             );
+
         }
     );
 

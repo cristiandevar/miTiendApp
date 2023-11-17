@@ -22,7 +22,7 @@
         
         <div id="div-error-1" class="col-12">
             <div class="alert alert-danger alert-dismissible show" role="error">
-                
+                <p id="p-error"></p>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>                    
@@ -75,11 +75,17 @@
                                     </tbody>
                                 </table>
                             </div>
-                    </form>
-                    <form>
-                        <button id='register-purchase' class="form-control col-xs-12 col-3 m-1 btn btn-success text-uppercase" >
-                            Registrar Orden
-                        </button>
+                        </form>
+                    <h6 class="card-header">Detalles de la compra</h6>
+                    <form id="form-register-purchase">
+                        <div class="form-group row">
+                            <label for="total-price-input" class="col-form-label">* Total pagado</label>
+                            <input id="total-price-input" type="number" class="form-control col-xs-12 col-3 m-1" placeholder="Total pagado..." />
+                            
+                            <button id='register-purchase' class="form-control col-xs-12 col-3 m-1 btn btn-success text-uppercase" >
+                                Registrar Orden
+                            </button>
+                        </div>
                         <div class="form-group" style='height:15em;overflow-y:auto;'>
                             <div id='alert-table-purchases-2'>
                                 <p class='alert alert-danger small'>No hay detalles asociados a la orden </p>`

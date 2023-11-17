@@ -90,9 +90,10 @@
                         <table class="table table-striped table-hover w-100" id="table-products">
                             <thead id="thead-products">
                                 <tr>
-                                    <th scope="col" class="text-uppercase">PRECIO</th>
-                                    <th scope="col" class="text-uppercase">NOMBRE</th>
-                                    <th scope="col" class="text-uppercase">CÓDIGO</th>
+                                    <th scope="col" class="text-uppercase">precio</th>
+                                    <th scope="col" class="text-uppercase">stock</th>
+                                    <th scope="col" class="text-uppercase">nombre</th>
+                                    <th scope="col" class="text-uppercase">código</th>
                                     {{-- <th scope="col" class="text-uppercase">IMAGEN</th> --}}
                                 </tr>
                             </thead>
@@ -100,6 +101,7 @@
                                 @foreach ($products as $product)
                                 <tr>
                                     <td>{{ $product->price }}</td>
+                                    <td>{{ $product->stock }}</td>
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->code }}</td>
                                     {{-- <td>

@@ -8,6 +8,7 @@ use App\Models\Purchase;
 use App\Models\PurchaseDetail;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Str;
 
 class PurchaseController extends Controller
@@ -202,6 +203,7 @@ class PurchaseController extends Controller
             ->where('active',1)
             ->latest()
             ->get();
+            
         return response()->json(
             [
                 'products' => $products,
@@ -224,10 +226,9 @@ class PurchaseController extends Controller
     }
 
     public function register_action(Request $request){
-        
-        // $query = Supplier::query();
-
+        // dd($request);
         for ($i = 0; $i<$request->qty;$i++){
+
             $detail = PurchaseDetail::where('id',$request->$i['id'])->first();
             $detail->quantity_received = $request->$i['quantity_received'];
             $detail->cost_price = $request->$i['cost_price'];
@@ -239,7 +240,15 @@ class PurchaseController extends Controller
                 $product->stock += $detail->quantity_received;
                 $product->update();
             }
-            $detail->update();
+            $detail->update();    
+        }
+        if($request->qty > 0){
+            $i = 0;
+            $detail = PurchaseDetail::where('id',$request->$i['id'])->first();
+            $purchase = Purchase::where('active',1)->where('id',$detail->purchase_id)->first();
+            $purchase->received_date = now()->format('Y-m-d H:i:s');
+            $purchase->total_paid = $request->total_paid;
+            $purchase->update();
         }
 
         // if ( $request->has('supplier_id') ) {

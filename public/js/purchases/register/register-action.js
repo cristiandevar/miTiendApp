@@ -5,35 +5,28 @@ $.ajaxSetup(
         }
     }
 );
+
 document.addEventListener('DOMContentLoaded',
     function (e) {
         
-        $('#table-purchases-2').hide();
+        $('#form-register-purchase').hide();
         $('#alert-table-purchases-2').hide();
 
-        $('#tbody-purchases-1 tr').each(
-            function () {
-                let id = $(this).attr('id').split('-')[1];
-                $(this).children().last().find('a').first().on('click',
-                    function ( e ) {
-                        e.preventDefault();
-                        show_rows(id);
-                    }
+        carge_links();
 
-                );            
-            }
-        );
         $('#register-purchase').on('click',
             function (e) {
                 e.preventDefault();
-
+                let div_alert,div_error, total_paid;
                 let data = carge_rows();
 
-                if (Object.keys(data).length > 1) {
-                    let div_alert,div_error;
-        
-                    div_alert = $('#div-alert-1');
-                    div_error = $('#div-error-1');
+                div_alert = $('#div-alert-1');
+                div_error = $('#div-error-1');
+                total_paid = $('#total-price-input');
+                
+                if (Object.keys(data).length > 2 && parseFloat(total_paid.val()) >= 0) {
+                    div_error.hide();
+                    div_alert.hide();
                     $.ajax(
                         {
                             url: 'purchase-register-action',
@@ -43,6 +36,8 @@ document.addEventListener('DOMContentLoaded',
                                 div_alert.children().first().text('La compra se registro con exito');
                                 div_alert.show();
                                 div_error.hide();
+                                update_rows();
+                                clear_details();
                                 $('html, body').animate({scrollTop:0}, 'slow');
                             },
                             error: function(xhr, status, error) {
@@ -52,12 +47,19 @@ document.addEventListener('DOMContentLoaded',
                                 $('html, body').animate({scrollTop:0}, 'slow');
                             }
                         }
-                    ).always(
-                        function(){
-                            clear_details();
-                        }
-            
                     );
+                }
+                else {
+                    div_error.show();
+                    div_alert.hide();
+                    if ( Object.keys(data).length > 2 ) {
+                        div_error.children().first().find('p').first().text('Debe ingresar un "Total Pagado" valido o cero');
+
+                    }
+                    else {
+                        div_error.children().first().find('p').first().text('Debe elegir una orden para registrar');
+
+                    }
                 }
 
             }
@@ -89,19 +91,32 @@ function show_rows ( id ) {
     );
 }
 
+function carge_links(){
+    $('#tbody-purchases-1 tr').each(
+        function () {
+            let id = $(this).attr('id').split('-')[1];
+            $(this).children().last().find('a').first().on('click',
+                function ( e ) {
+                    e.preventDefault();
+                    show_rows(id);
+                }
+
+            );            
+        }
+    );
+}
+
 function show_details (purchase, details, products) {
-    // console.log(purchase, details);
     let tbody, tr, td0, td1, td2, td3, td4, input1, input2;
 
     tbody = $('#tbody-purchases-2');
     
     if (details.length > 0) {
         
-        $('#table-purchases-2').show();
+        $('#form-register-purchase').show();
         $('#alert-table-purchases-2').hide();
 
         for( let i = 0; i< details.length; i++){
-            // console.log(products); 
 
             tr = document.createElement('tr');
             tr.setAttribute('id','trdetail-'+details[i]['id']);
@@ -136,7 +151,7 @@ function show_details (purchase, details, products) {
         }
     }
     else {
-        $('#table-purchases-2').hide();
+        $('#form-register-purchase').hide();
         $('#alert-table-purchases-2').show();
     }
 
@@ -145,6 +160,7 @@ function show_details (purchase, details, products) {
 
 function clear_details(){
     $('#tbody-purchases-2').html('');
+    $('#form-register-purchase').hide();
 }
 
 function carge_rows () {
@@ -153,35 +169,60 @@ function carge_rows () {
     set_rows = {};
     count = 0;
     rows = $('#tbody-purchases-2').find('tr');
-    // console.log(rows);
     rows.each(
         function () {
             let qty, price;
-            // if ($(this).attr('id') != 'trsale-total'){
-                row = {};
-                tds = $(this).find('td');
-                row['id'] = $(this).attr('id').split('-')[1];
-                qty = tds.eq(3).text();
-                if(qty != ''){
-                    row['quantity_received'] = parseInt(qty);
-                }
-                else{
-                    row['quantity_received'] = 0;
-                }
+            row = {};
+            tds = $(this).find('td');
+            row['id'] = $(this).attr('id').split('-')[1];
+            qty = tds.eq(3).children().first().val();
+            if(qty != ''){
+                row['quantity_received'] = parseInt(qty);
+            }
+            else{
+                row['quantity_received'] = 0;
+            }
 
-                price = tds.eq(4).text();
-                if(price != ''){
-                    row['cost_price'] = parseFloat(price);
-                }
-                else {
-                    row['cost_price'] = 0;
-                }
-    
-                set_rows[count] = row;
-                count += 1;
-            // }
+            price = tds.eq(4).children().first().val();
+            if(price != ''){
+                row['cost_price'] = parseFloat(price);
+            }
+            else {
+                row['cost_price'] = 0;
+            }
+
+            set_rows[count] = row;
+            count += 1;
         }
     );
     set_rows['qty'] = count;
+    set_rows['total_paid'] = parseFloat($('#total-price-input').val());
     return set_rows;
+}
+
+function update_rows(){
+    let option = $('#select-supplier').val();
+    let data_filter = {};
+
+    if ( option != '' ) {
+        option = parseInt(option);
+        data_filter = {
+            'supplier_id' : option,
+        }
+    }
+
+    $.ajax(
+        {
+            url: 'purchase-filter-async-purchases-register',
+            type: 'GET',
+            data: data_filter,
+            success: function(response) {
+                show_purchases(response.purchases, response.suppliers);
+                carge_links();
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        }
+    );
 }

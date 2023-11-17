@@ -9,6 +9,7 @@ function carge_table(products, categories, suppliers) {
                     <td>${product["code"]}</td>
                     <td>${product["name"]}</td>
                     <td>${product["price"]}</td>
+                    <td>${product["stock"]}</td>
                     <td>${get_object(categories,product["category_id"])["name"]}</td>
                     <td>${get_object(suppliers,product["supplier_id"])["companyname"]}</td>
                     <td>

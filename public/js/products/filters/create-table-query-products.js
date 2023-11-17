@@ -7,6 +7,7 @@ function carge_table(products, categories, suppliers) {
             cadena += `
                 <tr>
                     <td>${product["price"]}</td>
+                    <td>${product["stock"]}</td>
                     <td>${product["name"]}</td>
                     <td>${product["code"]}</td>
                 </tr>
