@@ -21,7 +21,7 @@ $('#add-sale').on('click', function(e) {
 
     let data = carge_rows();
 
-    if (Object.keys(data).length > 0) {
+    if (Object.keys(data).length > 1) {
         let div_alert,div_error;
         
         div_alert = $('#div-alert-1');

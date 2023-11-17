@@ -64,4 +64,5 @@ Route::get('/purchase-filter-async-products', [App\Http\Controllers\PurchaseCont
 Route::get('/purchase-register-index', [PurchaseController::class, 'register_index'])->name('purchase.register-index');
 Route::post('/purchase-register-action', [PurchaseController::class, 'register_action'])->name('purchase.register-action');
 Route::get('/purchase-filter-async-purchases-register', [App\Http\Controllers\PurchaseController::class, 'filter_async_purchases_register'])->name('purchase.filter-async-purchases-register');
+Route::get('/purchase-filter-async', [App\Http\Controllers\PurchaseController::class, 'filter_async_id'])->name('purchase.filter-async');
 

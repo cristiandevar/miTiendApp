@@ -77,10 +77,13 @@
                             </div>
                     </form>
                     <form>
-                        <button id='add-purchase' class="form-control col-xs-12 col-3 m-1 btn btn-success text-uppercase" >
+                        <button id='register-purchase' class="form-control col-xs-12 col-3 m-1 btn btn-success text-uppercase" >
                             Registrar Orden
                         </button>
                         <div class="form-group" style='height:15em;overflow-y:auto;'>
+                            <div id='alert-table-purchases-2'>
+                                <p class='alert alert-danger small'>No hay detalles asociados a la orden </p>`
+                            </div>
                             <table id="table-purchases-2" class="table table-sm table-striped table-hover w-100 col-12">
                                 <thead>
                                     <tr>
@@ -114,6 +117,7 @@
 @section('js')
 {{-- <script type="text/javascript" src="{{ asset('js/purchases/generate/create-table-purchase-products.js') }}"></script> --}}
 <script type="text/javascript" src="{{ asset('js/purchases/register/register-index.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/purchases/register/register-action.js') }}"></script>
 {{-- <script type="text/javascript" src="{{ asset('js/purchases/filters/filter-products.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/purchases/filters/add-products.js') }}"></script> --}}
 @stop
