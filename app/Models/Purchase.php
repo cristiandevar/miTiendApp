@@ -12,6 +12,8 @@ class Purchase extends Model
 
     protected $fillable = [
         'supplier_id',
+        'received_date',
+        'total_paid',
         'active'
     ];
 
@@ -20,9 +22,6 @@ class Purchase extends Model
     
     }
     public function details() {
-        // return SaleDetail::where('active', 1)
-        //     ->where('sale_id',$this->id)
-        //     ->latest();
         return $this->hasMany(PurchaseDetail::class, 'purchase_id');
     }
 }

@@ -15,10 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('purchase_id');
             $table->unsignedBigInteger('product_id');
-            $table->integer('quantity')->nullable()->unsigned();
+            $table->integer('quantity_ordered')->nullable()->unsigned();
+            $table->integer('quantity_received')->unsigned()->nullable(true);
             $table->decimal('cost_price', 10, 2)->unsigned()->nullable(true);
-            $table->decimal('suggested_price', 10, 2)->unsigned()->nullable(true);
-            $table->date('receipt_date')->nullable(true);
             $table->timestamps();
 
             $table->foreign('purchase_id')->references('id')->on('purchases');

@@ -12,11 +12,7 @@ use Illuminate\Support\Str;
 
 class PurchaseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
+    public function index(){
         $purchases = Purchase::where('active', 1)
             ->latest() //Ordena de manera DESC por el campo 'created_at'
             ->get(); //Convierte los datos extraidos de la BD en un array
@@ -28,11 +24,7 @@ class PurchaseController extends Controller
     
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
+    public function create(){
         // Creamos un producto nuevo para cargarle datos
         $purchase = new Purchase();
 
@@ -48,11 +40,7 @@ class PurchaseController extends Controller
     
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $request->validate([
             // 'date' => 'required',
             'supplier_id' => 'required'
@@ -78,20 +66,12 @@ class PurchaseController extends Controller
     
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Purchase $purchase)
-    {
+    public function show(Purchase $purchase){
         return view('panel.purchases.crud.show', compact('purchase'));
     
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Purchase $purchase)
-    {
+    public function edit(Purchase $purchase){
 
         $date = $purchase->created_at;
 
@@ -104,11 +84,7 @@ class PurchaseController extends Controller
     
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Purchase $purchase)
-    {
+    public function update(Request $request, Purchase $purchase){
         $request->validate([
             // 'date' => 'required',
             'supplier_id' => 'required'
@@ -120,6 +96,11 @@ class PurchaseController extends Controller
         else {
             $purchase->active = 0;
         }
+
+        if ($request->has('received_date')) {
+            $purchase->receipt_date = $request->receipt_date;
+        }
+
         $purchase->supplier_id = $request->get('supplier_id');
 
         // Almacena la info de la venta en la BD
@@ -131,11 +112,7 @@ class PurchaseController extends Controller
     
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Purchase $purchase)
-    {
+    public function destroy(Purchase $purchase){
         $purchase->active = 0;
         
         $purchase->update();
@@ -188,7 +165,7 @@ class PurchaseController extends Controller
                 if ($product->supplier_id == $supplier->id){
                     $detail = new PurchaseDetail();
                     $detail->product_id = $product->id;
-                    $detail->quantity = $request->$i['quantity'];
+                    $detail->quantity_ordered = $request->$i['quantity'];
                     if($b==0){
                         $purchase->save();
                         $b=1;
@@ -203,52 +180,6 @@ class PurchaseController extends Controller
             'msj'=> 'Respuesta',
         ]);
     }
-
-    // public function filter_supplier_async(Request $request){
-        
-    //     $query = Product::query();
-
-    //     if ($request->has('supplier_id') && Str::length((trim($request->supplier_id)))>0) {
-    //         $query->where('supplier_id', $request->supplier_id);
-    //     }
-
-    //     $query = $query->whereRaw('stock <= minstock');
-    
-    //     $products = $query
-    //         ->where('active',1)
-    //         ->latest()
-    //         ->get();
-        
-    //     return response()->json(
-    //         [
-    //             'products' => $products,
-    //         ]
-    //     );
-        
-    // }
-    // public function filter_code_async(Request $request){
-        
-    //     $query = Product::query();
-
-    //     if ($request->has('code') && Str::length((trim($request->code)))>0) {
-    //         $query->where('code', 'like' ,'%'.$request->code.'%');
-    //     }
-    //     if ($request->has('supplier_id') && Str::length((trim($request->supplier_id)))>0) {
-    //         $query->where('supplier_id', '=' ,$request->supplier_id);
-    //     }
-    
-    //     $products = $query
-    //         ->where('active',1)
-    //         ->latest()
-    //         ->get();
-    //     return response()->json(
-    //         [
-    //             'products' => $products,
-    //         ]
-    //     );
-        
-    // }
-
     
     public function filter_async(Request $request){
         

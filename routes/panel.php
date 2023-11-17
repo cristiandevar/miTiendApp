@@ -27,6 +27,9 @@ Route::resource('/sales', SaleController::class)->names('sale');
 // Rutas para CRUD compras
 Route::resource('/purchases', PurchaseController::class)->names('purchase');
 
+// Rutas para CRUD detalles de compras
+Route::resource('/purchasesdetails', PurchaseDetailController::class)->names('purchasedetail');
+
 
 
 // Rutas para redirigir al login o al panel segun corresponda

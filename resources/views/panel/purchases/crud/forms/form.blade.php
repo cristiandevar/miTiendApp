@@ -7,24 +7,37 @@
         @endif
 
         <div class="card-body">
+            <div class="mb-3 row">
+                <label for="supplier" class="col-sm-4 col-form-label"> * Proveedor </label>
+                <div class="col-sm-8">
+                    <select id="supplier_id" name="supplier_id" class="form-control" required>
+                        @foreach ($suppliers as $supplier)
+                            <option {{ $supplier->id && $supplier->id == $supplier->id ? 'selected': ''}} value="{{ $supplier->id }}"> 
+                                {{ $supplier->companyname }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
 
             <div class="mb-3 row">
-                <label for="name" class="col-sm-4 col-form-label"> * Fecha </label>
+                <label for="name" class="col-sm-4 col-form-label"> * Fecha Emisión</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" id="date" name="date" value={{$date}} disabled>
                 </div>
             </div>
 
             <div class="mb-3 row">
-                <label for="category" class="col-sm-4 col-form-label"> * Proveedor </label>
+                <label for="received_date" class="col-sm-4 col-form-label"> * Fecha Recepcion </label>
                 <div class="col-sm-8">
-                    <select id="supplier_id" name="supplier_id" class="form-control" required>
-                        @foreach ($suppliers as $supplier)
-                            <option {{ $supplier->id && $supplier->id == $supplier->id ? 'selected': ''}} value="{{ $supplier->id }}"> 
-                                {{ $supplier->name }}
-                            </option>
-                        @endforeach
-                    </select>
+                    <input type="date" class="form-control" id="received_date" name="received_date" value={{$purchase->received_date?date('Y-m-d', strtotime($purchase->received_date))  : date('Y-m-d', strtotime($date))}}>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="total_paid" class="col-sm-4 col-form-label"> * Total Pagado </label>
+                <div class="col-sm-8">
+                    <input type="number" class="form-control" id="total_paid" name="total_paid" value={{$purchase->total_paid??0}}>
                 </div>
             </div>
 

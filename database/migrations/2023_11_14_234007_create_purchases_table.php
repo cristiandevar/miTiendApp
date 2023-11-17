@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('supplier_id');
+            $table->date('received_date')->nullable(true);
+            $table->decimal('total_paid', 10, 2)->nullable(true);
             $table->tinyInteger('active')->default(1);
             $table->timestamps();
         });

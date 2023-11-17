@@ -63,8 +63,8 @@
                                 <th scope="col" class="text-uppercase">Nro</th>
                                 <th scope="col" class="text-uppercase">Proveedor</th>
                                 <th scope="col" class="text-uppercase">Fecha Realizada</th>
-                                <th scope="col" class="text-uppercase">Cant de productos</th>
-                                <th scope="col" class="text-uppercase">Monto Total</th>
+                                <th scope="col" class="text-uppercase">Fecha Recibida</th>
+                                <th scope="col" class="text-uppercase">Monto Pagado</th>
                                 <th scope="col" class="text-uppercase">Opciones</th>
                             </tr>
                         </thead>
@@ -74,21 +74,8 @@
                                 <td>{{ $purchase->id }}</td>
                                 <td>{{ $purchase->supplier->companyname }}</td>
                                 <td>{{ $purchase->created_at }}</td>
-                                <td>{{ $purchase->details->count() }}</td>
-                                    
-                                @if($purchase->details)
-                                <td><?php
-                                            $total = 0;
-                                            foreach ($purchase->details as $detail) {
-                                                $total += $detail->price * $detail->quantity;
-                                            }
-                                            echo $total;
-                                        ?>
-                                    </td>
-                                @else
-                                <td>0</td>
-                                <td>0</td>
-                                @endif
+                                <td>{{ $purchase->received_date }}</td>
+                                <td>{{ $purchase->total_paid }}</td>
                                 <td>
                                     <div class="d-flex">
                                         <a href="{{ route('purchase.show', $purchase) }}" class="btn btn-sm btn-info text-white text-uppercase me-1 m-1">

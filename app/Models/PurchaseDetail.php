@@ -13,10 +13,16 @@ class PurchaseDetail extends Model
     protected $fillable = [
         'purchase_id',
         'product_id',
-        'quantity',
+        'quantity_ordered',
+        'quantity_received',
         'cost_price',
-        'suggested_price',
-        'receipt_date',
         'active'
     ];
+    public function product() {
+        return $this->belongsTo(Product::class, 'product_id');
+    
+    }
+    public function details() {
+        return $this->hasMany(PurchaseDetail::class, 'purchase_id');
+    }
 }
