@@ -1,6 +1,12 @@
 <div class="card mb-5">
-    <form action="{{ $supplier->id ? route('supplier.update', $supplier) : route('supplier.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
+    
+    @if(isset($back))
+        <form action="{{ $supplier->id ? route('supplier.show-update', $supplier) : route('supplier.store') }}" method="POST" enctype="multipart/form-data">
+    @else
+        <form action="{{ $supplier->id ? route('supplier.update', $supplier) : route('supplier.store') }}" method="POST" enctype="multipart/form-data">
+    @endif
+    
+    @csrf
         
         @if ($supplier->id)
             @method('PUT')

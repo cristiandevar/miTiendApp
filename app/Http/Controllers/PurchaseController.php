@@ -72,6 +72,19 @@ class PurchaseController extends Controller
     
     }
 
+    public function show_edit(Purchase $purchase)
+    {
+        $date = $purchase->created_at;
+        
+        $suppliers = Supplier::where('active', 1)
+            ->latest() //Ordena de manera DESC por el campo 'created_at'
+            ->get();
+
+        $back = true;
+
+        return view('panel.purchases.crud.edit', compact('purchase', 'suppliers', 'date', 'back'));
+    }
+
     public function edit(Purchase $purchase){
 
         $date = $purchase->created_at;
@@ -84,6 +97,35 @@ class PurchaseController extends Controller
         return view('panel.purchases.crud.edit', compact('purchase', 'suppliers', 'date'));
     
     }
+
+    public function update_show(Request $request, Purchase $purchase){
+        $request->validate([
+            // 'date' => 'required',
+            'supplier_id' => 'required'
+        ]);
+
+        if ($request->get('active')) {
+            $purchase->active = 1;
+        }
+        else {
+            $purchase->active = 0;
+        }
+
+        if ($request->has('received_date')) {
+            $purchase->received_date = $request->received_date;
+        }
+
+        $purchase->supplier_id = $request->get('supplier_id');
+
+        // Almacena la info de la venta en la BD
+        $purchase->update();
+
+        return redirect()
+            ->route('purchase.show', compact('purchase'))
+            ->with('alert', 'Compra nro:"' . $purchase->id . '" modificada exitosamente.');
+    
+    }
+
 
     public function update(Request $request, Purchase $purchase){
         $request->validate([
@@ -99,7 +141,7 @@ class PurchaseController extends Controller
         }
 
         if ($request->has('received_date')) {
-            $purchase->receipt_date = $request->receipt_date;
+            $purchase->received_date = $request->received_date;
         }
 
         $purchase->supplier_id = $request->get('supplier_id');

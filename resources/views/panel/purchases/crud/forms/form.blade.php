@@ -1,5 +1,11 @@
 <div class="card mb-5">
-    <form action="{{ $purchase->id ? route('purchase.update', $purchase) : route('purchase.store') }}" method="POST" enctype="multipart/form-data">
+    @if(isset($back))
+        <form action="{{ $purchase->id ? route('purchase.show-update', $purchase) : route('purchase.store') }}" method="POST" enctype="multipart/form-data">
+    @else
+        <form action="{{ $purchase->id ? route('purchase.update', $purchase) : route('purchase.store') }}" method="POST" enctype="multipart/form-data">
+    @endif
+    
+    {{-- <form action="{{ $purchase->id ? route('purchase.update', $purchase) : route('purchase.store') }}" method="POST" enctype="multipart/form-data"> --}}
         @csrf
         
         @if ($purchase->id)

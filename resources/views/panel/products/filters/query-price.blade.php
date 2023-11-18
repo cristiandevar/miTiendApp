@@ -51,12 +51,29 @@
             <div class="card">
                 <div class="card-body">
                     <form action="{{ route('product.filter') }}" method='GET' id="form-filter">
+                        <h6 class="card-header">Consulte por nombre y/o código</h6>
                         <div class="form-group row">
                             <input class="form-control col-xs-12 col-2 m-1" type="text" id="name" name="name" placeholder="Nombre..." value={{ isset($inputs) && isset($inputs['name'])? $inputs['name'] : '' }}>
                             <input class="form-control col-xs-12 col-2 m-1" type="text" id="code" name="code" placeholder="Código..." value={{ isset($inputs) && isset($inputs['code'])? $inputs['code'] : '' }}>
                             <button id="btn-filter-1" type="submit" class="form-control col-xs-12 col-3 m-1 btn btn-success text-uppercase">
                                 Consultar
                             </button>
+                        </div>
+                        <h6 class="card-header">Elija el criterio de ordenamiento</h6>
+                        <div class="form-group row">
+                            <select title="Ordenar por..." id="order-by-1" name="order_by_1" class="form-control col-xs-12 col-2 m-1">
+                                <option value="created_at" selected>Fecha de creación</option>
+                                <option value="code">Código</option>
+                                <option value="name">Nombre</option>
+                                <option value="price">Precio</option>
+                                <option value="stock">Stock</option>
+                                <option value="category">Categoria</option>
+                                <option value="supplier">Proveedor</option>
+                            </select>
+                            <select title="Ordenar de forma..." id="order-by-2" name="order_by_2" class="form-control col-xs-12 col-2 m-1">
+                                <option value="asc" selected>Ascendente</option>
+                                <option value="desc">Descendente</option>
+                            </select>
                         </div>
                     </form>
                 </div>
@@ -74,22 +91,23 @@
                         <table class="table table-striped table-hover w-100" id="table-products">
                             <thead id="thead-products">
                                 <tr>
+                                    <th scope="col" class="text-uppercase">Imagen</th>
                                     <th scope="col" class="text-uppercase">nombre</th>
                                     <th scope="col" class="text-uppercase">precio</th>
                                     <th scope="col" class="text-uppercase">stock</th>
-                                    <th scope="col" class="text-uppercase">Imagen</th>
                                     {{-- <th scope="col" class="text-uppercase">IMAGEN</th> --}}
                                 </tr>
                             </thead>
                             <tbody id="tbody-products">
                                 @foreach ($products as $product)
                                 <tr>
-                                    <td>{{ $product->name }}</td>
-                                    <td>{{ $product->price }}</td>
-                                    <td>{{ $product->stock }}</td>
                                     <td>
                                         <img src="{{ $product->image }}" alt="{{ $product->name }}" class="img-fluid" style="width: 150px;">
                                     </td>
+                                    <td>{{ $product->name }}</td>
+                                    <td>{{ $product->price }}</td>
+                                    <td>{{ $product->stock }}</td>
+                                    
                                     {{-- <td>
                                         <img src="{{ $product->image }}" alt="{{ $product->name }}" class="img-fluid" style="width: 150px;">
                                     </td> --}}

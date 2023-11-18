@@ -15,7 +15,7 @@
             <a href="{{ route('user.index') }}" class="btn btn-sm btn-secondary col-xs-12 col-1 text-uppercase">
                 Volver
             </a>
-            <a href="{{ route('user.edit', $user->id, 'show.index-'.$user->id) }}" class="btn btn-sm btn-warning col-xs-12 col-1 text-uppercase">
+            <a href="{{ route('user.show-edit', $user->id, 'show.index-'.$user->id) }}" class="btn btn-sm btn-warning col-xs-12 col-1 text-uppercase">
                 Editar
             </a>
                     @csrf 
@@ -28,9 +28,9 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="mb-3">    
+                    {{-- <div class="mb-3">    
                         <h2>Nombre: {{ $user->name }}</h2>
-                    </div>
+                    </div> --}}
                     <div class="mb-3">
                         <p> Email: {{ $user->email }}</p>
                     </div>
@@ -44,7 +44,7 @@
                         <p> Creación {{ $user->created_at }}.</p>
                     </div>
                     <div class="mb-3">
-                        <p> Modificación {{ $user->modified_at }}.</p>
+                        <p> Modificación {{ $user->updated_at }}.</p>
                     </div>
                 </div>
             </div>
@@ -58,5 +58,7 @@
 @stop
 
 @section('js')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript" src="{{ asset('js/cruds/confirm-delete.js') }}"></script>
 
 @stop

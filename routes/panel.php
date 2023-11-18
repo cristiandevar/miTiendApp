@@ -9,6 +9,13 @@ use App\Http\Controllers\PurchaseDetailController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
+use App\Models\Category;
+use App\Models\Product;
+use App\Models\Purchase;
+use App\Models\Sale;
+use App\Models\Supplier;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 // Rutas para redirigir al login o al panel segun corresponda
 Route::get('/', [HomeController::class, 'index'])->name('panel');
@@ -18,12 +25,48 @@ Route::get('/home', [HomeController::class, 'index']);
 Route::group(['middleware' => ['can:func_admin']], function () {
     // Rutas para el CRUD de productos
     Route::resource('/products', ProductController::class)->names('product');
-
+    Route::get('/product/show/edit/{id}',
+        function($id){
+            $controller = new ProductController();
+            return $controller->show_edit(Product::where('id',$id)->first());
+        }
+    )->name('product.show-edit');
+    Route::put('/product/show/edit/comfirm/{id}',
+        function(Request $request, $id){
+            $controller = new ProductController();
+            return $controller->update_show($request, Product::where('id',$id)->first());
+        }
+    )->name('product.show-update');
+    
     // Rutas para el CRUD de categorias
     Route::resource('/categories', CategoryController::class)->names('category');
+    Route::get('/category/show/edit/{id}',
+        function($id){
+            $controller = new CategoryController();
+            return $controller->show_edit(Category::where('id',$id)->first());
+        }
+    )->name('category.show-edit');
+    Route::put('/category/show/edit/comfirm/{id}',
+        function(Request $request, $id){
+            $controller = new CategoryController();
+            return $controller->update_show($request, Category::where('id',$id)->first());
+        }
+    )->name('category.show-update');
 
     // Rutas para el CRUD de proveedores
     Route::resource('/suppliers', SupplierController::class)->names('supplier');
+    Route::get('/supplier/show/edit/{id}',
+    function($id){
+        $controller = new SupplierController();
+        return $controller->show_edit(Supplier::where('id',$id)->first());
+    }
+    )->name('supplier.show-edit');
+    Route::put('/supplier/show/edit/comfirm/{id}',
+        function(Request $request, $id){
+            $controller = new SupplierController();
+            return $controller->update_show($request, Supplier::where('id',$id)->first());
+        }
+    )->name('supplier.show-update');
 
     // Rutas para el CRUD de empleados
     Route::resource('/employees', EmployeeController::class)->names('employee');
@@ -31,17 +74,53 @@ Route::group(['middleware' => ['can:func_admin']], function () {
     // Rutas para CRUD detalles de compras
     Route::resource('/purchasesdetails', PurchaseDetailController::class)->names('purchasedetail');
 
-    // Rutas para el CRUD de empleados
+    // Rutas para el CRUD de usuarios
     Route::resource('/users', UserController::class)->names('user');
-
+    Route::get('/user/show/edit/{id}',
+    function($id){
+        $controller = new UserController();
+        return $controller->show_edit(User::where('id',$id)->first());
+    }
+    )->name('user.show-edit');
+    Route::put('/user/show/edit/comfirm/{id}',
+        function(Request $request, $id){
+            $controller = new UserController();
+            return $controller->update_show($request, User::where('id',$id)->first());
+        }
+    )->name('user.show-update');
 });
 
 Route::group(['middleware' => ['can:func_boss']], function () {
     // Rutas para CRUD ventas
     Route::resource('/sales', SaleController::class)->names('sale');
+    Route::get('/sale/show/edit/{id}',
+        function($id){
+            $controller = new SaleController();
+            return $controller->show_edit(Sale::where('id',$id)->first());
+        }
+    )->name('sale.show-edit');
+    Route::put('/sale/show/edit/comfirm/{id}',
+        function(Request $request, $id){
+            $controller = new SaleController();
+            return $controller->update_show($request, Sale::where('id',$id)->first());
+        }
+    )->name('sale.show-update');
 
     // Rutas para CRUD compras
     Route::resource('/purchases', PurchaseController::class)->names('purchase');
+    Route::get('/purchase/edit/show/{id}',
+        function($id){
+            $controller = new PurchaseController();
+            return $controller->show_edit(Purchase::where('id',$id)->first());
+        }
+    )->name('purchase.show-edit');
+    Route::put('/purchase/show/edit/comfirm/{id}',
+        function(Request $request, $id){
+            $controller = new PurchaseController();
+            return $controller->update_show($request, Purchase::where('id',$id)->first());
+        }
+    )->name('purchase.show-update');
+
 
     // Rutas para actualizar precio
     Route::get('/products-filter-price-update', [App\Http\Controllers\ProductController::class, 'update_price'])->name('product.update-price');

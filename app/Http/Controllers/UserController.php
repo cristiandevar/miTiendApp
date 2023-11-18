@@ -68,14 +68,46 @@ class UserController extends Controller
         return view('panel.users.crud.show', compact('user'));
     }
 
+    public function show_edit(User $user)
+    {
+        $roles = Role::all();
+        $back = true;
+        return view('panel.users.crud.edit', compact('user', 'roles', 'back'));    
+    }
+
+
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(User $user)
     {
         $roles = Role::all();
-        
+                
         return view('panel.users.crud.edit', compact('user', 'roles'));    
+    }
+
+    public function update_show(Request $request, User $user)
+    {
+        $user->name = $request->get('name');
+
+        $user->email = $request->get('email');
+
+        $role = User::join('model_has_roles','users.id','=','model_has_roles.model_id')
+            ->select('model_has_roles.role_id')
+            ->where('users.id',$user->id)
+            ->first();
+        $user->roles()->detach($role->role_id);
+        $user->assignRole(Role::find($request->get('role_id')));
+        
+        $user->touch();
+        
+        // Actualiza la info del employeeo en la BD
+        $user->update();
+
+        return redirect()
+            ->route('user.show', compact('user'))
+            ->with('alert', 'Usuario "' .$user->name. '" actualizado exitosamente.');
+    
     }
 
     /**
@@ -87,20 +119,14 @@ class UserController extends Controller
 
         $user->email = $request->get('email');
 
-        // $user->dni = $request->get('dni');
-
-        // if ($request->has('email')) {
-        //     $user->email = $request->get('email');
-        // }
-
-        // if ($request->has('phone')) {
-        //     $user->phone = $request->get('phone');
-        // }
-
-        // $user->user_id = $request->get('user_id');
-        $user->roles()->detach($request->get('role_id'));
+        $role = User::join('model_has_roles','users.id','=','model_has_roles.model_id')
+            ->select('model_has_roles.role_id')
+            ->where('users.id',$user->id)
+            ->first();
+        $user->roles()->detach($role->role_id);
         $user->assignRole(Role::find($request->get('role_id')));
         
+        $user->touch();
         
         // Actualiza la info del employeeo en la BD
         $user->update();

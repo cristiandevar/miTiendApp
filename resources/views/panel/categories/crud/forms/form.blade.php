@@ -1,5 +1,10 @@
 <div class="card mb-5">
-    <form action="{{ $category->id ? route('category.update', $category) : route('category.store') }}" method="POST" enctype="multipart/form-data">
+    @if(isset($back))
+        <form action="{{ $category->id ? route('category.show-update', $category) : route('category.store') }}" method="POST" enctype="multipart/form-data">
+    @else
+        <form action="{{ $category->id ? route('category.update', $category) : route('category.store') }}" method="POST" enctype="multipart/form-data">
+    @endif
+    
         @csrf
         
         @if ($category->id)

@@ -16,7 +16,7 @@
                     Volver al Listado
                 </a>
                 
-                <a href="{{ route('category.edit', $category) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
+                <a href="{{ route('category.show-edit', $category) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
                     Editar
                 </a>
                 @csrf 
@@ -39,7 +39,7 @@
                         <p>Creación <strong>{{ $category->created_at }} </strong>.</p>
                     </div>
                     <div class="mb-3">
-                        <p>Modificación <strong>{{ $category->modified_at }} </strong>.</p>
+                        <p>Modificación <strong>{{ $category->updated_at }} </strong>.</p>
                     </div>
                 </div>
             </div>
@@ -54,4 +54,6 @@
 
 @section('js')
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript" src="{{ asset('js/cruds/confirm-delete.js') }}"></script>
 @stop

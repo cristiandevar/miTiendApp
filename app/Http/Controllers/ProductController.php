@@ -77,6 +77,9 @@ class ProductController extends Controller
         else {
             $product->active = 0;
         }
+        if ($request->minstock) {
+            $product->minstock = $request->get('minstock');
+        }
         
         $product->name = $request->get('name');
         $product->code = $request->get('code');
@@ -101,6 +104,14 @@ class ProductController extends Controller
         return view('panel.products.crud.show', compact('product'));
     }
 
+    public function show_edit(Product $product)
+    {
+        $categories = Category::where('active', 1)->get();
+        $suppliers = Supplier::where('active', 1)->get();
+        $back = true;
+        return view('panel.products.crud.edit', compact('product', 'categories', 'suppliers', 'back'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -110,6 +121,52 @@ class ProductController extends Controller
         $suppliers = Supplier::where('active', 1)->get(); 
         
         return view('panel.products.crud.edit', compact('product', 'categories', 'suppliers'));
+    
+    }
+
+    public function update_show(Request $request, Product $product){
+        $request->validate([
+            'name' => 'required',
+            'code' => 'required',
+            'price' => 'required|max: 99999999',
+            'stock' => 'required|max: 9999',
+            'category_id' => 'required',
+            'supplier_id' => 'required',
+        ]);
+
+        $product->name = $request->get('name');
+        $product->code = $request->get('code');
+        $product->price = $request->get('price');
+        $product->stock = $request->get('stock');
+        $product->category_id = $request->get('category_id');
+        $product->supplier_id = $request->get('supplier_id');
+        
+        if ($request->get('active')) {
+            $product->active = 1;
+        }
+        else {
+            $product->active = 0;
+        }
+        if ($request->get('description')) {
+            $product->description = $request->get('description');
+        }
+        if ($request->minstock) {
+            $product->minstock = $request->get('minstock');
+        }
+        if ($request->hasFile('image')) {
+        // Subida de la imagen nueva al servidor
+            $this->deleteImage($product->image);
+            $image_url = $request->file('image')->store('public/product');
+            $product->image = asset(str_replace('public', 'storage', $image_url));
+        }
+        
+        
+        // Actualiza la info del producto en la BD
+        $product->update();
+
+        return redirect()
+            ->route('product.show', compact('product'))
+            ->with('alert', 'Producto "' .$product->name. '" actualizado exitosamente.');
     
     }
 
@@ -142,6 +199,9 @@ class ProductController extends Controller
         }
         if ($request->get('description')) {
             $product->description = $request->get('description');
+        }
+        if ($request->minstock) {
+            $product->minstock = $request->get('minstock');
         }
         if ($request->hasFile('image')) {
         // Subida de la imagen nueva al servidor
@@ -182,11 +242,9 @@ class ProductController extends Controller
         unlink($image_url);
     }
 
-    public function filter(Request $request) 
-    {
+    public function filter(Request $request) {
 
         $products = $this->filter_gral($request)
-            ->latest()
             ->get(); 
         $categories = Category::where('active',1)
             ->latest()
@@ -199,8 +257,7 @@ class ProductController extends Controller
 
     }
 
-    public function filter_price(Request $request) 
-    {
+    public function filter_price(Request $request) {
 
         $products = $this->filter_gral($request)
             ->latest()
@@ -216,11 +273,9 @@ class ProductController extends Controller
 
     }
 
-    public function filter_async(Request $request) 
-    {
+    public function filter_async(Request $request) {
 
         $products = $this->filter_gral($request)
-            ->latest()
             ->get(); 
         $categories = Category::where('active',1)
             ->latest()
@@ -239,8 +294,7 @@ class ProductController extends Controller
         );
     }
 
-    public function update_price_async(Request $request) 
-    {
+    public function update_price_async(Request $request) {
         $request->validate([
             'percentage' => 'numeric|max:100|min:-100',
         ]);
@@ -298,7 +352,6 @@ class ProductController extends Controller
 
             return response()->json(
                 [
-                    // 'inputs' => $inputs,
                     'products' => $products,
                     'categories' => $categories,
                     'suppliers' => $suppliers
@@ -311,8 +364,7 @@ class ProductController extends Controller
 
     }    
 
-    public function export_file(Request $request) 
-    {
+    public function export_file(Request $request) {
         $columns = ['id','name','stock','price','category_id','supplier_id'];
         $headings = ['ID','NOMBRE','STOCK','PRECIO','CATEGORIA','PROVEEDOR'];
             
@@ -327,9 +379,7 @@ class ProductController extends Controller
         }
     }
 
-    
-    public function filter_gral (Request $request) 
-    {
+    public function filter_gral (Request $request) {
         $query = Product::query();
         
         if ($request->has('id') && Str::length((trim($request->id)))>0) {
@@ -362,12 +412,79 @@ class ProductController extends Controller
             $date_to = Carbon::createFromFormat('Y-m-d',$request->date_to )->startOfDay()->addDay()->toDateTimeString();
             $query->where('created_at','<', $date_to);
         }
+
+        $order_by = [];
+
+        if ($request->has('order_by_1') && Str::length((trim($request->order_by_1)))>0) {
+            $order_by['column'] = $request->order_by_1;
+        }
+        if ($request->has('order_by_2') && Str::length((trim($request->order_by_2)))>0) {
+            $order_by['mode'] = $request->order_by_2;
+        }
+
+        if(count($order_by)>0){
+            $query = $this->order_gral($query, $order_by);
+            return $query->where('products.active', 1);
+        }
+        else {
+            return $query->where('active', 1);
+
+        }
         
-        return $query->where('active', 1);
     }
 
-    public function export_pdf(Collection $content, string $title, string $subtitle, string $file_title, $columns, $headings)
-    {
+    public function order_gral($query, $order_by){
+        
+
+        if(count($order_by) > 0){
+            if($order_by['column'] && ($order_by['column']=='category' || $order_by['column'] == 'supplier')){
+                if($order_by['column']=='category'){
+                    $query->join('categories', 'products.category_id', '=', 'categories.id')
+                        ->select('products.*', 'categories.name AS category_name');
+                    if($order_by['mode'] == 'desc'){
+                        $query->orderBy('category_name','DESC');
+                    }
+                    else {
+                        $query->orderBy('category_name');
+                    }
+                }
+                else {
+                    $query->join('suppliers', 'products.supplier_id', '=', 'suppliers.id')
+                        ->select('products.*', 'suppliers.companyname AS supplier_name');
+                    if($order_by['mode'] == 'desc'){
+                        $query->orderBy('supplier_name','DESC');
+                    }
+                    else {
+                        $query->orderBy('supplier_name');
+                    }
+                }
+                
+            }
+            else if($order_by['column']){
+                if($order_by['mode'] == 'desc'){
+                    $query->orderBy($order_by['column'],'DESC');
+                }
+                else {
+                    $query->orderBy($order_by['column']);
+                }
+            }
+            else {
+                if($order_by['mode'] == 'desc'){
+                    $query->oldest();
+                }
+                else{
+                    $query->latest();
+                }
+            }
+        }
+        else{
+            $query->latest();
+        }
+
+        return $query;
+    }
+
+    public function export_pdf(Collection $content, string $title, string $subtitle, string $file_title, $columns, $headings){
         $data = [
             'title' => $title,
             'subtitle' => $subtitle,

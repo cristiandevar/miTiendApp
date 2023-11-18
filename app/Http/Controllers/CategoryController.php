@@ -64,12 +64,41 @@ class CategoryController extends Controller
         return view('panel.categories.crud.show', compact('category'));
     }
 
+    public function show_edit(Category $category)
+    {
+        $back = true;
+        return view('panel.categories.crud.edit', compact('category', 'back'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Category $category)
     {
         return view('panel.categories.crud.edit', compact('category'));
+    }
+
+    public function update_show(Request $request, Category $category)
+    {
+        $msg = 'Categoria "'.$category->name.'" actualizada exitosamente';
+        $category->name = $request->get('name');
+        if ($request->get('active')) {
+            $category->active = 1;
+        }
+        else {
+            if (!$category->products()->first()) {
+                $category->active = 0;
+            }
+            else {
+                $msg = 'No se pudo eliminar, porque tiene productos asociados';
+            }
+        }
+        
+        $category->update();
+
+        return redirect()
+            ->route('category.show', compact('category'))
+            ->with('alert', $msg);
     }
 
     /**

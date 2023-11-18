@@ -51,6 +51,7 @@
             <div class="card">
                 <div class="card-body">
                     <form action="{{ route('product.filter') }}" method='GET' id="form-filter">
+                        <h6 class="card-header">Elija parámetros de búsqueda</h6>
                         <div class="form-group row">
                             <input class="form-control col-xs-12 col-3 m-1" type="text" id="name" name="name" placeholder="Nombre..." value={{ isset($inputs) && isset($inputs['name'])? $inputs['name'] : '' }}>
                             <input class="form-control col-xs-12 col-3 m-1" type="text" id="code" name="code" placeholder="Código..." value={{ isset($inputs) && isset($inputs['code'])? $inputs['name'] : '' }}>
@@ -72,18 +73,38 @@
                             </select>
                             <input class="form-control col-xs-12 col-3 m-1" type="date" id="date_since" name="date_since" placeholder="Fecha desde..." value={{ isset($inputs['date_since'])? $inputs['date_since'] : '' }}>
                             <input class="form-control col-xs-12 col-3 m-1" type="date" id="date_to" name="date_to" placeholder="Fecha hasta..." value={{ isset($inputs['date_to'])? $inputs['date_to'] : '' }}>
-                            <button id="btn-filter-1" type="submit" class="form-control col-xs-12 col-1 m-1 btn btn-success text-uppercase">
+                            {{-- <button id="btn-filter-1" type="submit" class="form-control col-xs-12 col-1 m-1 btn btn-success text-uppercase">
                                 Filtrar
-                            </button>
+                            </button> --}}
+                        </div>
+                        <h6 class="card-header">Elija el criterio de ordenamiento</h6>
+                        <div class="form-group row">
+                            <select title="Ordenar por..." id="order-by-1" name="order_by_1" class="form-control col-xs-12 col-2 m-1">
+                                <option value="created_at" selected>Fecha de creación</option>
+                                <option value="code">Código</option>
+                                <option value="name">Nombre</option>
+                                <option value="price">Precio</option>
+                                <option value="stock">Stock</option>
+                                <option value="category">Categoria</option>
+                                <option value="supplier">Proveedor</option>
+                            </select>
+                            <select title="Ordenar de forma..." id="order-by-2" name="order_by_2" class="form-control col-xs-12 col-2 m-1">
+                                <option value="asc" selected>Ascendente</option>
+                                <option value="desc">Descendente</option>
+                            </select>
                         </div>
                     </form>
                     <form action="{{ route('product.update-price') }}" method='GET' id="form-update">
                         {{ csrf_field() }}
+                        <h6 class="card-header">Escriba el porcentaje para aumentar o disminuir los precios</h6>
                         <div class="form-group row">
                             <input class="form-control col-xs-12 col-2 m-1" type="hidden" id="inputs" name="inputs" value="{{isset($inputs)?json_encode($inputs):''}}">
                             <input class="form-control col-xs-12 col-2 m-1" type="hidden" id="products" name="products" value="{{isset($products)?json_encode($products):''}}">
-                           
-                            <input class="form-control col-xs-12 col-2 m-1" type="number" id="percentage" name="percentage" placeholder="ingrese porcentaje ..." >
+                           <div class="col-xs-12 col-4 m-1">
+                               <input class="form-control " type="number" id="percentage" name="percentage" placeholder="ingrese porcentaje ..." step="0.01" >
+                               <span id='{{"sp-percentage"}}' class="error" aria-live="polite"></span>
+                            </div>
+                            
                             <button id="btn-update-1" type="submit" class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
                                 Actualizar Precio
                             </button>
@@ -103,7 +124,7 @@
                         <table class="table table-striped table-hover w-100" id="table-products">
                             <thead>
                                 <tr>
-                                    <th scope="col">CÓDIGO</th>
+                                    <th scope="col" class="text-uppercase">Código</th>
                                     <th scope="col" class="text-uppercase">Nombre</th>
                                     <th scope="col" class="text-uppercase">Precio</th>
                                     <th scope="col" class="text-uppercase">Stock</th>
@@ -140,14 +161,17 @@
 
 {{-- Importacion de Archivos CSS --}}
 @section('css')
-    
+<link rel="stylesheet" href="{{ asset('css/products/filters/controller-stock-products.css')}}" >
 @stop
 
 
 {{-- Importacion de Archivos JS --}}
 @section('js')
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript" src="{{ asset('js/products/filters/create-table-filter-products.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/products/filters/filter-products.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/products/filters/update-price-products.js') }}"></script>
+
 @stop
 

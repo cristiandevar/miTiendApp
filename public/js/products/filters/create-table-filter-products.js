@@ -4,6 +4,7 @@ function carge_table(products, categories, suppliers) {
         $('#table-products').show();
         let cadena = '';
         for (let product of products) {
+            // console.log(product);
             cadena += `
                 <tr>
                     <td>${product["code"]}</td>

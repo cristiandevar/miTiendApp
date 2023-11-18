@@ -98,5 +98,7 @@
 
 {{-- Importacion de Archivos JS --}}
 @section('js')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript" src="{{ asset('js/cruds/confirm-delete.js') }}"></script>
 
 @stop

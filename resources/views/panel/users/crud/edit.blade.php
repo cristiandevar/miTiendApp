@@ -14,9 +14,16 @@
     <div class="row">
         <div class="col-12 mb-3">
             <h1>Edición del Usuario "{{ $user->name }}"</h1>
-            <a href="{{ route('user.index') }}" class="btn btn-sm btn-secondary text-uppercase">
-                Volver
-            </a>
+            @if(isset($back))
+                <a href="{{ route('user.show', $user) }}" class="btn btn-sm btn-secondary text-uppercase">
+                    Volver
+                </a>
+            @else
+                <a href="{{ route('user.index') }}" class="btn btn-sm btn-secondary text-uppercase">
+                    Volver al Listado
+                </a> 
+            @endif
+            
         </div>
         <div class="col-12">
             @include('panel.users.crud.forms.form')

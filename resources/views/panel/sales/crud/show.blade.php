@@ -15,7 +15,7 @@
                 <a href="{{ route('sale.index') }}" class="btn btn-sm btn-secondary text-uppercase me-1 m-1">
                     Volver al Listado
                 </a>
-                <a href="{{ route('sale.edit', $sale) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
+                <a href="{{ route('sale.show-edit', $sale) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
                     Editar
                 </a>
             
@@ -34,6 +34,9 @@
                     </div>
                     <div class="mb-3">    
                         <p>Fecha: {{ $sale->created_at }}<p>
+                    </div>
+                    <div class="mb-3">    
+                        <p>Realizada por: {{ $sale->user->name }}<p>
                     </div>
                     <div class="mb-3">
                         <p>cantidad de Productos: <strong>{{ $sale->details->count() }}</strong></p>
@@ -93,5 +96,7 @@
 @stop
 
 @section('js')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript" src="{{ asset('js/cruds/confirm-delete.js') }}"></script>
 
 @stop

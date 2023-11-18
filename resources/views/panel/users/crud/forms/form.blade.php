@@ -1,6 +1,11 @@
 <div class="card mb-5">
-    <form action="{{ $user->id ? route('user.update', $user) : route('user.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
+    @if(isset($back))
+        <form action="{{ $user->id ? route('user.show-update', $user) : route('user.store') }}" method="POST" enctype="multipart/form-data">
+    @else
+        <form action="{{ $user->id ? route('user.update', $user) : route('user.store') }}" method="POST" enctype="multipart/form-data">
+    @endif
+    
+    @csrf
         
         @if ($user->id)
             @method('PUT')
@@ -44,7 +49,7 @@
                 <div class="col-sm-8">
                     <select id="role_id" name="role_id" class="form-control" required>
                         @foreach ($roles as $rol)
-                            <option {{ $rol->role_id && $rol->role_id == $rol->id ? 'selected': ''}} value="{{ $rol->id }}"> 
+                            <option {{ $user->id && $rol->id == $user->role->first->id->id ? 'selected': ''}} value="{{ $rol->id }}"> 
                                 {{ $rol->name }}
                             </option>
                         @endforeach

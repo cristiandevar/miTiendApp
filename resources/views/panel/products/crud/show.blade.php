@@ -15,7 +15,9 @@
                 <a href="{{ route('product.index') }}" class="btn btn-sm btn-secondary text-uppercase">
                     Volver al Listado
                 </a>
-                <a href="{{ route('product.edit', $product) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
+                <input type="hidden" name="back" value="product.show"/>
+                <input type="hidden" name="id" value="{{ $product->id }}"/>
+                <a href="{{ route('product.show-edit', $product) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
                     Editar
                 </a>
                 @csrf 
@@ -38,6 +40,9 @@
                         <p>Stock: <strong>{{ $product->stock }}.</strong></p>
                     </div>
                     <div class="mb-3">
+                        <p>Min. Stock: <strong>{{ $product->minstock }}.</strong></p>
+                    </div>
+                    <div class="mb-3">
                         <p>Categoria: <strong>{{ $product->category->name }}</strong></p>
                     </div>
                     <div class="mb-3">
@@ -50,7 +55,7 @@
                         <p>Creación: <strong>{{ $product->created_at }}</strong></p>
                     </div>
                     <div class="mb-3">
-                        <p>Modificación: <strong>{{ $product->modified_at }}</strong></p>
+                        <p>Modificación: <strong>{{ $product->updated_at }}</strong></p>
                     </div>
                     <div class="mb-3">
                         <p>Descripción: <strong>{{ $product->description }}</strong></p>
@@ -67,5 +72,6 @@
 @stop
 
 @section('js')
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript" src="{{ asset('js/cruds/confirm-delete.js') }}"></script>
 @stop

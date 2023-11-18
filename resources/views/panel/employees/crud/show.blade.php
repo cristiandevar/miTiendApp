@@ -44,7 +44,7 @@
                         <p> Creación {{ $employee->created_at }}.</p>
                     </div>
                     <div class="mb-3">
-                        <p> Modificación {{ $employee->modified_at }}.</p>
+                        <p> Modificación {{ $employee->updated_at }}.</p>
                     </div>
                 </div>
             </div>

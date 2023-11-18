@@ -33,6 +33,14 @@ document.addEventListener('DOMContentLoaded', function (e) {
     $('#date_to').on('change', function (e) {
         call_filter();
     });
+
+    $('#order-by-1').on('change', function (e) {
+        call_filter();
+    });
+
+    $('#order-by-2').on('change', function (e) {
+        call_filter();
+    });
 });
 
 function call_filter(){
@@ -46,7 +54,12 @@ function call_filter(){
             price_to : values['price_to'],
             date_since : values['date_since'],
             date_to : values['date_to'],
+            order_by_1 : values['order_by_1'],
+            order_by_2 : values['order_by_2'],
         }
+        // if(values['order_by_2'] && values['order_by_2']=='descendente'){
+        //     values['order_by_2'] = 'desc';
+        // }
         $.ajax({
                 url: 'products-filter-async',
                 type: 'GET',

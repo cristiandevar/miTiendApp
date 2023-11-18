@@ -89,6 +89,17 @@ class SaleController extends Controller
         return view('panel.sales.crud.show', compact('sale'));
     }
 
+    public function show_edit(Sale $sale)
+    {
+        $users = User::where('active', 1)
+        ->latest() //Ordena de manera DESC por el campo 'created_at'
+        ->get();
+        
+        $today = $sale->created_at;
+        $back = true;
+        return view('panel.sales.crud.edit', compact('sale', 'users', 'today', 'back'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -101,6 +112,32 @@ class SaleController extends Controller
         $today = $sale->created_at;
         return view('panel.sales.crud.edit', compact('sale', 'users', 'today'));
     }
+
+
+    public function update_show(Request $request, Sale $sale)
+    {
+        $request->validate([
+            // 'date' => 'required',
+            'user_id' => 'required'
+        ]);
+
+        if ($request->get('active')) {
+            $sale->active = 1;
+        }
+        else {
+            $sale->active = 0;
+        }
+        $sale->user_id = $request->get('user_id');
+
+        // Almacena la info de la venta en la BD
+        $sale->update();
+
+        return redirect()
+            ->route('sale.show', compact('sale'))
+            ->with('alert', 'Venta nro:"' . $sale->id . '" agregada exitosamente.');
+    
+    }
+
 
     /**
      * Update the specified resource in storage.

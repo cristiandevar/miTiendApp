@@ -71,12 +71,42 @@ class SupplierController extends Controller
         return view('panel.suppliers.crud.show', compact('supplier'));
     }
 
+    public function show_edit(Supplier $supplier)
+    {
+        $back = true;
+        return view('panel.suppliers.crud.edit', compact('supplier','back'));
+    }    
+
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Supplier $supplier)
     {
         return view('panel.suppliers.crud.edit', compact('supplier'));
+    }
+
+    public function update_show(Request $request, Supplier $supplier)
+    {
+        if ($request->has('email')) {
+            $supplier->email = $request->get('email');
+        }
+
+        if ($request->has('phone')) {
+            $supplier->phone = $request->get('phone');
+        }
+
+        if ($request->has('address')) {
+            $supplier->address = $request->get('address');
+        }
+
+        $supplier->companyname = $request->get('companyname');
+
+        // Actualiza la info del suppliero en la BD
+        $supplier->update();
+
+        return redirect()
+            ->route('supplier.show', compact('supplier'))
+            ->with('alert', 'Proveedor "' .$supplier->companyname. '" actualizado exitosamente.');
     }
 
     /**

@@ -11,9 +11,19 @@
     <div class="row">
         <div class="col-12 mb-3">
             <h1>Edición del Proveedor "{{ $supplier->companyname }}"</h1>
-            <a href="{{ route('supplier.index') }}" class="btn btn-sm btn-secondary text-uppercase">
-                Volver al Listado
-            </a>
+            
+            
+            @if(isset($back))
+                <a href="{{ route('supplier.show', $supplier) }}" class="btn btn-sm btn-secondary text-uppercase">
+                    Volver
+                </a>
+            @else
+                <a href="{{ route('supplier.index') }}" class="btn btn-sm btn-secondary text-uppercase">
+                    Volver al Listado
+                </a>
+            @endif
+        
+            
         </div>
         <div class="col-12">
             @include('panel.suppliers.crud.forms.form')

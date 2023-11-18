@@ -15,7 +15,7 @@
                 <a href="{{ route('purchase.index') }}" class="btn btn-sm btn-secondary text-uppercase me-1 m-1">
                     Volver al Listado
                 </a>
-                <a href="{{ route('purchase.edit', $purchase) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
+                <a href="{{ route('purchase.show-edit', $purchase) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
                     Editar
                 </a>
                 @csrf 
@@ -107,5 +107,7 @@
 @stop
 
 @section('js')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript" src="{{ asset('js/cruds/confirm-delete.js') }}"></script>
 
 @stop

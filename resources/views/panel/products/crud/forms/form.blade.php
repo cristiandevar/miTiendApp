@@ -1,5 +1,10 @@
 <div class="card mb-5">
-    <form action="{{ $product->id ? route('product.update', $product) : route('product.store') }}" method="POST" enctype="multipart/form-data">
+    
+    @if(isset($back))
+        <form action="{{ $product->id ? route('product.show-update', $product) : route('product.store') }}" method="POST" enctype="multipart/form-data">
+    @else
+        <form action="{{ $product->id ? route('product.update', $product) : route('product.store') }}" method="POST" enctype="multipart/form-data">
+    @endif
         @csrf
         
         @if ($product->id)
@@ -37,9 +42,9 @@
             </div>
 
             <div class="mb-3 row">
-                <label for="stock" class="col-sm-4 col-form-label"> Stock Minimo (opcional) </label>
+                <label for="minstock" class="col-sm-4 col-form-label"> Stock Minimo (opcional) </label>
                 <div class="col-sm-8">
-                    <input type="number" class="form-control" id="stock" name="stock" value="{{ old('stock', optional($product)->stock) }}" required>
+                    <input type="number" class="form-control" id="minstock" name="minstock" value="{{ old('minstock', optional($product)->minstock) }}" required>
                 </div>
             </div>
 

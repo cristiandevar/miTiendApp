@@ -84,19 +84,21 @@
                             <input title="Ingrese Fecha hasta" class="form-control col-xs-12 col-2 m-1" type="date" id="date_to" name="date_to" placeholder="Fecha hasta..." value={{ isset($inputs['date_to'])? $inputs['date_to'] : '' }}>
                         </div>
                         <h6 class="card-header">Elija el criterio de ordenamiento</h6>
-                        <select title="Seleccione el orden" id="order_by" name="order_by" class="form-control col-xs-12 col-2 m-1">
-                            <option value=""  {{ !isset($inputs['order_by'])? 'selected':''}}>Ordenar...</option>
-                            @foreach ($categories as $category)
-                                <option >Código</option>
-                                <option >Código</option>
-                                <option >Código</option>
-                                <option >Código</option>
-                                <option >Código</option>
-                            @endforeach
-                        </select>
-                        {{-- <button id="btn-filter-1" type="submit" class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
-                            Filtrar
-                        </button> --}}
+                        <div class="form-group row">
+                            <select title="Ordenar por..." id="order-by-1" name="order_by_1" class="form-control col-xs-12 col-2 m-1">
+                                <option value="created_at" selected>Fecha de creación</option>
+                                <option value="code">Código</option>
+                                <option value="name">Nombre</option>
+                                <option value="price">Precio</option>
+                                <option value="stock">Stock</option>
+                                <option value="category">Categoria</option>
+                                <option value="supplier">Proveedor</option>
+                            </select>
+                            <select title="Ordenar de forma..." id="order-by-2" name="order_by_2" class="form-control col-xs-12 col-2 m-1">
+                                <option value="asc" selected>Ascendente</option>
+                                <option value="desc">Descendente</option>
+                            </select>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -113,7 +115,7 @@
                         <table id="table-products" class="table table-striped table-hover w-100">
                             <thead>
                                 <tr>
-                                    <th scope="col" class="text-uppercase">código</th>
+                                    <th scope="col" class="text-uppercase">Código</th>
                                     <th scope="col" class="text-uppercase">Nombre</th>
                                     <th scope="col" class="text-uppercase">Precio</th>
                                     <th scope="col" class="text-uppercase">Stock</th>

@@ -1,5 +1,9 @@
 <div class="card mb-5">
-    <form action="{{ $sale->id ? route('sale.update', $sale) : route('sale.store') }}" method="POST" enctype="multipart/form-data">
+    @if(isset($back))
+        <form action="{{ $sale->id ? route('sale.show-update', $sale) : route('sale.store') }}" method="POST" enctype="multipart/form-data">
+    @else
+        <form action="{{ $sale->id ? route('sale.update', $sale) : route('sale.store') }}" method="POST" enctype="multipart/form-data">
+    @endif
         @csrf
         
         @if ($sale->id)

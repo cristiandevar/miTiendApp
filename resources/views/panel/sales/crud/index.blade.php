@@ -24,12 +24,7 @@
                     <div>
                         <p>Ingrese primero un Producto desde <a href="{{ route('product.index') }}">aqui</a></p>
                     </div>
-                @endif   
-                {{-- @if (!$users->first())
-                    <div>
-                        <p>Ingrese primero un Empleado desde <a href="{{ route('employee.index') }}">aqui</a></p>
-                    </div>
-                @endif                    --}}
+                @endif
             @endif
         </div>
         
@@ -63,7 +58,8 @@
                         <thead>
                             <tr>
                                 <th scope="col" class="text-uppercase">Nro</th>
-                                <th scope="col" class="text-uppercase">Fecha Realizada</th>
+                                <th scope="col" class="text-uppercase">Fecha</th>
+                                <th scope="col" class="text-uppercase">Realizada por</th>
                                 <th scope="col" class="text-uppercase">Cant de productos</th>
                                 <th scope="col" class="text-uppercase">Monto Total</th>
                                 <th scope="col" class="text-uppercase">Opciones</th>
@@ -74,6 +70,7 @@
                             <tr>
                                 <td>{{ $sale->id }}</td>
                                 <td>{{ $sale->created_at }}</td>
+                                <td>{{ $sale->user->name }}</td>
                                 <td>{{ $sale->details->count() }}</td>
                                     
                                 @if($sale->details)
@@ -129,5 +126,7 @@
 
 {{-- Importacion de Archivos JS --}}
 @section('js')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript" src="{{ asset('js/cruds/confirm-delete.js') }}"></script>
 
 @stop

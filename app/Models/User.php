@@ -47,11 +47,5 @@ class User extends Authenticatable
 
     public function role(){
         return User::find($this->id)->roles();
-        // $user = User::find($this->id);
-        // $roles = $user->roles();
-        // // $roles = $user->permissions()
-        // //         ->where('model_type', User::class)
-        // //         ->pluck('role_id');
-        // return $roles;
     }
 }
