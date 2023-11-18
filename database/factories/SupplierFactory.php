@@ -18,10 +18,10 @@ class SupplierFactory extends Factory
     public function definition(): array
     {
         return [
-            'companyname' => $this->faker->sentence(),
-            'email' => $this->faker->sentence(),
-            'phone' => $this->faker->randomNumber(9),
-            'address' => $this->faker->paragraph(1),
+            'companyname' => $this->faker->words($nb = rand(2, 3), $asText = true),
+            'email' => $this->faker->unique()->email,
+            'phone' => $this->faker->unique()->phoneNumber,
+            'address' => $this->faker->words($nb = rand(3, 4), $asText = true),
             'active' => 1,
         ];
     }

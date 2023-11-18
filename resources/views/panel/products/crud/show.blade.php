@@ -11,21 +11,25 @@
     <div class="row">
         <div class="col-12 mb-3">
             <h1>Datos del Producto "{{ $product->name }}"</h1>
-            <a href="{{ route('product.index') }}" class="btn btn-sm btn-secondary text-uppercase">
-                Volver al Listado
-            </a>
+            <form action="{{ route('product.destroy', $product) }}" method="POST">
+                <a href="{{ route('product.index') }}" class="btn btn-sm btn-secondary text-uppercase">
+                    Volver al Listado
+                </a>
+                <a href="{{ route('product.edit', $product) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
+                    Editar
+                </a>
+                @csrf 
+                @method('DELETE')
+                <button type="submit" class="btn btn-sm btn-danger text-uppercase m-1">
+                    Eliminar
+                </button>
+            </form>
         </div>
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <div class="mb-3">
                         <img src="{{ $product->image }}" alt="{{ $product->name }}" id="image_preview" class="img-fluid" style="object-fit: cover; object-position: center; height: 420px; width: 100%;">
-                    </div>
-                    <div class="mb-3">    
-                        <h2>Código: {{ $product->code }}</h2>
-                    </div>
-                    <div class="mb-3">    
-                        <h2>Nombre: {{ $product->name }}</h2>
                     </div>
                     <div class="mb-3">
                         <p>Precio: <strong>{{ $product->price }}.</strong></p>
@@ -38,6 +42,9 @@
                     </div>
                     <div class="mb-3">
                         <p>Proveedor: <strong>{{ $product->supplier->companyname }}</strong></p>
+                    </div>
+                    <div class="mb-3">    
+                        <p>Código: <strong>{{ $product->code }}</strong></p>
                     </div>
                     <div class="mb-3">
                         <p>Creación: <strong>{{ $product->created_at }}</strong></p>

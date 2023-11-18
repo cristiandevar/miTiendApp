@@ -11,9 +11,20 @@
     <div class="row">
         <div class="col-12 mb-3">
             <h1>Datos de la Venta nro: "{{ $sale->id }}"</h1>
-            <a href="{{ route('sale.index') }}" class="btn btn-sm btn-secondary text-uppercase">
-                Volver al Listado
-            </a>
+            <form action="{{ route('sale.destroy', $sale) }}" method="POST">
+                <a href="{{ route('sale.index') }}" class="btn btn-sm btn-secondary text-uppercase me-1 m-1">
+                    Volver al Listado
+                </a>
+                <a href="{{ route('sale.edit', $sale) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
+                    Editar
+                </a>
+            
+                @csrf 
+                @method('DELETE')
+                <button type="submit" class="btn btn-sm btn-danger text-uppercase me-1 m-1">
+                    Eliminar
+                </button>
+            </form>
         </div>
         <div class="col-12">
             <div class="card">
@@ -52,7 +63,6 @@
                                 <th scope="col" class="text-uppercase">Cantidad</th>
                                 <th scope="col" class="text-uppercase">Precio unitario</th>
                                 <th scope="col" class="text-uppercase">Subtotal</th>
-                                {{-- <th scope="col" class="text-uppercase">Opciones</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -63,23 +73,6 @@
                                 <td>{{ $detail->quantity }}</td>
                                 <td>{{ $detail->price }}</td>
                                 <td>{{ $detail->quantity * $detail->price }}</td>
-                                {{-- <td>
-                                    <div class="d-flex">
-                                        <a href="{{ route('purchasedetail.show', $detail) }}" class="btn btn-sm btn-info text-white text-uppercase me-1 m-1">
-                                            Ver
-                                        </a>
-                                        <a href="{{ route('purchasedetail.edit', $detail) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
-                                            Editar
-                                        </a>
-                                        <form action="{{ route('purchasedetail.destroy', $detail) }}" method="POST">
-                                            @csrf 
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger text-uppercase m-1">
-                                                Eliminar
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td> --}}
                             </tr>
                             @endforeach
                         </tbody>

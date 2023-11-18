@@ -23,10 +23,10 @@ class ProductFactory extends Factory
         $supplier = Supplier::inRAndomOrder()->first();
         $category = Category::inRAndomOrder()->first();
         return [
-            'name' => $this->faker->sentence(),
-            'code' => $this->faker->sentence(),
-            'price' => $this->faker->randomFloat(2,200,100000),
-            'stock' => $this->faker->randomNumber(4,true),
+            'name' => $this->faker->words($nb = rand(1, 3), $asText = true),
+            'code' => (string) $this->faker->unique()->randomNumber(6,true),
+            'price' => $this->faker->randomFloat(2,200,10000),
+            'stock' => $this->faker->randomNumber(3,true),
             'category_id' => $category->id,
             'supplier_id' => $supplier->id,
             'active' => 1,

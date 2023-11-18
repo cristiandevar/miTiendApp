@@ -2,11 +2,11 @@
 @extends('adminlte::page')
 
 {{-- Titulo en las tabulaciones del Navegador --}}
-@section('title', 'Empleados')
+@section('title', 'Usuarios')
 
 {{-- Titulo en el contenido de la Pagina --}}
 @section('content_header')
-    <h1>Lista de Empleados</h1>
+    <h1>Lista de Usuarios</h1>
 @stop
 
 {{-- Contenido de la Pagina --}}
@@ -14,17 +14,9 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 mb-3">
-            
-            @if ($users->first())
-                <a href="{{ route('employee.create') }}" class="btn btn-success btn-sm text-uppercase">
-                    Nuevo Empleado
-                </a>
-            @else
-                <div>
-                    <p>Ingrese primero un usuario desde <a href="#">aqui</a></p>
-                </div>
-            @endif
-            
+            <a href="{{ route('user.create') }}" class="btn btn-success btn-sm text-uppercase">
+                Nuevo Usuario
+            </a>
         </div>
         
         @if(session('alert'))
@@ -52,47 +44,39 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                @if(count($employees)>0)
-                    <table id="employees-table" class="table table-striped table-hover w-100">
+                @if(count($users)>0)
+                    <table id="users-table" class="table table-striped table-hover w-100">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
+                                {{-- <th scope="col" class="text-uppercase">Id</th> --}}
                                 <th scope="col" class="text-uppercase">Nombre</th>
-                                <th scope="col" class="text-uppercase">DNI</th>
-                                <th scope="col" class="text-uppercase">Contacto</th>
+                                <th scope="col" class="text-uppercase">Correo</th>
+                                <th scope="col" class="text-uppercase">Rol</th>
                                 <th scope="col" class="text-uppercase">Opciones</th>
                                 
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($employees as $employee)
+                            @foreach ($users as $user)
                             <tr>
-                                <td>{{ $employee->id }}</td>
-                                <td>{{ $employee->name() }}</td>
-                                <td>{{ $employee->dni }}</td>
+                                <td>{{ $user->id }}</td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->email }}</td>
                                 <td>
-                                    @if ($employee->email && $employee->phone)
-                                        <ul>
-                                            <li>{{ Str::limit($employee->email, 80) }}</li>
-                                            <li>{{ Str::limit($employee->phone, 80) }}</li>
-                                        </ul>
-                                    @else
-                                        @if ($employee->email)
-                                            {{ Str::limit($employee->email, 80) }}
-                                        @else
-                                            {{ Str::limit($employee->phone, 80) }}
-                                        @endif
-                                    @endif
+                                    @foreach ($user->role as $rol)
+                                        {{ $rol->name }}
+                                    @endforeach
                                 </td>
                                 <td>
                                     <div class="d-flex">
-                                        <a href="{{ route('employee.show', $employee) }}" class="btn btn-sm btn-info text-white text-uppercase me-1 m-1">
+                                        <a href="{{ route('user.show', $user) }}" class="btn btn-sm btn-info text-white text-uppercase me-1 m-1">
                                             Ver
                                         </a>
-                                        <a href="{{ route('employee.edit', $employee) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
+                                        <a href="{{ route('user.edit', $user) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
                                             Editar
                                         </a>
-                                        <form action="{{ route('employee.destroy', $employee) }}" method="POST">
+                                        <form action="{{ route('user.destroy', $user) }}" method="POST">
                                             @csrf 
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger text-uppercase me-1 m-1">
@@ -106,7 +90,7 @@
                         </tbody>
                     </table>
                 @else
-                    <p class='alert alert-danger small'>No tiene Empleados registrados</p>                    
+                    <p class='alert alert-danger small'>No tiene Usuarios registrados</p>                    
 
                 @endif
             </div>

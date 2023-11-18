@@ -16,7 +16,7 @@
             </div>
 
             <div class="mb-3 row">
-                <label for="category" class="col-sm-4 col-form-label"> * Empleado </label>
+                <label for="category" class="col-sm-4 col-form-label"> * Usuario </label>
                 <div class="col-sm-8">
                     <select id="user_id" name="user_id" class="form-control" required>
                         @foreach ($users as $user)

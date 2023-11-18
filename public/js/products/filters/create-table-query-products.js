@@ -6,10 +6,12 @@ function carge_table(products, categories, suppliers) {
         for (let product of products) {
             cadena += `
                 <tr>
+                    <td>${product["name"]}</td>
                     <td>${product["price"]}</td>
                     <td>${product["stock"]}</td>
-                    <td>${product["name"]}</td>
-                    <td>${product["code"]}</td>
+                    <td>
+                        <img src="${product["image"]}" alt="${product["name"]}" class="img-fluid" style="width: 150px;">
+                    </td>
                 </tr>
             `;
         }

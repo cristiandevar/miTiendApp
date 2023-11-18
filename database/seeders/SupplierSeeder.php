@@ -13,6 +13,13 @@ class SupplierSeeder extends Seeder
      */
     public function run(): void
     {
-        Supplier::factory(20)->create();
+        Supplier::factory(5)->create();
+        Supplier::create([
+            'companyname' => 'PAW 2023',
+            'email' => 'cristianprogramadorunsa@gmail.com',
+            'phone' => '387-111-222',
+            'address' => 'Av. Siempre viva 742',
+            'active' => 1,
+        ]);
     }
 }

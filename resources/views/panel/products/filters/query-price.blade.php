@@ -52,25 +52,9 @@
                 <div class="card-body">
                     <form action="{{ route('product.filter') }}" method='GET' id="form-filter">
                         <div class="form-group row">
-                            <input class="form-control col-xs-12 col-2 m-1" type="text" id="code" name="code" placeholder="Código..." value={{ isset($inputs) && isset($inputs['code'])? $inputs['code'] : '' }}>
                             <input class="form-control col-xs-12 col-2 m-1" type="text" id="name" name="name" placeholder="Nombre..." value={{ isset($inputs) && isset($inputs['name'])? $inputs['name'] : '' }}>
-                            {{-- <select id="supplier_id" name="supplier_id" class="form-control col-xs-12 col-2 m-1">
-                                <option value="" {{ !isset($inputs['supplier_id']) || $inputs['supplier_id']==''? 'selected':''}}>Proveedor...</option>
-                                @foreach ($suppliers as $supplier)
-                                    <option {{ isset($inputs['supplier_id']) && $inputs['supplier_id'] == $supplier->id ? 'selected': ''}} value="{{ $supplier->id }}"> 
-                                        {{ $supplier->companyname }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            <select id="category_id" name="category_id" class="form-control col-xs-12 col-2 m-1">
-                                <option value=""  {{ !isset($inputs['category_id'])? 'selected':''}}>Categoria...</option>
-                                @foreach ($categories as $category)
-                                    <option {{ isset($inputs['category_id']) && $inputs['category_id'] == $category->id ? 'selected': ''}} value="{{ $category->id }}"> 
-                                        {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select> --}}
-                            <button id="btn-filter-1" type="submit" class="form-control col-xs-12 col-1 m-1 btn btn-success text-uppercase">
+                            <input class="form-control col-xs-12 col-2 m-1" type="text" id="code" name="code" placeholder="Código..." value={{ isset($inputs) && isset($inputs['code'])? $inputs['code'] : '' }}>
+                            <button id="btn-filter-1" type="submit" class="form-control col-xs-12 col-3 m-1 btn btn-success text-uppercase">
                                 Consultar
                             </button>
                         </div>
@@ -90,20 +74,22 @@
                         <table class="table table-striped table-hover w-100" id="table-products">
                             <thead id="thead-products">
                                 <tr>
+                                    <th scope="col" class="text-uppercase">nombre</th>
                                     <th scope="col" class="text-uppercase">precio</th>
                                     <th scope="col" class="text-uppercase">stock</th>
-                                    <th scope="col" class="text-uppercase">nombre</th>
-                                    <th scope="col" class="text-uppercase">código</th>
+                                    <th scope="col" class="text-uppercase">Imagen</th>
                                     {{-- <th scope="col" class="text-uppercase">IMAGEN</th> --}}
                                 </tr>
                             </thead>
                             <tbody id="tbody-products">
                                 @foreach ($products as $product)
                                 <tr>
+                                    <td>{{ $product->name }}</td>
                                     <td>{{ $product->price }}</td>
                                     <td>{{ $product->stock }}</td>
-                                    <td>{{ $product->name }}</td>
-                                    <td>{{ $product->code }}</td>
+                                    <td>
+                                        <img src="{{ $product->image }}" alt="{{ $product->name }}" class="img-fluid" style="width: 150px;">
+                                    </td>
                                     {{-- <td>
                                         <img src="{{ $product->image }}" alt="{{ $product->name }}" class="img-fluid" style="width: 150px;">
                                     </td> --}}

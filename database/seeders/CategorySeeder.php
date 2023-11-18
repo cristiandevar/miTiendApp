@@ -18,7 +18,7 @@ class CategorySeeder extends Seeder
             'active' => 1
         ]);
         Category::create([
-            'name' => 'Mascota',
+            'name' => 'Mercaderia',
             'active' => 1
         ]);
         Category::create([
@@ -26,7 +26,11 @@ class CategorySeeder extends Seeder
             'active' => 1
         ]);
         Category::create([
-            'name' => 'Condimento',
+            'name' => 'Limpieza',
+            'active' => 1
+        ]);
+        Category::create([
+            'name' => 'Cotillón',
             'active' => 1
         ]);
     }

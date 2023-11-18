@@ -11,9 +11,19 @@
     <div class="row">
         <div class="col-12 mb-3">
             <h1>Datos de la Compra nro: "{{ $purchase->id }}"</h1>
-            <a href="{{ route('purchase.index') }}" class="btn btn-sm btn-secondary text-uppercase">
-                Volver al Listado
-            </a>
+            <form action="{{ route('purchase.destroy', $purchase) }}" method="POST">
+                <a href="{{ route('purchase.index') }}" class="btn btn-sm btn-secondary text-uppercase me-1 m-1">
+                    Volver al Listado
+                </a>
+                <a href="{{ route('purchase.edit', $purchase) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
+                    Editar
+                </a>
+                @csrf 
+                @method('DELETE')
+                <button type="submit" class="btn btn-sm btn-danger text-uppercase m-1">
+                    Eliminar
+                </button>
+            </form>
         </div>
         <div class="col-12">
             <div class="card">

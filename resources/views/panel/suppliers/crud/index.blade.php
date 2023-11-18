@@ -79,16 +79,16 @@
                                 </td>
                                 <td>
                                     <div class="d-flex">
-                                        <a href="{{ route('supplier.show', $supplier) }}" class="btn btn-sm btn-info text-white text-uppercase me-1">
+                                        <a href="{{ route('supplier.show', $supplier) }}" class="btn btn-sm btn-info text-white text-uppercase me-1 m-1">
                                             Ver
                                         </a>
-                                        <a href="{{ route('supplier.edit', $supplier) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1">
+                                        <a href="{{ route('supplier.edit', $supplier) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
                                             Editar
                                         </a>
                                         <form action="{{ route('supplier.destroy', $supplier) }}" method="POST">
                                             @csrf 
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger text-uppercase">
+                                            <button type="submit" class="btn btn-sm btn-danger text-uppercase me-1 m-1">
                                                 Eliminar
                                             </button>
                                         </form>

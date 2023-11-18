@@ -59,7 +59,7 @@ class SaleController extends Controller
     {
         $request->validate([
             // 'date' => 'required',
-            'employee_id' => 'required'
+            'user_id' => 'required'
         ]);
 
         $sale = new Sale();

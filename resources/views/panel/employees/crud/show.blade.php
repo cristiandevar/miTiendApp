@@ -11,12 +11,19 @@
     <div class="row">
         <div class="col-12 mb-3">
             <h1>Datos del Empleado "{{ $employee->name() }}"</h1>
-            <a href="{{ route('employee.index') }}" class="btn btn-sm btn-secondary col-xs-12 col-1 text-uppercase">
-                Volver
-            </a>
-            <a href="{{ route('employee.edit', $employee->id) }}" class="btn btn-sm btn-secondary col-xs-12 col-1 text-uppercase">
-                Editar
-            </a>
+            <form action="{{ route('employee.destroy', $employee) }}" method="POST">
+                <a href="{{ route('employee.index') }}" class="btn btn-sm btn-secondary col-xs-12 col-1 text-uppercase">
+                    Volver
+                </a>
+                <a href="{{ route('employee.edit', $employee->id) }}" class="btn btn-sm btn-secondary col-xs-12 col-1 text-uppercase">
+                    Editar
+                </a>
+                @csrf 
+                @method('DELETE')
+                <button type="submit" class="btn btn-sm btn-danger text-uppercase me-1 m-1">
+                    Eliminar
+                </button>
+            </form>
         </div>
         <div class="col-12">
             <div class="card">

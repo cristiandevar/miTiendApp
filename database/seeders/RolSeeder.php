@@ -15,11 +15,11 @@ class RolSeeder extends Seeder
     public function run(): void
     {
         $rol_admin = Role::create(['name' => 'admin']);
-        $rol_seller = Role::create(['name' => 'seller']);
         $rol_boss = Role::create(['name' => 'boss']);
+        $rol_seller = Role::create(['name' => 'seller']);
 
         Permission::create(['name' => 'func_admin'])->assignRole($rol_admin);
-        Permission::create(['name' => 'func_seller'])->assignRole($rol_seller);
-        Permission::create(['name' => 'func_boss'])->assignRole($rol_boss);
+        Permission::create(['name' => 'func_boss'])->syncRoles([$rol_admin,$rol_boss]);
+        Permission::create(['name' => 'func_seller'])->syncRoles([$rol_admin,$rol_boss,$rol_seller]);
     }
 }
