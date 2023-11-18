@@ -10,28 +10,30 @@
         <div class="card">
             <div class="card-body" id="card-table">
                 @if (count($products) > 0)
-                    <table id="table-products" class="table table-striped w-100">
+                    <table id="table-products" class="table table-border w-100">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col" class="text-uppercase">Nombre</th>
-                                <th scope="col" class="text-uppercase">Precio</th>
-                                <th scope="col" class="text-uppercase">Categoría</th>
-                                <th scope="col" class="text-uppercase">Proveedor</th>
-                                <th scope="col" class="text-uppercase">Imagen</th>
+                                @foreach ($headings as $heading)
+                                    <th scope="col">{{ $heading }}</th>
+                                @endforeach
                             </tr>
                         </thead>
                         <tbody id="body-table-products">
                             @foreach ($products as $key => $product)
                             <tr>
-                                <td>{{ $key }}</td>
-                                <td>{{ $product->name }}</td>
-                                <td>{{ $product->price }}</td>
-                                <td>{{ $product->category->name }}</td>
-                                <td>{{ $product->supplier->companyname }}</td>
-                                <td>
-                                    <img src="{{ $product->image }}" alt="{{ $product->name }}" class="img-fluid" style="width: 150px;">
-                                </td>
+                                @foreach ($columns as $column)
+                                    @if ($column == 'category_id')
+                                        <td>{{ $product->category->name }}</td>
+                                    @elseif ($column == 'supplier_id') 
+                                        <td>{{ $product->supplier->companyname }}</td>
+                                    @elseif ($column == 'imgage')
+                                        <td>
+                                            <img src="{{ $product->image }}" alt="{{ $product->name }}" class="img-fluid" style="width: 150px;">
+                                        </td>
+                                    @else
+                                        <td>{{ $product->$column }}</td>
+                                    @endif
+                                @endforeach
                             </tr>
                             @endforeach
                         </tbody>

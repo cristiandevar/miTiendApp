@@ -51,9 +51,18 @@
             <div class="card">
                 <div class="card-body">
                     <form id="form-filter" action="{{ route('products.export-file') }}" method='GET'>
+                        <h6 class="card-header">Descargue su listado</h6>
+                        
+                        <button id="btn-excel-1" type="submit" name="action" value="excel" class="form-control col-xs-12 col-1 m-1 btn btn-success "title="Exportar datos filtrados en formato .XLSX"><i class="fas fa-file-excel"></i>
+                        </button>
+                        <button id="btn-pdf-1" type="submit" name="action" value="pdf" class="form-control col-xs-12 col-1 m-1 btn btn-success "title="Exportar datos filtrados en formato .PDF"><i class="fas fa-file-pdf"></i>
+                        </button>
+                        
+                        <h6 class="card-header">Elija los parametros de búsqueda</h6>
                         <div class="form-group row">
-                            <input class="form-control col-xs-12 col-2 m-1" type="text" id="name" name="name" placeholder="Nombre" value={{ isset($inputs) && isset($inputs['name'])? $inputs['name'] : '' }}>
-                            <select id="supplier_id" name="supplier_id" class="form-control col-xs-12 col-2 m-1">
+                            <input title="Ingrese el código de algun producto" class="form-control col-xs-12 col-2 m-1" type="text" id="code" name="code" placeholder="Código" value={{ isset($inputs) && isset($inputs['code'])? $inputs['code'] : '' }}>
+                            <input title="Ingrese el nombre de algun producto" class="form-control col-xs-12 col-2 m-1" type="text" id="name" name="name" placeholder="Nombre" value={{ isset($inputs) && isset($inputs['name'])? $inputs['name'] : '' }}>
+                            <select title="Seleccione algun Proveedor" id="supplier_id" name="supplier_id" class="form-control col-xs-12 col-2 m-1">
                             <option value="" {{ !isset($inputs['supplier_id']) || $inputs['supplier_id']==''? 'selected':''}}>Proveedor...</option>
                                 @foreach ($suppliers as $supplier)
                                     <option {{ isset($inputs['supplier_id']) && $inputs['supplier_id'] == $supplier->id ? 'selected': ''}} value="{{ $supplier->id }}"> 
@@ -61,7 +70,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <select id="category_id" name="category_id" class="form-control col-xs-12 col-2 m-1">
+                            <select title="Seleccione alguna Categoria" id="category_id" name="category_id" class="form-control col-xs-12 col-2 m-1">
                                 <option value=""  {{ !isset($inputs['category_id'])? 'selected':''}}>Categoria...</option>
                                 @foreach ($categories as $category)
                                     <option {{ isset($inputs['category_id']) && $inputs['category_id'] == $category->id ? 'selected': ''}} value="{{ $category->id }}"> 
@@ -69,18 +78,25 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <input class="form-control col-xs-12 col-2 m-1" type="number" id="price_since" name="price_since" placeholder="Precio desde..." value={{ isset($inputs['price_since'])? $inputs['price_since'] : '' }}>
-                            <input class="form-control col-xs-12 col-2 m-1" type="number" id="price_to" name="price_to" placeholder="Precio hasta..." value={{ isset($inputs['price_to'])? $inputs['price_to'] : '' }}>
-                            <input class="form-control col-xs-12 col-2 m-1" type="date" id="date_since" name="date_since" placeholder="Fecha desde..." value={{ isset($inputs['date_since'])? $inputs['date_since'] : '' }}>
-                            <input class="form-control col-xs-12 col-2 m-1" type="date" id="date_to" name="date_to" placeholder="Fecha hasta..." value={{ isset($inputs['date_to'])? $inputs['date_to'] : '' }}>
+                            <input title="Ingrese Precio desde" class="form-control col-xs-12 col-2 m-1" type="number" id="price_since" name="price_since" placeholder="Precio desde..." value={{ isset($inputs['price_since'])? $inputs['price_since'] : '' }}>
+                            <input title="Ingrese Precio hasta" class="form-control col-xs-12 col-2 m-1" type="number" id="price_to" name="price_to" placeholder="Precio hasta..." value={{ isset($inputs['price_to'])? $inputs['price_to'] : '' }}>
+                            <input title="Ingrese Fecha desde" class="form-control col-xs-12 col-2 m-1" type="date" id="date_since" name="date_since" placeholder="Fecha desde..." value={{ isset($inputs['date_since'])? $inputs['date_since'] : '' }}>
+                            <input title="Ingrese Fecha hasta" class="form-control col-xs-12 col-2 m-1" type="date" id="date_to" name="date_to" placeholder="Fecha hasta..." value={{ isset($inputs['date_to'])? $inputs['date_to'] : '' }}>
                         </div>
-                        <button id="btn-filter-1" type="submit" class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
+                        <h6 class="card-header">Elija el criterio de ordenamiento</h6>
+                        <select title="Seleccione el orden" id="order_by" name="order_by" class="form-control col-xs-12 col-2 m-1">
+                            <option value=""  {{ !isset($inputs['order_by'])? 'selected':''}}>Ordenar...</option>
+                            @foreach ($categories as $category)
+                                <option >Código</option>
+                                <option >Código</option>
+                                <option >Código</option>
+                                <option >Código</option>
+                                <option >Código</option>
+                            @endforeach
+                        </select>
+                        {{-- <button id="btn-filter-1" type="submit" class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
                             Filtrar
-                        </button>
-                        <button id="btn-excel-1" type="submit" name="action" value="excel" class="form-control col-xs-12 col-1 m-1 btn btn-success "title="Exportar datos en formato .XLSX"><i class="fas fa-file-excel"></i>
-                        </button>
-                        <button id="btn-pdf-1" type="submit" name="action" value="pdf" class="form-control col-xs-12 col-1 m-1 btn btn-success "title="Exportar datos en formato .PDF"><i class="fas fa-file-pdf"></i>
-                        </button>
+                        </button> --}}
                     </form>
                 </div>
             </div>

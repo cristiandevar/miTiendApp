@@ -313,13 +313,17 @@ class ProductController extends Controller
 
     public function export_file(Request $request) 
     {
+        $columns = ['id','name','stock','price','category_id','supplier_id'];
+        $headings = ['ID','NOMBRE','STOCK','PRECIO','CATEGORIA','PROVEEDOR'];
+            
         if ($request->action == 'excel') {
+            $headings = ['ID','Nombre','STOCK','PRECIO','CATEGORIA','PROVEEDOR'];
             $content = $this->filter_gral($request);
-            return Excel::download(new ProductsExport($content),'productos.xlsx');
+            return Excel::download(new ProductsExport($content,$columns, $headings),'productos.xlsx');
         }
         else if ($request->action == 'pdf') {
             $content = $this->filter_gral($request)->latest()->get();
-            return $this->export_pdf($content, 'Productos', 'Listado filtrado', 'Listado filtrado de productos');
+            return $this->export_pdf($content, 'Productos', 'Listado filtrado', 'Listado filtrado de productos', $columns, $headings);
         }
     }
 
@@ -362,12 +366,14 @@ class ProductController extends Controller
         return $query->where('active', 1);
     }
 
-    public function export_pdf(Collection $content, string $title, string $subtitle, string $file_title)
+    public function export_pdf(Collection $content, string $title, string $subtitle, string $file_title, $columns, $headings)
     {
         $data = [
             'title' => $title,
             'subtitle' => $subtitle,
             'products' => $content,
+            'columns' => $columns,
+            'headings' => $headings,
         ];
         
         $pdf = PDF::loadView('pdf.product_list', $data);

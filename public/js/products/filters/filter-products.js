@@ -1,9 +1,42 @@
 document.addEventListener('DOMContentLoaded', function (e) {
     
     $('#alert-table').hide();
-    $('#btn-filter-1').on('click', function (e) {
-        e.preventDefault();
-        var values = carge_values('form-filter');
+
+    $('#code').on('input', function (e) {
+        call_filter();
+    });
+
+    $('#name').on('input', function (e) {
+        call_filter();
+    });
+
+    $('#supplier_id').on('change', function (e) {
+        call_filter();
+    });
+
+    $('#category_id').on('change', function (e) {
+        call_filter();
+    });
+
+    $('#price_since').on('input', function (e) {
+        call_filter();
+    });
+
+    $('#price_to').on('input', function (e) {
+        call_filter();
+    });
+
+    $('#date_since').on('change', function (e) {
+        call_filter();
+    });
+
+    $('#date_to').on('change', function (e) {
+        call_filter();
+    });
+});
+
+function call_filter(){
+    var values = carge_values('form-filter');
         var data_filter = {
             code : values['code'],
             name : values['name'],
@@ -19,13 +52,13 @@ document.addEventListener('DOMContentLoaded', function (e) {
                 type: 'GET',
                 data: data_filter,
                 success: function(response) {
+                    $('#alert-table').hide();
                     carge_table(response.products, response.categories, response.suppliers);
                 },
                 error: function(xhr, status, error) {
+                    $('#alert-table').show();
                     console.error(error);
                 }
             }
         );
-
-    });
-});
+}
