@@ -108,23 +108,3 @@
     </form>
 
 </div>
-
-@push('js')
-    <script>
-        document.addEventListener("DOMContentLoaded", function(event) {
-            const image = document.getElementById('image');
-        
-            image.addEventListener('change', (e) => {
-
-                const input = e.target;
-                const imagePreview = document.querySelector('#image_preview');
-                
-                if(!input.files.length) return
-
-                file = input.files[0];
-                objectURL = URL.createObjectURL(file);
-                imagePreview.src = objectURL;
-            });
-        });
-    </script>
-@endpush

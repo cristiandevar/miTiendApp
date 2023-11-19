@@ -2,88 +2,52 @@ document.addEventListener('DOMContentLoaded', function (e) {
     
     $('#alert-table-options').hide();
 
-    $('#select-supplier').on('change',
-        function ( e ) {
-            let option = $(this).val();
-            let data_filter = {};
-
-            if ( option != '' ) {
-                option = parseInt(option);
-                data_filter = {
-                    'supplier_id' : option,
-                    'code': $('#input-code-1').val(),
-                    'name': $('#input-name-1').val(),
-                }
-            }
-
-            $.ajax(
-                {
-                    url: 'purchase-filter-async-products',
-                    type: 'GET',
-                    data: data_filter,
-                    success: function(response) {
-                        show_products(response.products, response.categories, response.suppliers);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(error);
-                    }
-                }
-            );
+    $('#code').on('input', 
+        function (e) {
+            e.preventDefault();
+            call_filter();
         }
     );
-
-    $('#input-code-1').on('input', function (e) {
-        e.preventDefault();
-        // var values = carge_values('form-filter');
-        console.log($(this).val());
-        let data_filter = {
-            code: $(this).val(),
-            supplier_id:$('#select-supplier').val(),
-            name: $('#input-name-1').val(),
-        };
-        $.ajax({
-                url: 'purchase-filter-async-products',
-                type: 'GET',
-                data: data_filter,
-                success: function(response) {
-                    console.log(response.products.length);
-                    show_products(response.products);
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            }
-        );
-
-    });
-
-    $('#input-name-1').on('input', function (e) {
-        e.preventDefault();
-        // var values = carge_values('form-filter');
-        console.log($(this).val());
-        let data_filter = {
-            name: $(this).val(),
-            supplier_id:$('#select-supplier').val(),
-            code: $('#input-code-1').val(),
-        };
-        $.ajax({
-                url: 'purchase-filter-async-products',
-                type: 'GET',
-                data: data_filter,
-                success: function(response) {
-                    console.log(response.products.length);
-                    show_products(response.products);
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            }
-        );
-
-    });
+    $('#name').on('input', 
+        function (e) {
+            e.preventDefault();
+            call_filter();
+        }
+    );
+    $('#stock_since').on('input', 
+        function (e) {
+            e.preventDefault();
+            call_filter();
+        }
+    );
+    $('#stock_to').on('input', 
+        function (e) {
+            e.preventDefault();
+            call_filter();
+        }
+    );
+    $('#order-by-1').on('input', 
+        function (e) {
+            e.preventDefault();
+            call_filter();
+        }
+    );
+    $('#order-by-2').on('input', 
+        function (e) {
+            e.preventDefault();
+            call_filter();
+        }
+    );
+    $('#select-supplier').on('input', 
+        function (e) {
+            e.preventDefault();
+            call_filter();
+        }
+    );
 });
 
 function show_products(products){
+    console.log(products);
     if(products.length>0){
         $('#alert-table-options').hide();
         $('#table-options-1').show();
@@ -94,7 +58,10 @@ function show_products(products){
                     <td>${product["code"]}</td>
                     <td>${product["name"]}</td>
                     <td>${product["stock"]}</td>
-                    <td><input type='number'/></td>
+                    <td>
+                        <input id='qty-${product['id'] }' type='number'/><br>
+                        <span id='sp-${product['id'] }' class="error" aria-live="polite"></span>
+                    </td>
                 </tr>
             `;
         }
@@ -104,4 +71,59 @@ function show_products(products){
         $('#alert-table-options').show();
         $('#table-options-1').hide();
     }
+}
+
+function call_filter(){
+    var values = carge_filter('fields-filter');
+    // console.log(values)
+    var data_filter = {
+        code : values['code'],
+        name : values['name'],
+        price_since : values['price_since'],
+        price_to : values['price_to'],
+        supplier_id : values['supplier_id'],
+        stock_since : values['stock_since'],
+        stock_to : values['stock_to'],
+        category_id : values['category_id'],
+        order_by_1 : values['order_by_1'],
+        order_by_2 : values['order_by_2'],
+    }
+    $.ajax({
+            url: 'products-filter-async',
+            type: 'GET',
+            data: data_filter,
+            success: function(response) {
+                $('#alert-table-options').hide();
+                $('#table-options-1').show();
+                show_products(response.products);
+                rows = $("#tbody-options tr");
+                rows.each(
+                    function () {
+                        let id = $(this).attr('id').split("-")[1];
+                        $(this).find('input[type=number]').each(
+                            function(){
+
+                                add_listener($(this).attr('id'));
+                            }
+                        )
+                    }
+                );
+
+            },
+            error: function(xhr, status, error) {
+                $('#alert-table-options').show();
+                $('#table-options-1').hide();
+                console.error(error);
+            }
+        }
+    );
+}
+
+function carge_filter(id){
+    let values= {};
+    let $inputs_form = $("#" + id + " :input");
+    $('#fields-filter').find('input, select').each(function() {
+        values[$(this).attr('name')] = $(this).val();
+    });
+    return values;
 }

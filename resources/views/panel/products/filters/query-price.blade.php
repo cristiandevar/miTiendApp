@@ -55,9 +55,16 @@
                         <div class="form-group row">
                             <input class="form-control col-xs-12 col-2 m-1" type="text" id="name" name="name" placeholder="Nombre..." value={{ isset($inputs) && isset($inputs['name'])? $inputs['name'] : '' }}>
                             <input class="form-control col-xs-12 col-2 m-1" type="text" id="code" name="code" placeholder="Código..." value={{ isset($inputs) && isset($inputs['code'])? $inputs['code'] : '' }}>
-                            <button id="btn-filter-1" type="submit" class="form-control col-xs-12 col-3 m-1 btn btn-success text-uppercase">
+                            <input class="form-control col-xs-12 col-2 m-1" type="number" id="stock_since" name="stock_since" placeholder="Stock desde..." value={{ isset($inputs) && isset($inputs['stock_since'])? $inputs['stock_since'] : '' }}>
+                            <input class="form-control col-xs-12 col-2 m-1" type="number" id="stock_to" name="stock_to" placeholder="Stock hasta..." value={{ isset($inputs) && isset($inputs['stock_to'])? $inputs['stock_to'] : '' }}>
+                        </div>
+                        <div class="form-group row">
+                            <input class="form-control col-xs-12 col-2 m-1" type="number" id="price_since" name="price_since" placeholder="Precio desde..." value={{ isset($inputs) && isset($inputs['price_since'])? $inputs['price_since'] : '' }}>
+                            <input class="form-control col-xs-12 col-2 m-1" type="number" id="price_to" name="price_to" placeholder="Precio hasta..." value={{ isset($inputs) && isset($inputs['price_to'])? $inputs['price_to'] : '' }}>
+                            
+                            {{-- <button id="btn-filter-1" type="submit" class="form-control col-xs-12 col-3 m-1 btn btn-success text-uppercase">
                                 Consultar
-                            </button>
+                            </button> --}}
                         </div>
                         <h6 class="card-header">Elija el criterio de ordenamiento</h6>
                         <div class="form-group row">

@@ -26,6 +26,14 @@ document.addEventListener('DOMContentLoaded', function (e) {
         call_filter();
     });
 
+    $('#stock_since').on('input', function (e) {
+        call_filter();
+    });
+
+    $('#stock_to').on('input', function (e) {
+        call_filter();
+    });
+
     $('#date_since').on('change', function (e) {
         call_filter();
     });
@@ -52,14 +60,13 @@ function call_filter(){
             category_id : values['category_id'],
             price_since : values['price_since'],
             price_to : values['price_to'],
+            stock_since : values['stock_since'],
+            stock_to : values['stock_to'],
             date_since : values['date_since'],
             date_to : values['date_to'],
             order_by_1 : values['order_by_1'],
             order_by_2 : values['order_by_2'],
         }
-        // if(values['order_by_2'] && values['order_by_2']=='descendente'){
-        //     values['order_by_2'] = 'desc';
-        // }
         $.ajax({
                 url: 'products-filter-async',
                 type: 'GET',

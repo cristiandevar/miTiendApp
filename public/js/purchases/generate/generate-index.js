@@ -75,13 +75,13 @@ function carge_rows () {
     
     set_rows = {};
     
-    supplier = $('#select-supplier').val();
-    if ( supplier != '') {
-        supplier = parseInt(supplier);
-        set_rows = {
-            'supplier_id': supplier,
-        };
-    }
+    // supplier = $('#select-supplier').val();
+    // if ( supplier != '') {
+    //     supplier = parseInt(supplier);
+    //     set_rows = {
+    //         'supplier_id': supplier,
+    //     };
+    // }
     
     count = 0;
     rows = $('#tbody-purchase').find('tr');

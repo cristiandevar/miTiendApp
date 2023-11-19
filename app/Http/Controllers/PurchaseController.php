@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendMail;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\PurchaseDetail;
 use App\Models\Supplier;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class PurchaseController extends Controller
@@ -186,37 +189,48 @@ class PurchaseController extends Controller
 
     public function generate_action(Request $request){
         
-        $query = Supplier::query();
+        try{
+           
+            $query = Supplier::query();
 
-        // if ( $request->has('supplier_id') ) {
-        //     $query -> where('id',$request->supplier_id );
-        // }
-
-        $suppliers = $query->where('active',1)->get();
-        
-        $b = 0;
-        $purchase = new Purchase();
-        
-        foreach ( $suppliers as $supplier ) {
-            if ( $b==1 ) {
-                $purchase = new Purchase();
-                $b=0;
-            }
-            $purchase->supplier_id = $supplier->id;
-            for ($i = 0; $i<$request->qty;$i++){
-                $product = Product::where('id',$request->$i['product_id'])->first();
-                if ($product->supplier_id == $supplier->id){
-                    $detail = new PurchaseDetail();
-                    $detail->product_id = $product->id;
-                    $detail->quantity_ordered = $request->$i['quantity'];
-                    if($b==0){
-                        $purchase->save();
-                        $b=1;
+            $suppliers = $query->where('active',1)->get();
+            
+            $b = 0;
+            $purchase = new Purchase();
+            
+            foreach ( $suppliers as $supplier ) {
+                if ( $b==1 ) {
+                    $purchase = new Purchase();
+                    $b=0;
+                }
+                $purchase->supplier_id = $supplier->id;
+                for ($i = 0; $i<$request->qty;$i++){
+                    $product = Product::where('id',$request->$i['product_id'])->first();
+                    if ($product->supplier_id == $supplier->id){
+                        $detail = new PurchaseDetail();
+                        $detail->product_id = $product->id;
+                        $detail->quantity_ordered = $request->$i['quantity'];
+                        if($b==0){
+                            $purchase->save();
+                            $b=1;
+                        }
+                        $detail->purchase_id = $purchase->id;
+                        $detail->save();
                     }
-                    $detail->purchase_id = $purchase->id;
-                    $detail->save();
                 }
             }
+            $data = array(
+                'name' => auth()->user()->name,
+                'email' => auth()->user()->email,
+                'fecha creacion' => $purchase->created_date,
+                // 'producto_descripcion' => $producto->descripcion,
+                // 'producto_precio' => $producto->precio
+            );
+
+            Mail::to($data['email'])->send(new SendMail($data));
+        }
+        catch(Exception $e){
+            
         }
 
         return response()->json([

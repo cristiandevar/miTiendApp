@@ -18,32 +18,26 @@ function addListener(id_input_qty){
                     type: 'GET',
                     data: data,
                     success: function(response) {
-                        // console.log(response.products[0]['stock']);
                         max = response.products[0]['stock'];
-                        // console.log(!(parseInt(input.val())<=max));
                         let input, span; 
                         input = document.getElementById(id_input_qty);
                         span = document.getElementById('sp-' + id_input_qty.split('-')[1]);
-                        // console.log();
+                        
 
                         input.setAttribute('max',parseInt(max));
-                        
+                            // input.setAttribute('min',1);
                         if(input.validity.valid){
-                            span.innerHTML = "";
+                            span.textContent = "";
                             span.className = "error";
                         }
-                        else {
+                        else if(input.validity.rangeOverflow) {
                             span.textContent = "No hay stock suficiente";
                             span.className = "error active"
                         }
-                        // if (!(parseInt(input.val())>0) || !(parseInt(input.val())<=max)){
-                        //     input_aux.setCustomValidity('Ingrese un número válido');
-                        //     // this.setCustomValidity('Ingrese un número válido');
-                        
-                        // }
-                        // else {
-                        //     input_aux.setCustomValidity('');
-                        // }
+                        else {
+                            span.textContent = "Nro no válido";
+                            span.className = "error active"
+                        }
                     },
                     error: function(xhr, status, error) {
                         console.error(error);
@@ -51,7 +45,6 @@ function addListener(id_input_qty){
                     }
                 }
             );
-            // console.log(max);
             
         }
     );

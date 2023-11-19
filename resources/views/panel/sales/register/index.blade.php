@@ -10,18 +10,6 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        {{-- <div class="col-12 mb-3">
-            
-            @if ($products->first())
-                <a href="{{ route('sale.create') }}" class="btn btn-success btn-sm text-uppercase">
-                    Nueva Venta
-                </a>
-            @else
-                <div>
-                    <p>Ingrese primero un Producto desde <a href="{{ route('product.index') }}">aqui</a></p>
-                </div>             
-            @endif
-        </div> --}}
         <div id="div-alert-1" class="col-12">
             <div class="alert alert-success alert-dismissible show" role="alert">
                 
@@ -30,7 +18,6 @@
                 </button>                    
             </div>
         </div>
-
         
         <div id="div-error-1" class="col-12">
             <div class="alert alert-danger alert-dismissible show" role="error">
@@ -49,29 +36,12 @@
                         <div class="form-group row">
                             <input class="form-control col-xs-12 col-2 m-1" type="text" id="name" name="name" placeholder="Nombre" value={{ isset($inputs) && isset($inputs['name'])? $inputs['name'] : '' }}>
                             <input class="form-control col-xs-12 col-2 m-1" type="text" id="code" name="code" placeholder="Código" value={{ isset($inputs) && isset($inputs['code'])? $inputs['code'] : '' }}>
-                            {{-- <select id="supplier_id" name="supplier_id" class="form-control col-xs-12 col-2 m-1">
-                                <option value="" {{ !isset($inputs['supplier_id']) || $inputs['supplier_id']==''? 'selected':''}}>Proveedor...</option>
-                                @foreach ($suppliers as $supplier)
-                                    <option {{ isset($inputs['supplier_id']) && $inputs['supplier_id'] == $supplier->id ? 'selected': ''}} value="{{ $supplier->id }}"> 
-                                        {{ $supplier->companyname }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            <select id="category_id" name="category_id" class="form-control col-xs-12 col-2 m-1">
-                                <option value=""  {{ !isset($inputs['category_id'])? 'selected':''}}>Categoria...</option>
-                                @foreach ($categories as $category)
-                                    <option {{ isset($inputs['category_id']) && $inputs['category_id'] == $category->id ? 'selected': ''}} value="{{ $category->id }}"> 
-                                        {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select> --}}
-                            <button id="btn-filter-1" type="submit" class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
-                                Filtrar
-                            </button>
                             
-                            <button id='add-products' class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
-                                Agregar
-                            </button>
+                            {{-- <button id="btn-filter-1" type="submit" class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
+                                Filtrar
+                            </button> --}}
+                            
+                            
                         </div>
                     </form>
                 {{-- </div>
@@ -82,6 +52,9 @@
                 <div class="card-body" id="card-table"> --}}
                     <form action="#" method="get" novalidate>
                         <div class="form-group row" style='height:15em;overflow-y:auto;'>
+                            <button id='add-products' class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
+                                Agregar
+                            </button>
                             @if(count($products)>0)
                                 {{-- @include('panel.products.tables.table-main') --}}
                                 <div id='alert-table'>

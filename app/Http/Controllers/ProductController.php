@@ -381,7 +381,6 @@ class ProductController extends Controller
 
     public function filter_gral (Request $request) {
         $query = Product::query();
-        
         if ($request->has('id') && Str::length((trim($request->id)))>0) {
             $query->where('id', $request->id);
         }
@@ -404,6 +403,12 @@ class ProductController extends Controller
         }
         if ($request->has('price_to') && $request->price_to) {
             $query->where('price','<=', $request->price_to);
+        }
+        if ($request->has('stock_since') && $request->stock_since) {
+            $query->where('stock','>=', $request->stock_since);
+        }
+        if ($request->has('stock_to') && $request->stock_to) {
+            $query->where('stock','<=', $request->stock_to);
         }
         if ($request->has('date_since') && $request->date_since) {
             $query->where('created_at','>=', $request->date_since);

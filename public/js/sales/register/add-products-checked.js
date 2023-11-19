@@ -4,14 +4,16 @@ document.addEventListener('DOMContentLoaded',
             function ( e ) {
                 e.preventDefault();
                 
-                let ids = [];
-                let vals = [];
-                let acum;
-                let tbody = $('#tbody-sale');
-                let rows, row, tr, trtotal, td1, td2, td3, td4, td5, tddel, dot, a, ic;
+                let ids, vals, acum, tbody1, tbody2;
+                let rows, row, tr, trtotal, td1, td2, td3, td4, td5, tddel, dot, a, ic,sp, input;
                 
+                ids = [];
+                vals = []
+                tbody1 = $('#tbody-sale');
+                tbody2 = $('#tbody-products');
+
                 rows = $("#table-products tbody tr");
-                trtotal_ultimo = tbody.find('#trsale-total');
+                trtotal_ultimo = tbody1.find('#trsale-total');
                 trtotal = trtotal_ultimo.clone(true);
                 trtotal_ultimo.remove();
                 // console.log(rows);
@@ -29,11 +31,15 @@ document.addEventListener('DOMContentLoaded',
                         );
                     }
                 );
-
+                // console.log(ids);
                 for (let i=0 ; i<ids.length ; i++) {
                     row = $('#table-products').find("#trproduct-"+ids[i]);
-                    // console.log(row.children().last().children().last().attr('class'));
-                    if (!tbody.find('#trsale-'+ids[i]).length && row.children().last().children().last().attr('class') != 'error active') {
+                    
+                    input = tbody2.find('#trproduct-'+ids[i]).children().last().find('input').first();
+                    sp = tbody2.find('#trproduct-'+ids[i]).children().last().find('span').first();
+                    
+                    // console.log(tbody2.find('#trproduct-'+ids[i]).children().last().find('input').first().val() > 0);
+                    if (!tbody1.find('#trsale-'+ids[i]).length && input.val() > 0 && sp.attr('class') != 'error active') {
 
                         tr = document.createElement('tr');
                         tr.setAttribute('id','trsale-'+ids[i]);
@@ -71,21 +77,22 @@ document.addEventListener('DOMContentLoaded',
                         td5.innerHTML = dot;
                         tr.appendChild(td5);
 
-                        tbody.append(tr);
+                        tbody1.append(tr);
                     }
-                    else {
-                        let row_update = tbody.find('#trsale-'+ids[i]);
+                    else if(input.val() > 0 && sp.attr('class') != 'error active'){
+                        let row_update = tbody1.find('#trsale-'+ids[i]);
 
                         row_update.find('td').eq(4).text(vals[i]);
                         
                         dot = (parseFloat(row_update.find('td').eq(3).text()) * vals[i]).toFixed(2);
                         row_update.find('td').eq(5).text(dot);
                     }
+
                 }
                 acum = calcule_total();
                 trtotal.children().last().text(acum);
 
-                tbody.append(trtotal);
+                tbody1.append(trtotal);
             }
         );
     }

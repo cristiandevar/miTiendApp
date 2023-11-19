@@ -67,6 +67,3 @@
     </form>
 
 </div>
-
-@push('js')
-@endpush
