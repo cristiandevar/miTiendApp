@@ -15,12 +15,14 @@ class SendMail extends Mailable
     use Queueable, SerializesModels;
 
     public $data;
+    public $view;
     /**
      * Create a new message instance.
      */
-    public function __construct($data)
+    public function __construct($data, $view)
     {
         $this->data = $data;
+        $this->view = $view;
     }
 
     /**
@@ -30,7 +32,7 @@ class SendMail extends Mailable
     {
         return new Envelope(
             from: new Address('cristianprogramadorunsa@gmail.com','MiTiendApp'),
-            subject: 'Send Mail',
+            subject: 'Nueva orden de compra',
         );
     }
 
@@ -40,7 +42,7 @@ class SendMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.update_producto_content',
+            // view: $this->view,
             with: [
                 'data' => $this->data,
                 ]    
@@ -56,5 +58,34 @@ class SendMail extends Mailable
     public function attachments(): array
     {
         return [];
+    }
+
+    public function build()
+    {
+
+        //remitente
+        $email = $this->from(
+            'mesagralentradas@unsa.edu.ar',
+            config(
+                'constants.NOMBRE_SISTEMA',
+                'Laravel'
+            )
+        )
+        //asunto
+            ->subject('CONFIRMACION DE REGISTRO DE TRAMITE')
+            ->view('emails.alta_tramite', array('datos' => $this->datos));
+        //adjuntamos los archivos
+        if (!is_null($this->datos['files'])) {
+            foreach ($this->datos['files'] as $file ) {
+                $email->attach(
+                    $file['path'], [
+                    'as' => $file['as'],
+                    'mime' => $file['mime'],
+                    ]
+                );
+            }
+        }
+
+        return $email;
     }
 }

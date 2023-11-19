@@ -157,3 +157,13 @@ Route::group(['middleware' => ['can:func_seller']], function () {
     // Ruta para exportar archivos
     Route::get('/products-export-file', [App\Http\Controllers\ProductController::class, 'export_file'])->name('products.export-file'); 
 });
+
+
+// Route::get('/test',[App\Http\Controllers\ProductController::class, 'prueba'])->name('products.export-file'); 
+
+Route::get('/test',
+        function(){
+            $controller = new PurchaseController();
+            return $controller->test_pdf();
+        }
+    )->name('purchase.test-pdf');

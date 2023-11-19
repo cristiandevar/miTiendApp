@@ -43,6 +43,11 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+        
+        'pdfs' => [
+            'driver' => 'local',
+            'root' => storage_path('app/pdfs'), // Ruta personalizada
+        ],
 
         's3' => [
             'driver' => 's3',

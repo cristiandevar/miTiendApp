@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded',
                         let row_update = tbody.find('#trpurchase-'+ids[i]);
                         row_update.find('td').eq(4).text(vals[i]);
                     }
-                    console.log(!$('sp-'+ids[i]).hasClass('active'));
+                    // console.log(!$('sp-'+ids[i]).hasClass('active'));
                 }
             }
         );
@@ -90,7 +90,7 @@ function assingDelListener(a, id) {
 }
 
 function add_listener(id){
-    console.log(id);
+    // console.log(id);
     $('#'+id).on('input',
         function () {
             // let span;
@@ -129,7 +129,7 @@ function add_listener(id){
                 span.textContent = "Nro no válido";
                 span.className = "error active"
             }
-            console.log($(this).parent().find('span').first());
+            // console.log($(this).parent().find('span').first());
         }
     );
 }

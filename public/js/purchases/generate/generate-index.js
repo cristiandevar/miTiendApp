@@ -47,13 +47,15 @@ document.addEventListener('DOMContentLoaded',
                                 div_alert.children().first().text('La compra se registro con exito');
                                 div_alert.show();
                                 div_error.hide();
-                                // $('html, body').animate({scrollTop:0}, 'slow');
+                                console.log(response.msj);
+                                $('html, body').animate({scrollTop:0}, 'slow');
                             },
                             error: function(xhr, status, error) {
                                 div_error.children().first().text('La compra no se pudo registrar');
                                 div_error.show();
                                 div_alert.hide();
-                                // $('html, body').animate({scrollTop:0}, 'slow');
+                                console.error(error);
+                                $('html, body').animate({scrollTop:0}, 'slow');
                             }
                         }
                     ).always(

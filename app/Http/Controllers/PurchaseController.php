@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PurchaseGenerate;
 use App\Mail\SendMail;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\PurchaseDetail;
 use App\Models\Supplier;
+use Barryvdh\DomPDF\Facade\PDF;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PurchaseController extends Controller
@@ -218,24 +221,62 @@ class PurchaseController extends Controller
                         $detail->save();
                     }
                 }
-            }
-            $data = array(
-                'name' => auth()->user()->name,
-                'email' => auth()->user()->email,
-                'fecha creacion' => $purchase->created_date,
-                // 'producto_descripcion' => $producto->descripcion,
-                // 'producto_precio' => $producto->precio
-            );
+                if ( $b==1 ) {
+                    $data = array(
+                        'companyname' => $purchase->supplier->companyname,
+                        'email' => $purchase->supplier->email,
+                        'fecha creacion' => $purchase->created_at,
+                        'details' => $purchase->details,
+                        'supplier' => $purchase->supplier, 
+                        'purchase' => $purchase,
+                    );
 
-            Mail::to($data['email'])->send(new SendMail($data));
+                    $pdf = PDF::loadView('emails.purchase_generate', compact('data'));
+                    // $pdf->stream();
+                    // $pdfPath =  storage_path('app/public/pdfs/OC_'.$data['companyname'].'_'.$data['fecha creacion'].'.pdf');
+                    
+                    // dd($pdfPath);
+                    // Storage::disk('pdfs')->
+                    // $pdf->save($pdfPath);
+                    $data['filename'] = 'OC_'.$data['companyname'].'_'.$data['fecha creacion'].'.pdf';
+                    $data['filename'] = str_replace(' ','_',$data['filename']);
+                    $data['filename'] = str_replace(':','',$data['filename']);
+                    $data['filename'] = str_replace('-','_',$data['filename']);
+                    
+                    $pdfPath = 'pdfs/'.$data['filename'];
+                    Storage::put($pdfPath, $pdf->output());
+                
+                    // $data['filename'] = 'OC_2023.pdf';
+                    $data['path'] = Storage::url($pdfPath);
+                    // dd($data['filename']);
+                    try {
+                        Mail::to($data['email'])->send(new PurchaseGenerate($data));
+                        
+                        // dd('paso');
+                        // $contenido = view('emails.purchase_generate', compact('data'))->render();
+                        // Mail::to($data['email'])->send(new SendMail($contenido, 'emails.purchase_generate'));
+                        // Mail::to($data['email'])->send(new SendMail($data, 'emails.purchase_generate'));
+
+                    }
+                    catch (Exception $e) {
+                        dd($e);
+                        return response()->json([
+                            'msj'=> 'Falló envio de email',
+                        ]);
+                    }
+                }
+            }
+            return response()->json([
+                'msj'=> 'Respuesta',
+            ]);
         }
         catch(Exception $e){
-            
+            dd($e);
+            return response()->json([
+                'msj'=> 'Falló',
+            ]);
         }
 
-        return response()->json([
-            'msj'=> 'Respuesta',
-        ]);
     }
     
     public function filter_async_products(Request $request){
@@ -440,6 +481,32 @@ class PurchaseController extends Controller
             ]
         );
         
+    }
+
+    public function test_pdf(){
+        $purchase = Purchase::where('id',72)->first();
+
+        $data = array(
+            'companyname' => $purchase->supplier->companyname,
+            'email' => $purchase->supplier->email,
+            'fecha creacion' => $purchase->created_at,
+            'details' => $purchase->details,
+            'supplier' => $purchase->supplier, 
+            'purchase' => $purchase,
+        );
+
+        $pdf = PDF::loadView('emails.purchase_generate', compact('data'));
+
+        $data['filename'] = 'OC_'.$data['companyname'].'_'.$data['fecha creacion'].'.pdf';
+        $data['filename'] = str_replace(' ','_',$data['filename']);
+        $data['filename'] = str_replace(':','',$data['filename']);
+        $data['filename'] = str_replace('-','_',$data['filename']);
+        
+        $pdfPath = 'pdfs/'.$data['filename'];
+        Storage::put($pdfPath, $pdf->output());
+    
+        $data['path'] = Storage::url($pdfPath);
+        return $pdf->stream($data['filename']);
     }
 
 

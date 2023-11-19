@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
 });
 
 function show_products(products){
-    console.log(products);
+    // console.log(products);
     if(products.length>0){
         $('#alert-table-options').hide();
         $('#table-options-1').show();
