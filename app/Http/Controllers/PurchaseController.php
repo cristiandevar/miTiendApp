@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PurchaseCancel;
 use App\Mail\PurchaseGenerate;
 use App\Mail\PurchaseRegister;
 use App\Mail\SendMail;
@@ -417,6 +418,62 @@ class PurchaseController extends Controller
         return response()->json([
             'msj'=> 'Respuesta',
         ]);
+    }
+
+    public function cancel_action(Request $request){
+        if ($request->has('id')){
+            $purchase = Purchase::where('id', $request->id)->first();
+
+            
+
+            $data = array(
+                'details' => $purchase->details,
+                'supplier' => $purchase->supplier, 
+                'purchase' => $purchase,
+            );
+
+            // $pdf = PDF::loadView('emails.purchase_cancel', compact('data'));
+            // $data['filename'] = 'OC_'.$data['supplier']->companyname.'_'.$data['purchase']->received_date.'.pdf';
+            // $data['filename'] = str_replace(' ','_',$data['filename']);
+            // $data['filename'] = str_replace(':','',$data['filename']);
+            // $data['filename'] = str_replace('-','_',$data['filename']);
+            
+            // $pdfPath = 'pdfs/'.$data['filename'];
+            // Storage::put($pdfPath, $pdf->output());
+        
+            // $data['filename'] = 'OC_2023.pdf';
+            // $data['path'] = Storage::url($pdfPath);
+            // dd($data['filename']);
+            try {
+                Mail::to($data['supplier']->email)->send(new PurchaseCancel($data));
+                
+                // dd('paso');
+                // $contenido = view('emails.purchase_generate', compact('data'))->render();
+                // Mail::to($data['email'])->send(new SendMail($contenido, 'emails.purchase_generate'));
+                // Mail::to($data['email'])->send(new SendMail($data, 'emails.purchase_generate'));
+                foreach($purchase->details as $detail){
+                    $detail->active = 0;
+                    $detail->save();
+                }
+    
+                $purchase->active = 0;
+                $purchase->save();
+            }
+            catch (Exception $e) {
+                dd($e);
+                return response()->json([
+                    'msj'=> 'Falló envio de email',
+                ]);
+            }
+
+
+            return response()->json([
+                'msj' => 'Se elimino correctamente',
+            ]);
+        }
+        else {
+            return new Exception('No se pudo cancelar la orden de compra');
+        }
     }
 
     public function filter_async_purchases_register(Request $request){

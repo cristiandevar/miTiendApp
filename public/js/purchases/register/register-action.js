@@ -121,17 +121,91 @@ function show_rows ( id ) {
 function carge_links(){
     $('#tbody-purchases-1 tr').each(
         function () {
-            let id = $(this).attr('id').split('-')[1];
-            $(this).children().last().find('a').first().on('click',
-                function ( e ) {
-                    e.preventDefault();
-                    show_rows(id);
+            let id;
+            $(this).children().last().find('a').each(
+                function(){
+                    id = $(this).attr('id');
+                    type_link = id.split('-')[0];
+                    if(type_link == 'linkr'){
+                        $(this).on('click',
+                            function(e){
+                                id = id.split('-')[1]
+                                e.preventDefault();
+                                show_rows(id);   
+                            }
+                        );
+                    }
+                    else if(type_link == 'linke') {
+                        $(this).on('click',
+                            function(e){
+                                // console.log('link edit');
+                            }
+                        );
+                    }
+                    else {
+                        $(this).on('click',
+                            function(e){
+                                // console.log('link delete');
+                                cancel_purchase(id.split('-')[1]);
+                            }
+                        );
+                    }
                 }
-
-            );            
+            );
         }
     );
 }
+function cancel_purchase(id){
+    let title, msj, div_alert, div_error;
+
+    div_alert = $('#div-alert-1');
+    div_error = $('#alert-table-purchases-1');
+    title = '¿Estás seguro que deseas Cancelar la Orden de Compra?';
+    msj = 'Sí, Eliminala!';
+    
+    show_confirm_sweet(title, msj).then((result) => {
+        if (result.isConfirmed) {
+            data = {
+                id:id,
+            }
+            $.ajax(
+                {
+                    url: 'purchase-cancel-action',
+                    type: 'POST',
+                    data: data,
+                    success: function(response) {
+                        div_alert.children().first().text('La compra se cancelo con exito');
+                        div_alert.show();
+                        div_error.hide();
+                        update_rows();
+                        clear_details();
+                        $('html, body').animate({scrollTop:0}, 'slow');
+                    },
+                    beforeSend: function() {
+                        show_charge_message();
+                    },
+                    error: function(xhr, status, error) {
+                        div_error.children().first().text('La compra no se pudo cancelar');
+                        div_error.show();
+                        div_alert.hide();
+                        $('html, body').animate({scrollTop:0}, 'slow');
+                    }
+                }
+            ).always(
+                function(){
+                    // clear_tables();
+                    // $('#loading-spinner').hide();
+                    Swal.close();
+                }
+    
+            );
+        }
+    });
+}
+
+// function set_action_link(a){
+//     if(a.hasClass('register'))
+// }
 
 function show_details (purchase, details, products) {
     let tbody, tr, td0, td1, td2, td3, td4, input1, input2, span1, span2;

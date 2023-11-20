@@ -143,6 +143,9 @@ Route::group(['middleware' => ['can:func_boss']], function () {
     Route::get('/purchase-filter-async-purchases-register', [App\Http\Controllers\PurchaseController::class, 'filter_async_purchases_register'])->name('purchase.filter-async-purchases-register');
     Route::get('/purchase-filter-async', [App\Http\Controllers\PurchaseController::class, 'filter_async_id'])->name('purchase.filter-async');
 
+    // Ruta para cancelar orden de compra
+    Route::post('/purchase-cancel-action', [PurchaseController::class, 'cancel_action'])->name('purchase.cancel-action');
+    
 
 });
 

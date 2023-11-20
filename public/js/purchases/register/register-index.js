@@ -52,25 +52,79 @@ document.addEventListener('DOMContentLoaded',
 
 function show_purchases(purchases, suppliers){
 
+    let tbody, tr, td0, td1, td2, td3, a1, a2, a3, i1, i2, i3, input1, input2, span1, span2;
+
+    tbody = $('#tbody-purchases-1');
+    tbody.html('');;
     if(purchases.length > 0){
+        
         $('#alert-table-purchases-1').hide();
         $('#table-purchases-1').show();
-        let cadena = '';
+
         for (let purchase of purchases) {
-            cadena += `
-                <tr id='${"trpurchase-"+purchase["id"]}'>
-                    <td>${purchase["id"]}</td>
-                    <td>${get_object(suppliers,purchase["supplier_id"])['companyname']}</td>
-                    <td>${get_time(purchase["created_at"])}</td>
-                    <td><a href='#'>Registrar</></td>
-                </tr>
-            `;
+
+            tr = $('<tr></tr>',{
+                id:"trpurchase-"+purchase["id"],
+            });
+
+            td0 = $('<td></td>');
+            td0.text(purchase["id"]);
+            tr.append(td0);
+
+            td1 = $('<td></td>');
+            td1.text(get_object(suppliers,purchase["supplier_id"])['companyname']);
+            tr.append(td1);
+
+            td2 = $('<td></td>');
+            td2.text(get_time(purchase["created_at"]));
+            tr.append(td2);
+            
+            td3 = $('<td></td>');
+
+            a1 = $('<a></a>',{
+                id:'linkr-'+purchase["id"],
+                href:'#',
+                title: 'Registrar compra'
+            })
+            i1 = $('<i></i>',{
+                class:'fas fa-check-square',
+                style:'color: #05ff37;',
+            })
+            a1.append(i1);
+            td3.append(a1);
+
+            a2 = $('<a></a>',{
+                id:'linke-'+purchase["id"],
+                href:'#',
+                title: 'Modificar compra'
+            })
+            i2 = $('<i></i>',{
+                class:'fas fa-pen-square',
+                style:'color: #e2dc12;margin:3px;',
+            })
+            a2.append(i2);
+            td3.append(a2);
+            
+            a3 = $('<a></a>',{
+                id:'linkd-'+purchase["id"],
+                href:'#',
+                title: 'Cancelar compra'
+            })
+            i3 = $('<i></i>',{
+                class:'fas fa-window-close',
+                style:'color: #ff0000;;',
+            })
+            a3.append(i3);
+            td3.append(a3);
+
+            tr.append(td3);
+
+            tbody.append(tr);
         }
-        $('#tbody-purchases-1').html(cadena);
     }
     else {
-        $('#alert-table-purchases-1').show();
-        $('#table-purchases-1').hide();
+        $('#form-register-purchase').hide();
+        $('#alert-table-purchases-2').show();
     }
 }
 

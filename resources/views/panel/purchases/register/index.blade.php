@@ -71,9 +71,9 @@
                                                 <td>{{ $purchase->supplier->companyname }}</td>
                                                 <td>{{ $purchase->created_at }}</td>
                                                 <td>
-                                                    <a href="#" title="Registrar compra"><i class="fas fa-check-square" style="color: #05ff37;"></i></a>
-                                                    <a href="#" title="Modificar compra"><i class="fas fa-pen-square" style="color: #e2dc12;"></i></a>
-                                                    <a href="#" title="Cancelar compra"><i class="fas fa-window-close" style="color: #ff0000;"></i></a>
+                                                    <a id={{'linkr-'.$purchase->id}} href="#" title="Registrar compra"><i class="fas fa-check-square" style="color: #05ff37;"></i></a>
+                                                    <a id={{'linke-'.$purchase->id}} href="#" title="Modificar compra"><i class="fas fa-pen-square" style="color: #e2dc12;"></i></a>
+                                                    <a id={{'linkd-'.$purchase->id}} href="#" title="Cancelar compra"><i class="fas fa-window-close" style="color: #ff0000;"></i></a>
                                                 </td>
                                             </tr>
                                         @endforeach
