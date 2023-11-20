@@ -73,6 +73,7 @@ function show_purchases(purchases, suppliers){
         $('#table-purchases-1').hide();
     }
 }
+
 function get_object(list_object, id){
     let i = 0;
     // console.log(list_object);

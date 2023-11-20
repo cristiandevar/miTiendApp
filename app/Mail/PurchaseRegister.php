@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class PurchaseGenerate extends Mailable
+class PurchaseRegister extends Mailable
 {
     use Queueable, SerializesModels;
     var $data;
@@ -41,20 +41,9 @@ class PurchaseGenerate extends Mailable
             )
         )
         //asunto
-            ->subject('NUEVA ORDEN DE COMPRA GENERADA')
-            ->view('emails.email_purchase_generate', array('data' => $this->data))
+            ->subject('REGISTRO DE ORDEN DE COMPRA')
+            ->view('emails.email_purchase_register', array('data' => $this->data))
             ->attach(storage_path('app\\pdfs\\'.$this->data['filename']));
-        //adjuntamos los archivos
-        // if (!is_null($this->data['files'])) {
-        //     foreach ($this->data['files'] as $file ) {
-        //         $email->attach(
-        //             $file['path'], [
-        //             'as' => $file['as'],
-        //             'mime' => $file['mime'],
-        //             ]
-        //         );
-        //     }
-        // }
 
         return $email;
     }

@@ -153,7 +153,7 @@ footer {
 </head>
 <body>
     <header>
-      <h1>Orden de Compra</h1>
+      <h1>Registro de Orden de Compra</h1>
       <div id="company" class="clearfix">
         <div>Puesto 13</div>
         <div>Direccion falsa, 123</div>
@@ -164,7 +164,7 @@ footer {
         <div><span>Proveedor</span> {{ $data['supplier']->companyname }}</div>
         <div><span>Dirección</span> {{ $data['supplier']->address}}</div>
         <div><span>Email</span> <a href="mailto:{{ $data['supplier']->email}}">{{ $data['supplier']->email}}</a></div>
-        <div><span>Fecha Solicitud</span> {{ $data['purchase']->created_at}}</div>
+        <div><span>Fecha Registro</span> {{ $data['purchase']->received_date}}</div>
       </div>
     </header>
     <main>
@@ -173,7 +173,9 @@ footer {
           <tr>
             <th class="service">CÓDIGO</th>
             <th class="desc">NOMBRE</th>
-            <th>CANT. SOLICITADA</th>
+            <th>CANT. PEDIDA</th>
+            <th>CANT. RECIBIDA</th>
+            <th>PRECIO COSTO</th>
           </tr>
         </thead>
         <tbody>
@@ -182,8 +184,15 @@ footer {
               <td class="service">{{ $detail->product->code }}</td>
               <td class="desc" >{{ $detail->product->name }}</td>
               <td class="qty" style="text-align:center">{{ $detail->quantity_ordered }}</td>
+              <td class="qty" style="text-align:center">{{ $detail->quantity_received }}</td>
             </tr>
           @endforeach
+          <tr>
+            <td class="qty" style="text-align:center"></td>
+            <td class="desc" ></td>
+            <th class="service">TOTAL PAGADO</th>
+            <td class="qty" style="text-align:center">{{ $data['purchase']->total_paid }}</td>
+          </tr>
         </tbody>
       </table>
       <div id="notices">
@@ -191,8 +200,7 @@ footer {
       </div>
     </main>
     <footer>
-      Orden de compra generada por <strong>"miTiendAPP"</strong>
-    </footer>
-  </body>
+      Orden de compra registrada por <strong>"miTiendAPP"</strong>
+    </footer></body>
   {{-- </body>
 </html> --}}

@@ -21,45 +21,72 @@ document.addEventListener('DOMContentLoaded',
                 let data = carge_rows();
 
                 div_alert = $('#div-alert-1');
-                div_error = $('#div-error-1');
+                // div_error = $('#div-error-1');
+                
+                div_error = $('#alert-table-purchases-2');
                 total_paid = $('#total-price-input');
                 
-                if (Object.keys(data).length > 2 && parseFloat(total_paid.val()) >= 0) {
+
+                div_alert.hide();
+                div_error.hide();
+                if (Object.keys(data).length > 2 && !data['error'] && parseFloat(total_paid.val()) >= 0) {
                     div_error.hide();
                     div_alert.hide();
-                    $.ajax(
-                        {
-                            url: 'purchase-register-action',
-                            type: 'POST',
-                            data: data,
-                            success: function(response) {
-                                div_alert.children().first().text('La compra se registro con exito');
-                                div_alert.show();
-                                div_error.hide();
-                                update_rows();
-                                clear_details();
-                                $('html, body').animate({scrollTop:0}, 'slow');
-                            },
-                            error: function(xhr, status, error) {
-                                div_error.children().first().text('La compra no se pudo registrar');
-                                div_error.show();
-                                div_alert.hide();
-                                $('html, body').animate({scrollTop:0}, 'slow');
-                            }
+                    let title, msj;
+                    title = '¿Estás seguro que deseas Registrar la Orden de Compra?';
+                    msj = 'Sí, Registrala!';
+                    show_confirm_sweet(title, msj).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax(
+                                {
+                                    url: 'purchase-register-action',
+                                    type: 'POST',
+                                    data: data,
+                                    success: function(response) {
+                                        div_alert.children().first().text('La compra se registro con exito');
+                                        div_alert.show();
+                                        div_error.hide();
+                                        update_rows();
+                                        clear_details();
+                                        $('html, body').animate({scrollTop:0}, 'slow');
+                                    },
+                                    beforeSend: function() {
+                                        show_charge_message();
+                                    },
+                                    error: function(xhr, status, error) {
+                                        div_error.children().first().text('La compra no se pudo registrar');
+                                        div_error.show();
+                                        div_alert.hide();
+                                        $('html, body').animate({scrollTop:0}, 'slow');
+                                    }
+                                }
+                            ).always(
+                                function(){
+                                    // clear_tables();
+                                    // $('#loading-spinner').hide();
+                                    Swal.close();
+                                }
+                    
+                            );
                         }
-                    );
+                    });
                 }
                 else {
                     div_error.show();
                     div_alert.hide();
-                    if ( Object.keys(data).length > 2 ) {
-                        div_error.children().first().find('p').first().text('Debe ingresar un "Total Pagado" valido o cero');
+                    if (!data['error'] && Object.keys(data).length > 2 ) {
+                        div_error.find('p').first().text('Debe ingresar un "Total Pagado" valido o cero');
 
                     }
-                    else {
-                        div_error.children().first().find('p').first().text('Debe elegir una orden para registrar');
-
+                    else if(!data['error']){
+                        div_error.find('p').first().text('Debe elegir una orden para registrar');
                     }
+                    else{
+                        div_error.find('p').first().text('Debe ingresar cantidades y/o precios válidos');
+                    }
+
+                    $('html, body').animate({scrollTop:div_error.offset().top}, 'slow');
+                            
                 }
 
             }
@@ -107,7 +134,7 @@ function carge_links(){
 }
 
 function show_details (purchase, details, products) {
-    let tbody, tr, td0, td1, td2, td3, td4, input1, input2;
+    let tbody, tr, td0, td1, td2, td3, td4, input1, input2, span1, span2;
 
     tbody = $('#tbody-purchases-2');
     
@@ -118,44 +145,64 @@ function show_details (purchase, details, products) {
 
         for( let i = 0; i< details.length; i++){
 
-            tr = document.createElement('tr');
-            tr.setAttribute('id','trdetail-'+details[i]['id']);
+            tr = $('<tr></tr>',{
+                id:'trdetail-'+details[i]['id'],
+            });
+
+            td0 = $('<td></td>');
+            td0.text(i+1);
+            tr.append(td0);
+
+            td1 = $('<td></td>');
+            td1.text(get_object(products, details[i]['product_id'])['name']);
+            tr.append(td1);
+
+            td2 = $('<td></td>');
+            td2.text(details[i]['quantity_ordered']);
+            tr.append(td2);
             
-            td0 = document.createElement('td');
-            td0.innerHTML = i + 1;
-            tr.appendChild(td0);
-
-            td1 = document.createElement('td');
-            td1.innerHTML = get_object(products, details[i]['product_id'])['name'];
-            tr.appendChild(td1);
-
-            td2 = document.createElement('td');
-            td2.innerHTML = details[i]['quantity_ordered']
-            tr.appendChild(td2);
+            td3 = $('<td></td>');
+            input1 = $('<input/>',{
+                type:'number',
+                id:'qty-'+details[i]['id'],
+            })
             
-            td3 = document.createElement('td');
-            input1 = document.createElement('input');
-            input1.setAttribute('type','number');
-            input1.setAttribute('min','0');
-            td3.appendChild(input1);
-            tr.appendChild(td3);
+            span1 = $('<span></span>', {
+                id:"spqty-"+details[i]["id"],
+                class:"error",
+                'aria-live':"polite",
+            })
+            td3.append(input1);
+            td3.append($('<br>'));
+            td3.append(span1);
+            tr.append(td3);
+            
 
-            td4 = document.createElement('td');
-            input2 = document.createElement('input');
-            input2.setAttribute('type','number');
-            input2.setAttribute('min','0');
-            td4.appendChild(input2);
-            tr.appendChild(td4);
+            td4 = $('<td></td>');
+            input2 = $('<input/>',{
+                type:'number',
+                id:'price-'+details[i]['id'],
+            })
+            
+            span2 = $('<span></span>', {
+                id:"spprice-"+details[i]["id"],
+                class:"error",
+                'aria-live':"polite",
+            })
+            td4.append(input2);
+            td4.append($('<br>'));
+            td4.append(span2);
+            tr.append(td4);
             
             tbody.append(tr);
+            add_listener_control_quantity(input1.attr('id'));
+            add_listener_control_price(input2.attr('id'));
         }
     }
     else {
         $('#form-register-purchase').hide();
         $('#alert-table-purchases-2').show();
     }
-
-    // $('#tbody-purchases-2')
 }
 
 function clear_details(){
@@ -171,24 +218,36 @@ function carge_rows () {
     rows = $('#tbody-purchases-2').find('tr');
     rows.each(
         function () {
-            let qty, price;
-            row = {};
+            let qty, price, span;
             tds = $(this).find('td');
-            row['id'] = $(this).attr('id').split('-')[1];
             qty = tds.eq(3).children().first().val();
-            if(qty != ''){
+            span = tds.eq(3).find('span').first();
+            console.log(span.hasClass('active'));
+
+            row = {};
+            row['id'] = $(this).attr('id').split('-')[1];
+            if(qty != '' && !span.hasClass('active')){
                 row['quantity_received'] = parseInt(qty);
             }
-            else{
+            else if(qty!=''){
+                set_rows['error'] = true;
+                return set_rows;
+            }
+            else {
                 row['quantity_received'] = 0;
             }
 
-            price = tds.eq(4).children().first().val();
-            if(price != ''){
+            price = tds.eq(4).find('input').first().val();
+            span = tds.eq(4).find('span').first();
+            if(!span.hasClass('active') && price!=''){
                 row['cost_price'] = parseFloat(price);
             }
-            else {
+            else if(!span.hasClass('active')){
                 row['cost_price'] = 0;
+            }
+            else{
+                set_rows['error'] = true;
+                return set_rows;
             }
 
             set_rows[count] = row;
@@ -224,5 +283,44 @@ function update_rows(){
                 console.error(error);
             }
         }
+    );
+}
+
+function add_listener_control_quantity(id_input){
+    let span = $('#spqty-'+id_input.split('-')[1]);
+    let input = $('#'+id_input);
+    input.on('input',
+        function () {
+            let val_split_dot = input.val().split('.');
+            let val_split_comma = input.val().split(',');
+            if (input.val() < 0  || val_split_dot.length > 1 || val_split_comma.length > 1 ){
+                span.attr('class', 'error active');
+                span.text('Cantidad no valida');
+            }
+            else {
+                span.attr('class', 'error');
+                span.text('');
+            }
+        }    
+    );
+}
+
+function add_listener_control_price(id_input){
+    let span = $('#spprice-'+id_input.split('-')[1]);
+    let input = $('#'+id_input);
+    input.on('input',
+        function () {
+            let val_split_dot = input.val().split('.');
+            let val_split_comma = input.val().split(',');
+            if (input.val() < 0 || val_split_dot.length > 2 || val_split_comma.length > 1){
+                
+                span.attr('class', 'error active');
+                span.text('Precio no valido');
+            }
+            else {
+                span.attr('class', 'error');
+                span.text('');
+            }
+        }    
     );
 }

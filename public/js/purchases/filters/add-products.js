@@ -28,51 +28,55 @@ document.addEventListener('DOMContentLoaded',
                     }
                 );
 
-                
-                tbody = $('#tbody-purchase');
+                if (ids.length > 0){
+                    tbody = $('#tbody-purchase');
+                    for (let i=0 ; i<ids.length ; i++) {
 
-                for (let i=0 ; i<ids.length ; i++) {
-                    row = $('#table-options-1').find("#trproduct-"+ids[i]);
-                    
-                    // console.log('row:', row);
-                    if (!tbody.find('#trpurchase-'+ids[i]).length) {
-                        tr = document.createElement('tr');
-                        tr.setAttribute('id','trpurchase-'+ids[i]);
-                        
-                        tddel = document.createElement('td');
-                        a = document.createElement('a');
-                        ic = document.createElement('i');
-                        ic.setAttribute('class', "fas fa-trash-alt");
-                        // a.setAttribute('href', `delete_row(${ids[i]})`);
-                        a.setAttribute('id', 'tddel-'+ids[i]);
-                        assingDelListener(a, ids[i]);
-                        a.appendChild(ic);
-                        tddel.appendChild(a);
-                        tr.appendChild(tddel);
+                        row = $('#table-options-1').find("#trproduct-"+ids[i]);
 
-                        td1 = document.createElement('td');
-                        td1.innerHTML = row.find('td').eq(0).text();
-                        tr.appendChild(td1);
+                        if (!tbody.find('#trpurchase-'+ids[i]).length) {
 
-                        td2 = document.createElement('td');
-                        td2.innerHTML = row.find('td').eq(1).text();
-                        tr.appendChild(td2);
+                            tr = document.createElement('tr');
+                            tr.setAttribute('id','trpurchase-'+ids[i]);
+                            
+                            tddel = document.createElement('td');
+                            a = document.createElement('a');
+                            ic = document.createElement('i');
+                            ic.setAttribute('class', "fas fa-trash-alt");
+                            a.setAttribute('id', 'tddel-'+ids[i]);
+                            assingDelListener(a, ids[i]);
+                            a.appendChild(ic);
+                            tddel.appendChild(a);
+                            tr.appendChild(tddel);
 
-                        td3 = document.createElement('td');
-                        td3.innerHTML = row.find('td').eq(2).text();
-                        tr.appendChild(td3);
+                            td1 = document.createElement('td');
+                            td1.innerHTML = row.find('td').eq(0).text();
+                            tr.appendChild(td1);
 
-                        td4 = document.createElement('td');
-                        td4.innerHTML = vals[i];
-                        tr.appendChild(td4);
-                        
-                        tbody.append(tr);
+                            td2 = document.createElement('td');
+                            td2.innerHTML = row.find('td').eq(1).text();
+                            tr.appendChild(td2);
+
+                            td3 = document.createElement('td');
+                            td3.innerHTML = row.find('td').eq(2).text();
+                            tr.appendChild(td3);
+
+                            td4 = document.createElement('td');
+                            td4.innerHTML = vals[i];
+                            tr.appendChild(td4);
+                            
+                            tbody.append(tr);
+                        }
+                        else if(!$('sp-'+ids[i]).hasClass('active')){
+                            let row_update = tbody.find('#trpurchase-'+ids[i]);
+                            row_update.find('td').eq(4).text(vals[i]);
+                        }
                     }
-                    else if(!$('sp-'+ids[i]).hasClass('active')){
-                        let row_update = tbody.find('#trpurchase-'+ids[i]);
-                        row_update.find('td').eq(4).text(vals[i]);
-                    }
-                    // console.log(!$('sp-'+ids[i]).hasClass('active'));
+                    row = $('#table-options-1').offset().top
+                    let error = $('#alert-table-purchase');
+                    error.hide();
+                    $('html, body').animate({scrollTop:row}, 'slow');
+
                 }
             }
         );

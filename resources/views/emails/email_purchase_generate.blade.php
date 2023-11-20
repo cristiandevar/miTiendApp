@@ -282,7 +282,7 @@
           <div class="content">
 
             <!-- START CENTERED WHITE CONTAINER -->
-            <span class="preheader">Bienvenidos.</span>
+            <span class="preheader">¡Que tal {{ $data['companyname'] }}!.</span>
             <table class="main">
 
               <!-- START MAIN CONTENT AREA -->
@@ -292,7 +292,7 @@
                     <tr>
                       <td>
                         <h3>Nueva Orden de compra</h3>
-                        <p>Que tal!, {{ $data['companyname'] }}</p>
+                        {{-- <p>Que tal!, {{ $data['companyname'] }}</p> --}}
                         <p>Se ha generado una nueva orden de compra para usted.</p>
                         <p>Los detalles de la orden se encuentran en el documento adjuntado</p>
                         

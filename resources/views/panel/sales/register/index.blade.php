@@ -51,25 +51,23 @@
             <div class="card">
                 <div class="card-body" id="card-table"> --}}
                     <form action="#" method="get" novalidate>
+                        <button id='add-products' class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
+                            Agregar
+                        </button>
                         <div class="form-group row" style='height:15em;overflow-y:auto;'>
-                            <button id='add-products' class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
-                                Agregar
-                            </button>
                             @if(count($products)>0)
                                 {{-- @include('panel.products.tables.table-main') --}}
                                 <div id='alert-table'>
                                     <p class='alert alert-danger small'>Ningun producto coincide</p>`
                                 </div>
                                 
-                                    <table id="table-products" class="table table-sm table-striped table-hover w-100">
-                                        <thead>
+                                    <table id="table-products" class="table table-sm table-striped table-hover w-100 col-12">
+                                        <thead style="position: sticky; top: 0;background-color:white;">
                                             <tr>
                                                 <th scope="col" class="text-uppercase">Código</th>
                                                 <th scope="col" class="text-uppercase">Nombre</th>
                                                 <th scope="col" class="text-uppercase">Precio</th>
                                                 <th scope="col" class="text-uppercase">Cantidad</th>
-                                                {{-- <th scope="col" class="text-uppercase">Categoría</th>
-                                                <th scope="col" class="text-uppercase">Proveedor</th> --}}
                                             </tr>
                                         </thead>
                                         <tbody id="tbody-products">
@@ -149,9 +147,11 @@
 @section('js')
 {{-- <script type="text/javascript" src="{{ asset('products/js/create-table-filter-products.js') }}"></script> --}}
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript" src="{{ asset('js/sales/filters/create-table-sale-products.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/sales/filters/filter-products.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/sales/register/add-products-checked.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/sales/register/register-sale.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/sales/register/controller-stock-products.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/sweet-alert/sweet-alert.js') }}"></script>
 @stop

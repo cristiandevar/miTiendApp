@@ -71,12 +71,13 @@
                                 <button id="add-row-1" class="btn btn-primary col-2 m-1">Agregar</button>
                             </div>
                         </div>
+                        
                         <div class="form-group" style='height:15em;overflow-y:auto;'>
                             <div id='alert-table-options'>
                                 <p class='alert alert-danger small'>Ningun producto coincide con la busqueda</p>`
                             </div>
-                            <table id="table-options-1" class="table table-sm table-striped table-hover w-100 ">
-                                <thead>
+                            <table id="table-options-1" class="table table-sm table-striped table-bordered table-hover ">
+                                <thead style="position: sticky; top: 0;background-color:white;">
                                     <tr>
                                         <th>Code</th>
                                         <th>Nombre</th>
@@ -106,6 +107,9 @@
                             Generar Orden/es
                         </button>
                     </div>
+                    {{-- <div id="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i> Cargando...
+                    </div> --}}
                     <form id="form-2" action="#" method="post">
                         <div class="card-body" id="card-table">
                             <div id='alert-table-purchase'>
@@ -113,7 +117,7 @@
                             </div>
                             <div class="form-group row" style='height:15em;overflow-y:auto;'>
                                 <table id="table-purchase" class="table table-sm table-striped table-hover w-100">
-                                    <thead>
+                                    <thead style="position: sticky; top: 0;background-color:white;">
                                         <tr>
                                             <th scope="col"></th>
                                             <th scope="col" class="text-uppercase">Código</th>
@@ -141,14 +145,17 @@
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/error/span-error.css')}}" >
-
+{{-- <link rel="stylesheet" href="{{ asset('css/loading/loading-spin.css')}}" > --}}
+{{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> --}}
 @stop
 
 
 {{-- Importacion de Archivos JS --}}
 @section('js')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript" src="{{ asset('js/purchases/generate/create-table-purchase-products.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/purchases/generate/generate-index.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/purchases/filters/filter-products.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/purchases/filters/add-products.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/sweet-alert/sweet-alert.js') }}"></script>
 @stop

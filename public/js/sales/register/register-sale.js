@@ -26,30 +26,40 @@ $('#add-sale').on('click', function(e) {
         
         div_alert = $('#div-alert-1');
         div_error = $('#div-error-1');
-                    
-        $.ajax({
-                url: 'sales-register-action',
-                type: 'POST',
-                data: data,
-                success: function(response) {
-                    div_alert.children().first().text('La venta se registro con exito');
-                    div_alert.show();
-                    div_error.hide();
-                    $('html, body').animate({scrollTop:0}, 'slow');
-                },
-                error: function(xhr, status, error) {
-                    div_error.children().first().text('La venta no se pudo registrar');
-                    div_error.show();
-                    div_alert.hide();
-                    $('html, body').animate({scrollTop:0}, 'slow');
-                }
-            }
-        ).always(
-            function(){
-                clear_tables();
-            }
+        let title, msj;
+        title = '¿Estás seguro que deseas Generar la Orden de Compra?';
+        msj = 'Sí, Generala!';
+        show_confirm_sweet(title, msj).then((result) => { 
+            if (result.isConfirmed) {           
+                $.ajax({
+                        url: 'sales-register-action',
+                        type: 'POST',
+                        data: data,
+                        success: function(response) {
+                            div_alert.children().first().text('La venta se registro con exito');
+                            div_alert.show();
+                            div_error.hide();
+                            $('html, body').animate({scrollTop:0}, 'slow');
+                        },
+                        beforeSend: function() {
+                            show_charge_message();
+                        },
+                        error: function(xhr, status, error) {
+                            div_error.children().first().text('La venta no se pudo registrar');
+                            div_error.show();
+                            div_alert.hide();
+                            $('html, body').animate({scrollTop:0}, 'slow');
+                        }
+                    }
+                ).always(
+                    function(){
+                        clear_tables();
+                        Swal.close();
+                    }
 
-        );
+                );
+            }
+        });
     }
 });
 

@@ -55,12 +55,13 @@
                                     <p class='alert alert-danger small'>No hay ordenes de compra registradas o asociadas </p>`
                                 </div>
                                 <table id="table-purchases-1" class="table table-sm table-striped table-hover w-100 col-12">
-                                    <thead>
+                                    <thead style="position: sticky; top: 0;background-color:white;">
                                         <tr>
-                                            <th>Nro</th>
-                                            <th>Proveedor</th>
-                                            <th>Fecha Emisión</th>
-                                            <th></th>
+                                            <th scope="col" class="text-uppercase">Nro</th>
+                                            <th scope="col" class="text-uppercase">Proveedor</th>
+                                            <th scope="col" class="text-uppercase">Fecha Emisión</th>
+                                            <th scope="col" class="text-uppercase">Acciónes</th>
+                                            <th ></th>
                                         </tr>
                                     </thead>
                                     <tbody id="tbody-purchases-1">
@@ -69,7 +70,11 @@
                                                 <td>{{ $purchase->id }}</td>
                                                 <td>{{ $purchase->supplier->companyname }}</td>
                                                 <td>{{ $purchase->created_at }}</td>
-                                                <td><a href="#">Registrar</a></td>
+                                                <td>
+                                                    <a href="#" title="Registrar compra"><i class="fas fa-check-square" style="color: #05ff37;"></i></a>
+                                                    <a href="#" title="Modificar compra"><i class="fas fa-pen-square" style="color: #e2dc12;"></i></a>
+                                                    <a href="#" title="Cancelar compra"><i class="fas fa-window-close" style="color: #ff0000;"></i></a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -91,7 +96,7 @@
                                 <p class='alert alert-danger small'>No hay detalles asociados a la orden </p>`
                             </div>
                             <table id="table-purchases-2" class="table table-sm table-striped table-hover w-100 col-12">
-                                <thead>
+                                <thead style="position: sticky; top: 0;background-color:white;">
                                     <tr>
                                         <th>Nro</th>
                                         <th>Producto</th>
@@ -116,14 +121,18 @@
 @stop
 
 @section('css')
+<link rel="stylesheet" href="{{ asset('css/sales/register/controller-stock-products.css')}}" >
+
 @stop
 
 
 {{-- Importacion de Archivos JS --}}
 @section('js')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 {{-- <script type="text/javascript" src="{{ asset('js/purchases/generate/create-table-purchase-products.js') }}"></script> --}}
 <script type="text/javascript" src="{{ asset('js/purchases/register/register-index.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/purchases/register/register-action.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/sweet-alert/sweet-alert.js') }}"></script>
 {{-- <script type="text/javascript" src="{{ asset('js/purchases/filters/filter-products.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/purchases/filters/add-products.js') }}"></script> --}}
 @stop

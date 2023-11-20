@@ -11,6 +11,7 @@ $.ajaxSetup(
 document.addEventListener('DOMContentLoaded', 
     function (e) {
         let alert_1,alert_2,alert_3,alert_4, table_1, table_2;
+        let div_alert,div_error;
         
         alert_1 = $('#div-alert-1');
         alert_2 = $('#div-error-1');
@@ -18,52 +19,73 @@ document.addEventListener('DOMContentLoaded',
         alert_4 = $('#alert-table-options');
 
         table_1 = $('#table-purchase');
-        // table_2 = $('#table-options-1');
 
         alert_1.hide();
         alert_2.hide();
         alert_3.hide();
         alert_4.hide();
 
-        // table_2.hide();
-
-
+        
+        div_alert = $('#div-alert-1');
+        div_error = $('#div-error-1');
+        // $('#loading-spinner').hide();
         $('#add-purchase').on('click',
             function () {
                 e.preventDefault();
                 let data = carge_rows();
 
                 if (Object.keys(data).length > 1) {
-                    let div_alert,div_error;
-                    
-                    div_alert = $('#div-alert-1');
-                    div_error = $('#div-error-1');
+                    // $('#loading-spinner').show();
+                    let title, msj;
+                    title = '¿Estás seguro que deseas Generar la Orden de Compra?';
+                    msj = 'Sí, Generala!';
+                    show_confirm_sweet(title, msj).then((result) => {
+                        if (result.isConfirmed) {
                                 
-                    $.ajax({
-                            url: 'purchase-generate-action',
-                            type: 'POST',
-                            data: data,
-                            success: function(response) {
-                                div_alert.children().first().text('La compra se registro con exito');
-                                div_alert.show();
-                                div_error.hide();
-                                console.log(response.msj);
-                                $('html, body').animate({scrollTop:0}, 'slow');
-                            },
-                            error: function(xhr, status, error) {
-                                div_error.children().first().text('La compra no se pudo registrar');
-                                div_error.show();
-                                div_alert.hide();
-                                console.error(error);
-                                $('html, body').animate({scrollTop:0}, 'slow');
-                            }
+                            $.ajax(
+                                {
+                                    url: 'purchase-generate-action',
+                                    type: 'POST',
+                                    data: data,
+                                    success: function(response) {
+                                        div_alert.children().first().text('La compra se genero con exito');
+                                        div_alert.show();
+                                        div_error.hide();
+                                        console.log(response.msj);
+                                        $('html, body').animate({scrollTop:0}, 'slow');
+                                    },
+                                    beforeSend: function() {
+                                        show_charge_message();
+                                    },
+                                    error: function(xhr, status, error) {
+                                        div_error.children().first().text('La compra no se pudo registrar');
+                                        div_error.show();
+                                        div_alert.hide();
+                                        console.error(error);
+                                        $('html, body').animate({scrollTop:0}, 'slow');
+                                    }
+                                }
+                            ).always(
+                                function(){
+                                    clear_tables();
+                                    // $('#loading-spinner').hide();
+                                    Swal.close();
+                                }
+                    
+                            );
                         }
-                    ).always(
-                        function(){
-                            clear_tables();
-                        }
-            
-                    );
+                    });
+                }
+                else {
+                    let error = $('#alert-table-purchase');
+                    error.show();
+                    error.find('p').first().text('Debe agregar primero un producto');
+                    // div_error.show();
+                    // div_alert.hide();
+                    div_error.children().first().find('p').first().text('Debe agregar al menos un producto');
+                    
+                    $('html, body').animate({scrollTop:error.offset().top}, 'slow');
+                            
                 }
 
             }
@@ -77,17 +99,8 @@ function carge_rows () {
     
     set_rows = {};
     
-    // supplier = $('#select-supplier').val();
-    // if ( supplier != '') {
-    //     supplier = parseInt(supplier);
-    //     set_rows = {
-    //         'supplier_id': supplier,
-    //     };
-    // }
-    
     count = 0;
     rows = $('#tbody-purchase').find('tr');
-    // console.log(rows);
     rows.each(
         function () {
             row = {};
@@ -97,7 +110,6 @@ function carge_rows () {
 
             set_rows[count] = row;
             count += 1;
-            
         }
     );
     set_rows['qty'] = count;
@@ -105,15 +117,16 @@ function carge_rows () {
 }
 
 function clear_tables(){
-    // $('#tbody-purchase').find('tr').each(
-    //     function(){
-    //         $(this).find('td').eq(3).children().first().val('');
-    //         $(this).find('td').eq(3).children().last().text('');
-    //         $(this).find('td').eq(3).children().last().attr('class','error');
-    //     }
-    // );
-    // let last_tr = $('#tbody-sale').children().last();
-    // last_tr.children().last().text('0');
-    // $('#tbody-sale').html(last_tr);
     $('#tbody-purchase').html('');
+}
+
+function show_charge_message(){
+    Swal.fire({
+        title: 'Cargando...',
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        onBeforeOpen: () => {
+            Swal.showLoading();
+        }
+    });
 }

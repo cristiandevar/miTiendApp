@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\PurchaseGenerate;
+use App\Mail\PurchaseRegister;
 use App\Mail\SendMail;
 use App\Models\Category;
 use App\Models\Product;
@@ -131,7 +132,6 @@ class PurchaseController extends Controller
             ->with('alert', 'Compra nro:"' . $purchase->id . '" modificada exitosamente.');
     
     }
-
 
     public function update(Request $request, Purchase $purchase){
         $request->validate([
@@ -346,6 +346,41 @@ class PurchaseController extends Controller
             $purchase->received_date = now()->format('Y-m-d H:i:s');
             $purchase->total_paid = $request->total_paid;
             $purchase->update();
+
+            $data = array(
+                'details' => $purchase->details,
+                'supplier' => $purchase->supplier, 
+                'purchase' => $purchase,
+            );
+
+            $pdf = PDF::loadView('emails.purchase_register', compact('data'));
+            $data['filename'] = 'OC_'.$data['supplier']->companyname.'_'.$data['purchase']->received_date.'.pdf';
+            $data['filename'] = str_replace(' ','_',$data['filename']);
+            $data['filename'] = str_replace(':','',$data['filename']);
+            $data['filename'] = str_replace('-','_',$data['filename']);
+            
+            $pdfPath = 'pdfs/'.$data['filename'];
+            Storage::put($pdfPath, $pdf->output());
+        
+            // $data['filename'] = 'OC_2023.pdf';
+            $data['path'] = Storage::url($pdfPath);
+            // dd($data['filename']);
+            try {
+                Mail::to($data['supplier']->email)->send(new PurchaseRegister($data));
+                
+                // dd('paso');
+                // $contenido = view('emails.purchase_generate', compact('data'))->render();
+                // Mail::to($data['email'])->send(new SendMail($contenido, 'emails.purchase_generate'));
+                // Mail::to($data['email'])->send(new SendMail($data, 'emails.purchase_generate'));
+
+            }
+            catch (Exception $e) {
+                dd($e);
+                return response()->json([
+                    'msj'=> 'Falló envio de email',
+                ]);
+            }
+
         }
 
         // if ( $request->has('supplier_id') ) {
@@ -411,6 +446,7 @@ class PurchaseController extends Controller
         );
         
     }
+
     public function filter_async(Request $request){
         
         $query = Purchase::query();

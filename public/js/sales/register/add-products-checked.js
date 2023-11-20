@@ -32,67 +32,76 @@ document.addEventListener('DOMContentLoaded',
                     }
                 );
                 // console.log(ids);
-                for (let i=0 ; i<ids.length ; i++) {
-                    row = $('#table-products').find("#trproduct-"+ids[i]);
-                    
-                    input = tbody2.find('#trproduct-'+ids[i]).children().last().find('input').first();
-                    sp = tbody2.find('#trproduct-'+ids[i]).children().last().find('span').first();
-                    
-                    // console.log(tbody2.find('#trproduct-'+ids[i]).children().last().find('input').first().val() > 0);
-                    if (!tbody1.find('#trsale-'+ids[i]).length && input.val() > 0 && sp.attr('class') != 'error active') {
+                if (ids.length>0) {
 
-                        tr = document.createElement('tr');
-                        tr.setAttribute('id','trsale-'+ids[i]);
+                    for (let i=0 ; i<ids.length ; i++) {
+                        row = $('#table-products').find("#trproduct-"+ids[i]);
                         
-                        tddel = document.createElement('td');
-                        a = document.createElement('a');
-                        ic = document.createElement('i');
-                        ic.setAttribute('class', "fas fa-trash-alt");
-                        // a.setAttribute('href', `delete_row(${ids[i]})`);
-                        a.setAttribute('id', 'tddel-'+ids[i]);
-                        assingDelListener(a, ids[i]);
-                        a.appendChild(ic);
-                        tddel.appendChild(a);
-                        tr.appendChild(tddel);
+                        input = tbody2.find('#trproduct-'+ids[i]).children().last().find('input').first();
+                        sp = tbody2.find('#trproduct-'+ids[i]).children().last().find('span').first();
+                        comprobar_stock(row);
+                        // console.log(tbody2.find('#trproduct-'+ids[i]).children().last().find('input').first().val() > 0);
+                        if (!tbody1.find('#trsale-'+ids[i]).length && input.val() > 0 && sp.attr('class') != 'error active') {
 
-                        td1 = document.createElement('td');
-                        td1.innerHTML = row.find('td').eq(0).text();
-                        tr.appendChild(td1);
+                            tr = document.createElement('tr');
+                            tr.setAttribute('id','trsale-'+ids[i]);
+                            
+                            tddel = document.createElement('td');
+                            a = document.createElement('a');
+                            ic = document.createElement('i');
+                            ic.setAttribute('class', "fas fa-trash-alt");
+                            // a.setAttribute('href', `delete_row(${ids[i]})`);
+                            a.setAttribute('id', 'tddel-'+ids[i]);
+                            assingDelListener(a, ids[i]);
+                            a.appendChild(ic);
+                            tddel.appendChild(a);
+                            tr.appendChild(tddel);
 
-                        td2 = document.createElement('td');
-                        td2.innerHTML = row.find('td').eq(1).text();
-                        tr.appendChild(td2);
+                            td1 = document.createElement('td');
+                            td1.innerHTML = row.find('td').eq(0).text();
+                            tr.appendChild(td1);
 
-                        td3 = document.createElement('td');
-                        td3.innerHTML = row.find('td').eq(2).text();
-                        tr.appendChild(td3);
+                            td2 = document.createElement('td');
+                            td2.innerHTML = row.find('td').eq(1).text();
+                            tr.appendChild(td2);
 
-                        td4 = document.createElement('td');
-                        td4.innerHTML = vals[i];
-                        tr.appendChild(td4);
-                        // console.log('indice', i,'cantidad: ', vals[i]);
+                            td3 = document.createElement('td');
+                            td3.innerHTML = row.find('td').eq(2).text();
+                            tr.appendChild(td3);
 
-                        td5 = document.createElement('td');
-                        dot = (parseFloat(row.find('td').eq(2).text()) * parseInt(vals[i])).toFixed(2);
-                        td5.innerHTML = dot;
-                        tr.appendChild(td5);
+                            td4 = document.createElement('td');
+                            td4.innerHTML = vals[i];
+                            tr.appendChild(td4);
+                            // console.log('indice', i,'cantidad: ', vals[i]);
 
-                        tbody1.append(tr);
+                            td5 = document.createElement('td');
+                            dot = (parseFloat(row.find('td').eq(2).text()) * parseInt(vals[i])).toFixed(2);
+                            td5.innerHTML = dot;
+                            tr.appendChild(td5);
+
+                            tbody1.append(tr);
+                        }
+                        else if(input.val() > 0 && sp.attr('class') != 'error active'){
+                            let row_update = tbody1.find('#trsale-'+ids[i]);
+
+                            row_update.find('td').eq(4).text(vals[i]);
+                            
+                            dot = (parseFloat(row_update.find('td').eq(3).text()) * vals[i]).toFixed(2);
+                            row_update.find('td').eq(5).text(dot);
+                        }
+
                     }
-                    else if(input.val() > 0 && sp.attr('class') != 'error active'){
-                        let row_update = tbody1.find('#trsale-'+ids[i]);
+                    acum = calcule_total();
+                    trtotal.children().last().text(acum);
 
-                        row_update.find('td').eq(4).text(vals[i]);
-                        
-                        dot = (parseFloat(row_update.find('td').eq(3).text()) * vals[i]).toFixed(2);
-                        row_update.find('td').eq(5).text(dot);
-                    }
+                    tbody1.append(trtotal);
+                    btn = $('#add-sale').offset().top;
+                    $('html, body').animate({scrollTop:btn}, 'slow');
+                                    
+                }
+                else{
 
                 }
-                acum = calcule_total();
-                trtotal.children().last().text(acum);
-
-                tbody1.append(trtotal);
             }
         );
     }
@@ -130,4 +139,8 @@ function assingDelListener(a, id) {
             $('#tbody-sale').find('#trsale-total').find('td').eq(4).text(acum);
         }
     );
+}
+
+function comprobar_stock(input){
+
 }
