@@ -167,9 +167,9 @@ Route::group(['middleware' => ['can:func_seller']], function () {
 
 // Route::get('/test',[App\Http\Controllers\ProductController::class, 'prueba'])->name('products.export-file'); 
 
-Route::get('/test',
-        function(){
-            $controller = new PurchaseController();
-            return $controller->test_pdf();
-        }
-    )->name('purchase.test-pdf');
+// Route::get('/test',
+//         function(){
+//             $controller = new PurchaseController();
+//             return $controller->test_pdf();
+//         }
+//     )->name('purchase.test-pdf');
