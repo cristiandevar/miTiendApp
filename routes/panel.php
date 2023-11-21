@@ -146,6 +146,9 @@ Route::group(['middleware' => ['can:func_boss']], function () {
     // Ruta para cancelar orden de compra
     Route::post('/purchase-cancel-action', [PurchaseController::class, 'cancel_action'])->name('purchase.cancel-action');
     
+    // Ruta para cancelar orden de compra
+    Route::post('/purchase-update-action', [PurchaseController::class, 'update_action'])->name('purchase.update-action');
+    
 
 });
 

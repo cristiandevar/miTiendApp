@@ -22,7 +22,10 @@ class PurchaseDetail extends Model
         return $this->belongsTo(Product::class, 'product_id');
     
     }
-    public function details() {
-        return $this->hasMany(PurchaseDetail::class, 'purchase_id');
+    public function purchase() {
+        return $this->belongsTo(Purchase::class, 'purchase_id');
     }
+    // public function details() {
+    //     return $this->hasMany(PurchaseDetail::class, 'purchase_id');
+    // }
 }

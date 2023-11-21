@@ -124,13 +124,20 @@ function carge_links(){
             let id;
             $(this).children().last().find('a').each(
                 function(){
-                    id = $(this).attr('id');
-                    type_link = id.split('-')[0];
+                    // id = $(this).attr('id');
+                    type_link = $(this).attr('id').split('-')[0];
                     if(type_link == 'linkr'){
                         $(this).on('click',
                             function(e){
+                                let id = $(this).attr('id');
                                 id = id.split('-')[1]
                                 e.preventDefault();
+
+                                // $('#tbody-purchases-3').html('');
+                                $('#table-purchases-3').hide();
+                                $('#form-update-purchase').hide();
+
+                                $('#table-purchases-2').show();
                                 show_rows(id);   
                             }
                         );
@@ -138,14 +145,24 @@ function carge_links(){
                     else if(type_link == 'linke') {
                         $(this).on('click',
                             function(e){
-                                // console.log('link edit');
+                                let id = $(this).attr('id');
+                                e.preventDefault();
+
+                                // $('#tbody-purchases-2').html('');
+                                $('#table-purchases-2').hide();
+                                $('#form-register-purchase').hide();
+
+                                $('#table-purchases-3').show();
+
+                                update_purchase(id.split('-')[1]);
                             }
                         );
                     }
                     else {
                         $(this).on('click',
                             function(e){
-                                // console.log('link delete');
+                                e.preventDefault();
+                                let id = $(this).attr('id');
                                 cancel_purchase(id.split('-')[1]);
                             }
                         );
@@ -155,6 +172,7 @@ function carge_links(){
         }
     );
 }
+
 function cancel_purchase(id){
     let title, msj, div_alert, div_error;
 
@@ -202,10 +220,6 @@ function cancel_purchase(id){
         }
     });
 }
-
-// function set_action_link(a){
-//     if(a.hasClass('register'))
-// }
 
 function show_details (purchase, details, products) {
     let tbody, tr, td0, td1, td2, td3, td4, input1, input2, span1, span2;

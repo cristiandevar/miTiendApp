@@ -111,6 +111,39 @@
                             </table>
                         </div>
                     </form>
+                    <form id="form-update-purchase">
+                        <div class="form-group row">
+                            {{-- <label for="total-price-input" class="col-form-label">* Total pagado</label>
+                            <input id="total-price-input" type="number" class="form-control col-xs-12 col-3 m-1" placeholder="Total pagado..." />
+                             --}}
+                            <button id='update-purchase' class="form-control col-xs-12 col-3 m-1 btn btn-success text-uppercase" >
+                                Modificar Orden
+                            </button>
+                        </div>
+                        <div id='alert-table-purchases-3'>
+                            <p class='alert alert-danger small'>No hay detalles asociados a la orden </p>`
+                        </div>
+                        <div class="form-group" style='height:15em;overflow-y:auto;'>
+                            
+                            <table id="table-purchases-3" class="table table-sm table-striped table-hover w-100 col-12">
+                                <thead style="position: sticky; top: 0;background-color:white;">
+                                    <tr>
+                                        <th></th>
+                                        <th>Producto</th>
+                                        <th>Stock Actual</th>
+                                        <th>Cant. Pedida</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-purchases-3">
+                                    
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                        <div id='alert-table-purchases-4'>
+                            <p class='alert alert-danger small'> </p>`
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -132,6 +165,8 @@
 {{-- <script type="text/javascript" src="{{ asset('js/purchases/generate/create-table-purchase-products.js') }}"></script> --}}
 <script type="text/javascript" src="{{ asset('js/purchases/register/register-index.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/purchases/register/register-action.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/purchases/update/update-index.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/purchases/update/update-action.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/sweet-alert/sweet-alert.js') }}"></script>
 {{-- <script type="text/javascript" src="{{ asset('js/purchases/filters/filter-products.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/purchases/filters/add-products.js') }}"></script> --}}

@@ -18,31 +18,32 @@ document.addEventListener('DOMContentLoaded',
         // table_2.hide();
         $('#select-supplier').on('change',
         function ( e ) {
-            let option = $(this).val();
-            let data_filter = {};
+            update_table_purchases();
+            // let option = $(this).val();
+            // let data_filter = {};
 
-            if ( option != '' ) {
-                option = parseInt(option);
-                data_filter = {
-                    'supplier_id' : option
-                }
-            }
+            // if ( option != '' ) {
+            //     option = parseInt(option);
+            //     data_filter = {
+            //         'supplier_id' : option
+            //     }
+            // }
 
-            $.ajax(
-                {
-                    url: 'purchase-filter-async-purchases-register',
-                    type: 'GET',
-                    data: data_filter,
-                    success: function(response) {
-                        show_purchases(response.purchases, response.suppliers);
-                        carge_links();
-                        // console.log(option);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(error);
-                    }
-                }
-            );
+            // $.ajax(
+            //     {
+            //         url: 'purchase-filter-async-purchases-register',
+            //         type: 'GET',
+            //         data: data_filter,
+            //         success: function(response) {
+            //             show_purchases(response.purchases, response.suppliers);
+            //             carge_links();
+            //             // console.log(option);
+            //         },
+            //         error: function(xhr, status, error) {
+            //             console.error(error);
+            //         }
+            //     }
+            // );
 
         }
     );
@@ -148,4 +149,32 @@ function get_time(string_date){
     let formated_date = new_date.toLocaleDateString('es-AR', options).replace(',', '');
 
     return formated_date;
+}
+
+function update_table_purchases(){
+    let option = $('#select-supplier').val();
+    let data_filter = {};
+
+    if ( option != '' ) {
+        option = parseInt(option);
+        data_filter = {
+            'supplier_id' : option
+        }
+    }
+
+    $.ajax(
+        {
+            url: 'purchase-filter-async-purchases-register',
+            type: 'GET',
+            data: data_filter,
+            success: function(response) {
+                show_purchases(response.purchases, response.suppliers);
+                carge_links();
+                // console.log(option);
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        }
+    );
 }
