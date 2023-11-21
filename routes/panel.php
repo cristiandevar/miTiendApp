@@ -23,6 +23,9 @@ Route::get('/home', [HomeController::class, 'index']);
 
 
 Route::group(['middleware' => ['can:func_admin']], function () {
+    //Ruta para graficos y datos
+    Route::get('/get-data-async',[HomeController::class, 'get_data_async'])->name('get-data-async');
+    
     // Rutas para el CRUD de productos
     Route::resource('/products', ProductController::class)->names('product');
     Route::get('/product/show/edit/{id}',

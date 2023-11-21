@@ -73,4 +73,24 @@ class HomeController extends Controller
 
         return $sales;
     }
+
+    public function get_data_async(){
+        // $purchases = Purchase::where('active',1);
+        $purchase_for_days = [];
+
+        // $purchases->whereMonth('created_at','=',12);
+        // dd($purchases->get());
+
+
+        for($i=1; $i<=7; $i++){
+            $purchases = Purchase::where('active',1);
+            $purchase_for_days[] = $purchases
+            ->whereRaw('DAYOFWEEK(created_at) = ?', [$i])
+            ->get();
+
+        }
+        return response()->json([
+            'purchases_day' => $purchase_for_days,
+        ]);
+    }
 }
