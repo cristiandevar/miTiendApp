@@ -386,7 +386,8 @@ class HomeController extends Controller
                 ->where('received_date','<>',null)
                 ->whereYear('received_date', date('Y'))
                 ->where('active',1)
-                ->groupBy('m');
+                ->groupBy('m')
+                ->get();
                 // ->get();
 
             // $all_out = Purchase::selectRaw('SUM(total_paid) as total')

@@ -186,7 +186,7 @@ function get_labels(option){
         labels = days((new Date()).getDate());
     }
     else {
-        labels = days_of_week({count: (new Date()).getDay()+1});
+        labels = days_of_week({count: (new Date()).getDay()});
     }
     return labels;
 }
