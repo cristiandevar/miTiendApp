@@ -95,7 +95,7 @@
         <div class="col-12">
             <div class="card">
                 <h5 class="card-header">Detalles de venta</h5>
-                <form action="#" method="post">
+                <form id="form-invoice" action="{{ route('sale.export-file') }}" method="GET" >
                     <div class="card-body" id="card-table">
                         <div class="form-group row" style='height:15em;overflow-y:auto;'>
                             <table id="table-sale" class="table table-sm table-striped table-hover w-100">
@@ -121,7 +121,8 @@
                                 </tbody>
                             </table>
                         </div>
-                        <button id='add-sale' class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase" >
+                        <input type="hidden" name="sale_id" id="sale_id"/>
+                        <button type="submit" id='add-sale' class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase" >
                             Registrar
                         </button>
                     </div>

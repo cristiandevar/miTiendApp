@@ -116,6 +116,14 @@ Route::group(['middleware' => ['can:func_boss']], function () {
             return $controller->update_show($request, Sale::where('id',$id)->first());
         }
     )->name('sale.show-update');
+    
+    Route::get('/sale/invoice',
+        function(Request $request){
+            $controller = new SaleController();
+            return $controller->export_file_sale(Sale::where('id',$request->sale_id)->first(), 'pdf');
+        }
+    )->name('sale.export-file');
+    
 
     // Rutas para CRUD compras
     Route::resource('/purchases', PurchaseController::class)->names('purchase');
@@ -131,6 +139,13 @@ Route::group(['middleware' => ['can:func_boss']], function () {
             return $controller->update_show($request, Purchase::where('id',$id)->first());
         }
     )->name('purchase.show-update');
+    
+    Route::get('/purchase/voucher',
+        function(Request $request){
+            $controller = new PurchaseController();
+            return $controller->export_file_purchase(Purchase::where('id',$request->purchase_id)->first(), 'pdf');
+        }
+    )->name('purchase.export-file');
 
 
     // Rutas para actualizar precio

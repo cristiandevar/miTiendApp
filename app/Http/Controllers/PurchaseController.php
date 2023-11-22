@@ -13,12 +13,14 @@ use App\Models\Purchase;
 use App\Models\PurchaseDetail;
 use App\Models\Supplier;
 use Barryvdh\DomPDF\Facade\PDF;
+use Illuminate\Database\Eloquent\Collection;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PurchaseController extends Controller
 {
@@ -358,6 +360,41 @@ class PurchaseController extends Controller
         return response()->json([
             'msj'=> 'Respuesta',
         ]);
+    }
+
+    public function export_file_purchase($purchase, $action){
+        $columns = ['id','product_id','quantity_ordered'];
+        $headings = ['ID','NOMBRE PROD.','CANT. SOLICITADA'];
+            
+        if ($action == 'excel') {
+            $headings = ['ID','NOMBRE PROD.','CANT. SOLICITADA'];
+            $content = $purchase->details;
+            // return Excel::download(new SaleExport($content,$columns, $headings),'sale_'.$purchase->created_at->format('Y_m_d').'.xlsx');
+        }
+        else if ($action == 'pdf') {
+            // $content = $this->filter_gral($request)->latest()->get();
+            $content = $purchase->details;
+            return $this->export_pdf($content, $purchase, 'Comprobante de Orden de compra ', 'Compra nro: '.$purchase->id, 'purchase_voucher_'.$purchase->created_at->format('Y_m_d'), $columns, $headings);
+        }
+    }
+
+    public function export_pdf(Collection $content, $purchase, string $title, string $subtitle, string $file_title, $columns, $headings){
+        // $total = PurchaseDetail::selectRaw('SUM(quantity * price) as total')->where('active',1)->where('sale_id', $purchase->id)->first()->total;
+        // dd($total);
+        $data = [
+            'title' => $title,
+            'subtitle' => $subtitle,
+            'details' => $content,
+            'columns' => $columns,
+            'headings' => $headings,
+            'purchase' => $purchase,
+            'supplier' => $purchase->supplier,
+        ];
+        
+        $pdf = PDF::loadView('pdf.sale_invoice', $data);
+        
+        return $pdf->download($file_title.'.pdf');
+        dd('llego');
     }
     
     public function cancel_action(Request $request){

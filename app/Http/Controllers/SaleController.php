@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SaleExport;
 use App\Models\Category;
 use App\Models\Employee;
 use App\Models\Product;
@@ -9,8 +10,12 @@ use App\Models\Sale;
 use App\Models\SaleDetail;
 use App\Models\Supplier;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\PDF;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SaleController extends Controller
 {
@@ -208,11 +213,49 @@ class SaleController extends Controller
             
             $saledetail->save();
         }
+        if($request->has('file') && $request->file == 'Y'){
+            return $this->export_file_sale($sale, 'pdf');
+        }
 
         return response()->json(
             [
-                'products' => null
+                'sale' => $sale,
             ]
         );
+    }
+
+    public function export_file_sale($sale, $action){
+        $columns = ['id','product_id','quantity','price'];
+        $headings = ['ID','NOMBRE','CANTIDAD','PRECIO HIST.'];
+            
+        if ($action == 'excel') {
+            $headings = ['ID','NOMBRE','CANTIDAD','PRECIO HIST.'];
+            $content = $sale->details;
+            return Excel::download(new SaleExport($content,$columns, $headings),'sale_'.$sale->created_at->format('Y_m_d').'.xlsx');
+        }
+        else if ($action == 'pdf') {
+            // $content = $this->filter_gral($request)->latest()->get();
+            $content = $sale->details;
+            return $this->export_pdf($content, $sale, 'Comprobante de venta ', 'Venta nro: '.$sale->id, 'sale_'.$sale->created_at->format('Y_m_d'), $columns, $headings);
+        }
+    }
+
+    public function export_pdf(Collection $content, $sale, string $title, string $subtitle, string $file_title, $columns, $headings){
+        $total = SaleDetail::selectRaw('SUM(quantity * price) as total')->where('active',1)->where('sale_id', $sale->id)->first()->total;
+        // dd($total);
+        $data = [
+            'title' => $title,
+            'subtitle' => $subtitle,
+            'details' => $content,
+            'columns' => $columns,
+            'headings' => $headings,
+            'sale' => $sale,
+            'total' => $total,
+        ];
+        
+        $pdf = PDF::loadView('pdf.sale_invoice', $data);
+        
+        return $pdf->download($file_title.'.pdf');
+        dd('llego');
     }
 }

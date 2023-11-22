@@ -20,3 +20,15 @@ function show_charge_message(){
         }
     });
 }
+
+function show_yes_no_sweet(title){
+    return Swal.fire({
+        title: title,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '¡Si!',
+        cancelButtonText: '¡No!'
+    });
+}

@@ -367,15 +367,27 @@ class ProductController extends Controller
     public function export_file(Request $request) {
         $columns = ['id','name','stock','price','category_id','supplier_id'];
         $headings = ['ID','NOMBRE','STOCK','PRECIO','CATEGORIA','PROVEEDOR'];
-            
+        $names = [
+            'created_at' => 'Fecha de Creación',
+            'stock' => 'Stock',
+            'code' => 'Código',
+            'name' => 'Nombre',
+            'price' => 'Precio',
+            'category' => 'Categoria',
+            'supplier' => 'Proveedor',
+        ];
         if ($request->action == 'excel') {
-            $headings = ['ID','Nombre','STOCK','PRECIO','CATEGORIA','PROVEEDOR'];
+            $headings = ['ID','NOMBRE','STOCK','PRECIO','CATEGORIA','PROVEEDOR'];
             $content = $this->filter_gral($request);
             return Excel::download(new ProductsExport($content,$columns, $headings),'productos.xlsx');
         }
         else if ($request->action == 'pdf') {
             $content = $this->filter_gral($request)->latest()->get();
-            return $this->export_pdf($content, 'Productos', 'Listado filtrado', 'Listado filtrado de productos', $columns, $headings);
+            $order = [
+                'order_by' => $names[$request->order_by_1],
+                'order_type' => $request->order_by_2,
+            ];
+            return $this->export_pdf($content, $order, 'Productos', 'Listado filtrado', 'Listado filtrado de productos', $columns, $headings);
         }
     }
 
@@ -489,13 +501,15 @@ class ProductController extends Controller
         return $query;
     }
 
-    public function export_pdf(Collection $content, string $title, string $subtitle, string $file_title, $columns, $headings){
+    public function export_pdf(Collection $content, $order, string $title, string $subtitle, string $file_title, $columns, $headings){
         $data = [
             'title' => $title,
             'subtitle' => $subtitle,
             'products' => $content,
             'columns' => $columns,
             'headings' => $headings,
+            'order_by' => $order['order_by'],
+            'order_type' => $order['order_type'],
         ];
         
         $pdf = PDF::loadView('pdf.product_list', $data);

@@ -27,24 +27,44 @@ $('#add-sale').on('click', function(e) {
         div_alert = $('#div-alert-1');
         div_error = $('#div-error-1');
         let title, msj;
-        title = '¿Estás seguro que deseas Generar la Orden de Compra?';
-        msj = 'Sí, Generala!';
+        title = '¿Estás seguro que deseas Registrar la Venta?';
+        msj = 'Sí, Regístrala!';
         show_confirm_sweet(title, msj).then((result) => { 
-            if (result.isConfirmed) {           
+            if (result.isConfirmed) { 
+                  
+                console.log(data);
                 $.ajax({
                         url: 'sales-register-action',
                         type: 'POST',
                         data: data,
                         success: function(response) {
+                            
+                            clear_tables();
+                            Swal.close();
                             div_alert.children().first().text('La venta se registro con exito');
                             div_alert.show();
-                            div_error.hide();
+                            div_error.hide();   
+                            title = '¿Desea descargar el comprobante de compra?';
+                            msj = 'Descargar'
+                            show_yes_no_sweet(title).then((result) =>{
+                                if (result.isConfirmed) { 
+                                    let input;
+                                    input = $('#sale_id');
+                                    input.val(response.sale['id']);
+                                    $('#form-invoice').submit();
+                                    // return true;
+
+                                }
+                            }); 
                             $('html, body').animate({scrollTop:0}, 'slow');
                         },
                         beforeSend: function() {
                             show_charge_message();
                         },
                         error: function(xhr, status, error) {
+                            
+                            clear_tables();
+                            Swal.close();
                             div_error.children().first().text('La venta no se pudo registrar');
                             div_error.show();
                             div_alert.hide();
@@ -53,11 +73,10 @@ $('#add-sale').on('click', function(e) {
                     }
                 ).always(
                     function(){
-                        clear_tables();
-                        Swal.close();
                     }
 
                 );
+                
             }
         });
     }
