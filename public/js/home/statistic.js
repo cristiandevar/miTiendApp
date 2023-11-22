@@ -37,24 +37,6 @@ const COLORS = [
 '#8549ba'
 ];
 
-//   function months(config) {
-//     var cfg = config || {};
-//     var count = cfg.count || 12;
-//     var section = cfg.section;
-//     var values = [];
-//     var i, value;
-  
-//     for (i = 0; i < count; ++i) {
-//       value = MONTHS[Math.ceil(i) % 12];
-//       values.push(value.substring(0, section));
-//     }
-  
-//     return values;
-//   }
-
-//   function color(index) {
-//     return COLORS[index % COLORS.length];
-//   }
 
 document.addEventListener('DOMContentLoaded',
     function(){
@@ -314,7 +296,6 @@ function graph_line(x1,y1,y2,title1, title2){
 
 function update_data_in_out(){
     let range = get_range();
-    // let option = $('#range').val();
     let data = {
         option : range,
     }
@@ -324,7 +305,7 @@ function update_data_in_out(){
             type: 'GET',
             data: data,
             success: function(response) {
-                let pp, ps, ppi, psi, tp, ts;
+                let pp, ps, ppi, psi, tp, ts, sp, spi, ss, ssi;
 
                 tp = response.all_out;
                 ts = response.all_in;
@@ -340,6 +321,14 @@ function update_data_in_out(){
                 psi = response.product_sale_info;
 
                 update_product_in_out(pp, ppi, ps, psi);
+
+                
+                sp = response.supplier_purchase;
+                spi = response.supplier_purchase_info;
+                ss = response.supplier_sale;
+                ssi = response.supplier_sale_info;
+
+                update_supplier_in_out(sp, spi, ss, ssi);
             },
             error: function(xhr, status, error) {
                 console.error('Todo mal');
@@ -410,6 +399,36 @@ function update_product_in_out(pp, ppi, ps, psi){
     h3.text('Cantidad: ' + pp[0]['stock_purchased']);
     h2.text('Nombre: ' + ppi['name']);
     p.text('Producto mas comprado'+title);
+}
+
+function update_supplier_in_out(sp, spi, ss, ssi){
+    let h2, h3, p, option, title;
+    option = $('#range').val()
+    if(option == 1){
+        title = ' del Año';
+    }
+    else if(option == 2) {
+        title = ' del  Mes';
+    }
+    else{
+        title = ' de la semana';
+    }
+    h3 = $('#data-3').find('h3').first();
+    h2 = $('#data-3').find('h2').first();
+    p = $('#data-3').find('p').first()
+
+    h3.text(ss[0]['cant_sale']  + ' ventas');
+    h2.text(ssi['companyname']);
+    p.text('Proveedor mas rentable '+title);
+
+    
+    h3 = $('#data-4').find('h3').first();
+    h2 = $('#data-4').find('h2').first();
+    p = $('#data-4').find('p').first()
+
+    h3.text('Cantidad: ' + sp[0]['cant_purchase']);
+    h2.text('Nombre: ' + spi['companyname']);
+    p.text('Proveedor mas solicitado'+title);
 }
 
 function update_total_in_canceled(){

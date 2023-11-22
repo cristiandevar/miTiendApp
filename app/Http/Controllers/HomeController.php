@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Sale;
 use App\Models\SaleDetail;
+use App\Models\Supplier;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -78,19 +79,10 @@ class HomeController extends Controller
 
     public function get_data(Request $request){
         if($request->option == 'Y'){
-            // $purchases = Purchase::selectRaw('MONTH(received_date) as m, SUM(total_paid) as total')
-            //     ->where('received_date','<>',null)
-            //     ->whereYear('received_date', date('Y'))
-            //     ->where('active',1)
-            //     ->groupBy('m');
-                // ->get();
-            
-
             $all_out = Purchase::selectRaw('SUM(total_paid) as total')
                 ->where('received_date','<>',null)
                 ->whereYear('received_date', date('Y'))
                 ->where('active',1)
-                // ->groupBy('m')
                 ->first();
             
             $product_purchase = Purchase::join('purchase_details', 'purchases.id', '=', 'purchase_details.purchase_id')
@@ -101,14 +93,17 @@ class HomeController extends Controller
                 ->groupBy('p_id')
                 ->orderBy('stock_purchased', 'desc')
                 ->get();
-            // dd($product_purchase);
             
-            // $sales = Sale::join('sale_details', 'sales.id', '=', 'sale_details.sale_id')
-            //     ->selectRaw('MONTH(sales.created_at) as m, SUM(sale_details.quantity * sale_details.price) as total')
-            //     ->whereYear('sales.created_at', date('Y'))
-            //     ->where('sales.active',1)
-            //     ->groupBy('m')
-            //     ->get();
+            $supplier_purchase = Purchase::selectRaw('supplier_id as s_id, COUNT(id) as cant_purchase, SUM(total_paid) as total_out')
+                ->where('received_date','<>',null)
+                ->whereYear('received_date', date('Y'))
+                ->where('active',1)
+                ->groupBy('supplier_id')
+                ->orderBy('cant_purchase', 'desc')
+                ->get();
+
+
+
             
             $all_in = Sale::join('sale_details', 'sales.id', '=', 'sale_details.sale_id')
                 ->selectRaw('SUM(sale_details.quantity * sale_details.price) as total')
@@ -126,24 +121,18 @@ class HomeController extends Controller
                 ->orderBy('stock_sold', 'desc')
                 ->get();
 
-            // dd($product_sale);
-
-            // dd($all_in);
-            // $all_out = $purchases;
-            // $all_out->selectRaw('SUM(total)');
-            // dd($purchases->get());
-
-            // dd($sales);
+            $supplier_sale = Sale::join('sale_details', 'sales.id', '=', 'sale_details.sale_id')
+                ->join('products', 'sale_details.product_id', '=', 'products.id')
+                ->selectRaw('products.supplier_id as s_id, COUNT(sale_details.id) as cant_sale, SUM(sale_details.quantity * sale_details.price) as total_in')
+                // ->where('received_date','<>',null)
+                ->whereYear('sales.created_at', date('Y'))
+                ->where('sales.active',1)
+                ->where('sale_details.active',1)
+                ->groupBy('products.supplier_id')
+                ->orderBy('cant_sale', 'desc')
+                ->get();
         }
         else if($request->option == 'M'){
-            // $purchases = Purchase::selectRaw('DAY(received_date) as d, SUM(total_paid) as total')
-            //     ->where('received_date','<>',null)
-            //     ->whereYear('received_date', date('Y'))
-            //     ->whereMonth('received_date', date('m'))
-            //     ->where('active',1)
-            //     ->groupBy('d')
-            //     ->get();
-
             $all_out = Purchase::selectRaw('SUM(total_paid) as total')
                 ->where('received_date','<>',null)
                 ->whereYear('received_date', date('Y'))
@@ -160,6 +149,15 @@ class HomeController extends Controller
                 ->whereMonth('purchases.received_date', date('m'))
                 ->groupBy('p_id')
                 ->orderBy('stock_purchased', 'desc')
+                ->get();
+
+            $supplier_purchase = Purchase::selectRaw('supplier_id as s_id, COUNT(id) as cant_purchase, SUM(total_paid) as total_out')
+                ->where('received_date','<>',null)
+                ->whereYear('received_date', date('Y'))
+                ->whereYear('received_date', date('m'))
+                ->where('active',1)
+                ->groupBy('supplier_id')
+                ->orderBy('cant_purchase', 'desc')
                 ->get();
             
             // $sales = Sale::join('sale_details', 'sales.id', '=', 'sale_details.sale_id')
@@ -188,21 +186,25 @@ class HomeController extends Controller
                 ->groupBy('p_id')
                 ->orderBy('stock_sold', 'desc')
                 ->get();
+
+            $supplier_sale = Sale::join('sale_details', 'sales.id', '=', 'sale_details.sale_id')
+                ->join('products', 'sale_details.product_id', '=', 'products.id')
+                ->selectRaw('products.supplier_id as s_id, COUNT(sale_details.id) as cant_sale, SUM(sale_details.quantity * sale_details.price) as total_in')
+                ->whereYear('sales.created_at', date('Y'))
+                ->whereYear('sales.created_at', date('m'))
+                ->where('sales.active',1)
+                ->where('sale_details.active',1)
+                ->groupBy('products.supplier_id')
+                ->orderBy('cant_sale', 'desc')
+                ->get();
             // dd($sales);
         }
         else {
-            // $purchases = Purchase::selectRaw('DAY(received_date) as d, SUM(total_paid) as total')
-            //     ->where('received_date','<>',null)
-            //     ->where('received_date', '>=', Carbon::now()->startOfWeek())
-            //     ->where('active',1)
-            //     ->groupBy('d')
-            //     ->first();
 
             $all_out = Purchase::selectRaw('SUM(total_paid) as total')
                 ->where('received_date','<>',null)
                 ->where('received_date', '>=', Carbon::now()->startOfWeek())
                 ->where('active',1)
-                // ->groupBy('d')
                 ->first();
 
             $product_purchase = Purchase::join('purchase_details', 'purchases.id', '=', 'purchase_details.purchase_id')
@@ -215,12 +217,15 @@ class HomeController extends Controller
                 ->orderBy('stock_purchased', 'desc')
                 ->get();
 
-            // $sales = Sale::join('sale_details', 'sales.id', '=', 'sale_details.sale_id')
-            //     ->selectRaw('DAY(sales.created_at) as d, SUM(sale_details.quantity * sale_details.price) as total')
-            //     ->where('sales.active',1)
-            //     ->where('sales.created_at', '>=', Carbon::now()->startOfWeek())
-            //     ->groupBy('d')
-            //     ->first();
+            $supplier_purchase = Purchase::selectRaw('supplier_id as s_id, COUNT(id) as cant_purchase, SUM(total_paid) as total_out')
+                ->where('received_date','<>',null)
+                ->where('received_date', '>=', Carbon::now()->startOfWeek())
+                ->where('active',1)
+                ->groupBy('supplier_id')
+                ->orderBy('cant_purchase', 'desc')
+                ->get();
+
+
 
             $all_in = Sale::join('sale_details', 'sales.id', '=', 'sale_details.sale_id')
                 ->selectRaw('SUM(sale_details.quantity * sale_details.price) as total')
@@ -238,6 +243,15 @@ class HomeController extends Controller
                 ->orderBy('stock_sold', 'desc')
                 ->get();
 
+            $supplier_sale = Sale::join('sale_details', 'sales.id', '=', 'sale_details.sale_id')
+                ->join('products', 'sale_details.product_id', '=', 'products.id')
+                ->selectRaw('products.supplier_id as s_id, COUNT(sale_details.id) as cant_sale, SUM(sale_details.quantity * sale_details.price) as total_in')
+                ->where('sales.created_at', '>=', Carbon::now()->startOfWeek())
+                ->where('sales.active',1)
+                ->where('sale_details.active',1)
+                ->groupBy('products.supplier_id')
+                ->orderBy('cant_sale', 'desc')
+                ->get();
 
             // dd($sales);
         }
@@ -248,6 +262,16 @@ class HomeController extends Controller
         
         $product_purchase_info = Product::where('active', 1)
             ->where('id', $product_purchase->first()->p_id)
+            ->first();
+
+
+        $supplier_sale_info = Supplier::where('active', 1)
+            ->where('id', $supplier_sale->first()->s_id)
+            ->first();
+
+        
+        $supplier_purchase_info = Supplier::where('active', 1)
+            ->where('id', $supplier_purchase->first()->s_id)
             ->first();
         // dd($product);
 
@@ -261,6 +285,10 @@ class HomeController extends Controller
             'product_purchase' => $product_purchase,
             'product_sale_info' => $product_sale_info,
             'product_purchase_info' => $product_purchase_info,
+            'supplier_purchase' => $supplier_purchase,
+            'supplier_sale' => $supplier_sale,
+            'supplier_purchase_info' => $supplier_purchase_info,
+            'supplier_sale_info' => $supplier_sale_info,
         ]);
         // $purchases = Purchase::where('active',1);
         // $purchase_for_days = [];

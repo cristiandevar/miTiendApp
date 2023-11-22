@@ -65,16 +65,17 @@
     </div>
     
     <div class="small-box bg-gradient-success">
-      <div class="inner">
-        <h3>{{ $sales_month->count() }}</h3>
-        <p>Ventas registradas este mes</p>
+      <div class="inner" id="data-3">
+        <h3></h3>
+        <h2></h2>
+        <p></p>
       </div>
       <div class="icon">
         <i class="fas fa-dollar-sign"></i>
       </div>
-      <a href="{{ route('sale.index') }}" class="small-box-footer">
+      {{-- <a href="{{ route('sale.index') }}" class="small-box-footer">
         Ir a Ventas <i class="fas fa-arrow-circle-right"></i>
-      </a>
+      </a> --}}
     </div>
   </div>
   <div class="col-md-6 vh-50">
@@ -100,16 +101,17 @@
       </a> --}}
     </div>
     <div class="small-box bg-gradient-success">
-      <div class="inner">
-        <h3>{{ $sales_month->count() }}</h3>
-        <p>Ventas registradas este mes</p>
+      <div class="inner"  id="data-4">
+        <h3></h3>
+        <h2></h2>
+        <p></p>
       </div>
       <div class="icon">
         <i class="fas fa-dollar-sign"></i>
       </div>
-      <a href="{{ route('sale.index') }}" class="small-box-footer">
+      {{-- <a href="{{ route('sale.index') }}" class="small-box-footer">
         Ir a Ventas <i class="fas fa-arrow-circle-right"></i>
-      </a>
+      </a> --}}
     </div>
   </div>
   </div>
