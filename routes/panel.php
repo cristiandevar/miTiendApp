@@ -92,7 +92,7 @@ Route::group(['middleware' => ['can:func_admin']], function () {
 
 Route::group(['middleware' => ['can:func_boss']], function () {
     //Ruta para graficos y datos
-    Route::get('/get-data-async',[HomeController::class, 'get_data_async'])->name('get-data-async');
+    Route::get('/get-data',[HomeController::class, 'get_data'])->name('get-data');
     Route::get('/get-data-purch-sale',[HomeController::class, 'get_data_purch_sale'])->name('get-data-purch_sale');
     Route::get('/get-data-in-out',[HomeController::class, 'get_data_in_out'])->name('get-data-in_out');
     

@@ -7,7 +7,8 @@
 @stop
 
 @section('content')
-<div class="row">
+<div class="row vh-50">
+
   <div class="col-12">
     <form class="" action="#" method='GET'>
       <div class="form-group row">
@@ -21,27 +22,48 @@
           <option value="2">Mensual</option>
           <option value="3">Semanal</option>
         </select>
-
+        
+        <label for="balance" class="form-control col-2">Balance</label>
+        <input type="number" class="form-control col-3" id="balance" name="balance"/>
+        
         
       </div>
     </form>
   </div>
-  <div id="div-canvas" class="col-md-12 vh-50">
+
+  <div id="div-canvas" class="col-md-12">
     <canvas id="myChart"></canvas>
   </div>
-  <div class="col-md-6 vh-50">
-    <div class="small-box bg-info">
-      <div class="inner">
-        <h3>{{ $purchases_month->count() }}</h3>
-        <p>Total de ordenes generadas este mes</p>
+
+</div>
+
+
+
+<div class="row vh-50">
+
+  <div class="col-md-6">
+
+    <div class="info-box bg-gradient-success">
+      <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+      <div class="info-box-content" id="content-title-1">
+        <span class="info-box-text"> </span>
+        <span class="info-box-number"></span>
+      </div>
+    </div>
+    <div class="small-box bg-gradient-success">
+      <div class="inner" id="data-1">
+        <h3></h3>
+        <h2></h2>
+        <p></p>
       </div>
       <div class="icon">
-        <i class="fas fa-shopping-cart"></i>
+        <i class="fas fa-crown"></i>
       </div>
-      <a href="{{ route('purchase.index') }}" class="small-box-footer">
+      {{-- <a href="{{ route('purchase.index') }}" class="small-box-footer">
         Ir a Compras <i class="fas fa-arrow-circle-right"></i>
-      </a>
+      </a> --}}
     </div>
+    
     <div class="small-box bg-gradient-success">
       <div class="inner">
         <h3>{{ $sales_month->count() }}</h3>
@@ -56,17 +78,26 @@
     </div>
   </div>
   <div class="col-md-6 vh-50">
-    <div class="small-box bg-info">
-      <div class="inner">
-        <h3>{{ $purchases_month->count() }}</h3>
-        <p>Total de ordenes generadas este mes</p>
+    <div class="info-box bg-gradient-warning">
+      <span class="info-box-icon">
+        <i class="fas fa-shopping-cart"></i></span>
+      <div class="info-box-content" id="content-title-2">
+        <span class="info-box-text">Egresos</span>
+        <span class="info-box-number"></span>
+      </div>
+    </div>
+    <div class="small-box bg-gradient-warning">
+      <div class="inner" id="data-2">
+        <h3></h3>
+        <h2></h2>
+        <p></p>
       </div>
       <div class="icon">
-        <i class="fas fa-shopping-cart"></i>
+        <i class="fas fa-crown"></i>
       </div>
-      <a href="{{ route('purchase.index') }}" class="small-box-footer">
+      {{-- <a href="{{ route('purchase.index') }}" class="small-box-footer">
         Ir a Compras <i class="fas fa-arrow-circle-right"></i>
-      </a>
+      </a> --}}
     </div>
     <div class="small-box bg-gradient-success">
       <div class="inner">
