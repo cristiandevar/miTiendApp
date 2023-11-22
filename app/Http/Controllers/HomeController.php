@@ -138,7 +138,6 @@ class HomeController extends Controller
                 ->whereYear('received_date', date('Y'))
                 ->whereMonth('received_date', date('m'))
                 ->where('active',1)
-                // ->groupBy('d')
                 ->first();
 
             $product_purchase = Purchase::join('purchase_details', 'purchases.id', '=', 'purchase_details.purchase_id')
@@ -154,7 +153,7 @@ class HomeController extends Controller
             $supplier_purchase = Purchase::selectRaw('supplier_id as s_id, COUNT(id) as cant_purchase, SUM(total_paid) as total_out')
                 ->where('received_date','<>',null)
                 ->whereYear('received_date', date('Y'))
-                ->whereYear('received_date', date('m'))
+                ->whereMonth('received_date', date('m'))
                 ->where('active',1)
                 ->groupBy('supplier_id')
                 ->orderBy('cant_purchase', 'desc')
@@ -191,13 +190,14 @@ class HomeController extends Controller
                 ->join('products', 'sale_details.product_id', '=', 'products.id')
                 ->selectRaw('products.supplier_id as s_id, COUNT(sale_details.id) as cant_sale, SUM(sale_details.quantity * sale_details.price) as total_in')
                 ->whereYear('sales.created_at', date('Y'))
-                ->whereYear('sales.created_at', date('m'))
+                ->whereMonth('sales.created_at', date('m'))
                 ->where('sales.active',1)
                 ->where('sale_details.active',1)
                 ->groupBy('products.supplier_id')
                 ->orderBy('cant_sale', 'desc')
                 ->get();
-            // dd($sales);
+
+            // dd($supplier_sale);
         }
         else {
 

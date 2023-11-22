@@ -23,7 +23,7 @@
           <option value="3">Semanal</option>
         </select>
         
-        <label for="balance" class="form-control col-2">Balance</label>
+        <label for="balance" class="form-control col-2" id="lbl-balance">Balance</label>
         <input type="number" class="form-control col-3" id="balance" name="balance"/>
         
         
@@ -100,7 +100,7 @@
         Ir a Compras <i class="fas fa-arrow-circle-right"></i>
       </a> --}}
     </div>
-    <div class="small-box bg-gradient-success">
+    <div class="small-box bg-gradient-warning">
       <div class="inner"  id="data-4">
         <h3></h3>
         <h2></h2>

@@ -111,6 +111,8 @@ function graph_line_purch_sale(option){
                 title2 = 'Ventas';
                 
                 graph_line(x, y1, y2, title1, title2);
+                $('#lbl-balance').hide();
+                $('#balance').hide();
             },
             error: function(xhr, status, error) {
                 console.error('Todo mal');
@@ -366,8 +368,10 @@ function update_total_in_out(tp, ts){
         $('#balance').attr('style','color:red;');
     }
     $('#balance').val(b);
-    
     $('#balance').attr('disabled',true);
+    
+    $('#lbl-balance').show();
+    $('#balance').show();
 
 }
 
@@ -396,8 +400,8 @@ function update_product_in_out(pp, ppi, ps, psi){
     h2 = $('#data-2').find('h2').first();
     p = $('#data-2').find('p').first()
 
-    h3.text('Cantidad: ' + pp[0]['stock_purchased']);
-    h2.text('Nombre: ' + ppi['name']);
+    h3.text(pp[0]['stock_purchased']  + ' unidades');
+    h2.text(ppi['name']);
     p.text('Producto mas comprado'+title);
 }
 
@@ -426,8 +430,8 @@ function update_supplier_in_out(sp, spi, ss, ssi){
     h2 = $('#data-4').find('h2').first();
     p = $('#data-4').find('p').first()
 
-    h3.text('Cantidad: ' + sp[0]['cant_purchase']);
-    h2.text('Nombre: ' + spi['companyname']);
+    h3.text(sp[0]['cant_purchase']  + ' compras');
+    h2.text(spi['companyname']);
     p.text('Proveedor mas solicitado'+title);
 }
 

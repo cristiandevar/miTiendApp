@@ -52,7 +52,14 @@ document.addEventListener('DOMContentLoaded',
                                         $('#form-update-purchase').hide();
                                         $('#tbody-purchases-3').html('');
                                         update_table_purchases();
+                                        Swal.close();
+                                        // let btn = $('#select-supplier').offset().top;
+                                        $('html, body').animate({scrollTop:0}, 'slow');
+                 
                                         // carge_purchase(response.purchase, response.details, response.products, response.suppliers);
+                                    },
+                                    beforeSend: function() {
+                                        show_charge_message();
                                     },
                                     error: function(xhr, status, error) {
                                         console.error('Ocurrio un error al actualizar la orden');
@@ -61,6 +68,10 @@ document.addEventListener('DOMContentLoaded',
                                         $('#alert-table-purchases-3').show();
                                         $('#alert-table-purchases-3').children().first().text('Problemas al actualizar la compra');
                                         update_table_purchases();
+                                        Swal.close();
+                                        // let btn = $('#select-supplier').offset().top;
+                                        $('html, body').animate({scrollTop:0}, 'slow');
+                     
                                     }
                                 }
                             );
@@ -87,7 +98,15 @@ document.addEventListener('DOMContentLoaded',
                                             $('#form-update-purchase').hide();
                                             $('#tbody-purchases-3').html('');
                                             update_table_purchases();
+                                            Swal.close();
+                                            let btn = $('#select-supplier').offset().top;
+                                            $('html, body').animate({scrollTop:btn}, 'slow');
+                     
+
                                             // carge_purchase(response.purchase, response.details, response.products, response.suppliers);
+                                        },
+                                        beforeSend: function() {
+                                            show_charge_message();
                                         },
                                         error: function(xhr, status, error) {
                                             console.error('Ocurrio un error al actualizar la orden');
@@ -95,7 +114,10 @@ document.addEventListener('DOMContentLoaded',
                                             $('#form-update-purchase').hide();
                                             $('#alert-table-purchases-3').show();
                                             $('#alert-table-purchases-3').children().first().text('Problemas al actualizar la compra');
-                                            update_table_purchases();
+                                            update_table_purchases(); 
+                                            Swal.close();                                           
+                                            let btn = $('#select-supplier').offset().top;
+                                            $('html, body').animate({scrollTop:btn}, 'slow');
                                         }
                                     }
                                 );

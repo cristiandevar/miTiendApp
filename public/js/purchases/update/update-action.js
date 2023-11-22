@@ -13,6 +13,10 @@ function  update_purchase(id){
                 $('#table-purchases-3').show();
                 $('#form-update-purchase').show();
                 carge_purchase(response.purchase, response.details, response.products, response.suppliers);
+                let btn = $('#update-purchase').offset().top;
+                $('html, body').animate({scrollTop:btn}, 'slow');
+                    
+
             },
             error: function(xhr, status, error) {
                 console.error('Todo mal');

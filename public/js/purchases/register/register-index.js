@@ -5,45 +5,16 @@ document.addEventListener('DOMContentLoaded',
         alert_1 = $('#div-alert-1');
         alert_2 = $('#div-error-1');
         alert_3 = $('#alert-table-purchases-1');
-        // alert_4 = $('#alert-table-options');
 
         table_1 = $('#table-purchases-1');
-        // table_2 = $('#table-options-1');
 
         alert_1.hide();
         alert_2.hide();
         alert_3.hide();
-        // alert_4.hide();
 
-        // table_2.hide();
         $('#select-supplier').on('change',
         function ( e ) {
             update_table_purchases();
-            // let option = $(this).val();
-            // let data_filter = {};
-
-            // if ( option != '' ) {
-            //     option = parseInt(option);
-            //     data_filter = {
-            //         'supplier_id' : option
-            //     }
-            // }
-
-            // $.ajax(
-            //     {
-            //         url: 'purchase-filter-async-purchases-register',
-            //         type: 'GET',
-            //         data: data_filter,
-            //         success: function(response) {
-            //             show_purchases(response.purchases, response.suppliers);
-            //             carge_links();
-            //             // console.log(option);
-            //         },
-            //         error: function(xhr, status, error) {
-            //             console.error(error);
-            //         }
-            //     }
-            // );
 
         }
     );
@@ -131,7 +102,6 @@ function show_purchases(purchases, suppliers){
 
 function get_object(list_object, id){
     let i = 0;
-    // console.log(list_object);
     while ( i<list_object.length && list_object[i]['id'] != id) {
         i+=1;
     }

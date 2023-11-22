@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded',
                 let data = carge_rows();
 
                 div_alert = $('#div-alert-1');
-                // div_error = $('#div-error-1');
                 
                 div_error = $('#alert-table-purchases-2');
                 total_paid = $('#total-price-input');
@@ -115,7 +114,9 @@ function show_rows ( id ) {
             success: function(response) {
                 clear_details();
                 show_details(response.purchase, response.details, response.products);
-                
+                btn = $('#register-purchase').offset().top;
+                $('html, body').animate({scrollTop:btn}, 'slow');
+                    
             },
             error: function(xhr, status, error) {
                 console.error(error);
@@ -203,6 +204,7 @@ function cancel_purchase(id){
                         div_error.hide();
                         update_rows();
                         clear_details();
+                        Swal.close();
                         $('html, body').animate({scrollTop:0}, 'slow');
                     },
                     beforeSend: function() {
@@ -212,6 +214,7 @@ function cancel_purchase(id){
                         div_error.children().first().text('La compra no se pudo cancelar');
                         div_error.show();
                         div_alert.hide();
+                        Swal.close();
                         $('html, body').animate({scrollTop:0}, 'slow');
                     }
                 }
@@ -219,7 +222,6 @@ function cancel_purchase(id){
                 function(){
                     // clear_tables();
                     // $('#loading-spinner').hide();
-                    Swal.close();
                 }
     
             );
