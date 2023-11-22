@@ -177,6 +177,10 @@ class SaleController extends Controller
     public function destroy(Sale $sale)
     {
         $sale->active = 0;
+        foreach($sale->details as $detail){
+            $detail->active = 0;
+            $detail->update();
+        }
         
         $sale->update();
 

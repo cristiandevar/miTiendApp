@@ -175,6 +175,11 @@ class PurchaseController extends Controller
     public function destroy(Purchase $purchase){
         $purchase->active = 0;
         
+        foreach($purchase->details as $detail){
+            $detail->active = 0;
+            $detail->update();
+        }
+
         $purchase->update();
 
         return redirect()

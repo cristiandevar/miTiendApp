@@ -21,8 +21,8 @@
             
                 @csrf 
                 @method('DELETE')
-                <button type="submit" class="btn btn-sm btn-danger text-uppercase me-1 m-1">
-                    Eliminar
+                <button id="del-sale" type="submit" class="btn btn-sm btn-danger text-uppercase me-1 m-1">
+                    Cancelar Venta
                 </button>
             </form>
         </div>
