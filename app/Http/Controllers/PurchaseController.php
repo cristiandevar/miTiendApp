@@ -123,6 +123,10 @@ class PurchaseController extends Controller
         if ($request->has('received_date')) {
             $purchase->received_date = $request->received_date;
         }
+        
+        if ($request->has('total_paid')) {
+            $purchase->total_paid = $request->total_paid;
+        }
 
         $purchase->supplier_id = $request->get('supplier_id');
 
@@ -150,6 +154,9 @@ class PurchaseController extends Controller
 
         if ($request->has('received_date')) {
             $purchase->received_date = $request->received_date;
+        }
+        if ($request->has('total_paid')) {
+            $purchase->total_paid = $request->total_paid;
         }
 
         $purchase->supplier_id = $request->get('supplier_id');

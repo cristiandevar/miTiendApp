@@ -23,9 +23,6 @@ Route::get('/home', [HomeController::class, 'index']);
 
 
 Route::group(['middleware' => ['can:func_admin']], function () {
-    //Ruta para graficos y datos
-    Route::get('/get-data-async',[HomeController::class, 'get_data_async'])->name('get-data-async');
-    
     // Rutas para el CRUD de productos
     Route::resource('/products', ProductController::class)->names('product');
     Route::get('/product/show/edit/{id}',
@@ -94,6 +91,17 @@ Route::group(['middleware' => ['can:func_admin']], function () {
 });
 
 Route::group(['middleware' => ['can:func_boss']], function () {
+    //Ruta para graficos y datos
+    Route::get('/get-data-async',[HomeController::class, 'get_data_async'])->name('get-data-async');
+    Route::get('/get-data-purch-sale',[HomeController::class, 'get_data_purch_sale'])->name('get-data-purch_sale');
+    Route::get('/get-data-in-out',[HomeController::class, 'get_data_in_out'])->name('get-data-in_out');
+    
+    
+    
+    
+    
+    
+    
     // Rutas para CRUD ventas
     Route::resource('/sales', SaleController::class)->names('sale');
     Route::get('/sale/show/edit/{id}',
@@ -144,12 +152,12 @@ Route::group(['middleware' => ['can:func_boss']], function () {
     Route::get('/purchase-register-index', [PurchaseController::class, 'register_index'])->name('purchase.register-index');
     Route::post('/purchase-register-action', [PurchaseController::class, 'register_action'])->name('purchase.register-action');
     Route::get('/purchase-filter-async-purchases-register', [App\Http\Controllers\PurchaseController::class, 'filter_async_purchases_register'])->name('purchase.filter-async-purchases-register');
-    Route::get('/purchase-filter-async', [App\Http\Controllers\PurchaseController::class, 'filter_async_id'])->name('purchase.filter-async');
+    Route::get('/purchase-filter-async', [App\Http\Controllers\PurchaseController::class, 'filter_async_id'])->name('purchase.filter-async-purchase');
 
     // Ruta para cancelar orden de compra
     Route::post('/purchase-cancel-action', [PurchaseController::class, 'cancel_action'])->name('purchase.cancel-action');
     
-    // Ruta para cancelar orden de compra
+    // Ruta para actualizar orden de compra
     Route::post('/purchase-update-action', [PurchaseController::class, 'update_action'])->name('purchase.update-action');
     
 
