@@ -307,7 +307,7 @@ return [
             //     //'can' => 'products_list'     //Permiso del vendedor
             // ],
             [
-                'text' => 'Registrar / Cancelar Compra',
+                'text' => 'Administrar Compras',
                 'route' => 'purchase.register-index',
                 'icon' => 'fas fa-cart-plus',  //Icono de fontawesome
                 //'can' => 'products_list'     //Permiso del vendedor

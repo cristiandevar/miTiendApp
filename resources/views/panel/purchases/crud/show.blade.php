@@ -9,8 +9,8 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-12 mb-3">
-            <h1>Datos de la Compra nro: "{{ $purchase->id }}"</h1>
+        <h1>Datos de la Compra nro: "{{ $purchase->id }}"</h1>
+        <div class="col-10 mb-3">
             <form action="{{ route('purchase.destroy', $purchase) }}" method="POST">
                 <a href="{{ route('purchase.index') }}" class="btn btn-sm btn-secondary text-uppercase me-1 m-1">
                     Volver al Listado
@@ -22,6 +22,18 @@
                 @method('DELETE')
                 <button type="submit" class="btn btn-sm btn-danger text-uppercase m-1">
                     Eliminar
+                </button>
+            </form>
+        </div>
+        
+        <div class="col-2 mb-3">
+            <form id="form-export" action="{{ route('purchase.export-file') }}" method='GET'>
+                {{-- <h6 class="card-header">Descargue s</h6> --}}
+                
+                {{-- <button id="btn-excel-1" type="submit" name="action" value="excel" class="form-control col-xs-12 col-1 m-1 btn btn-success "title="Exportar datos filtrados en formato .XLSX"><i class="fas fa-file-excel"></i>
+                </button> --}}
+                <input type="hidden" name="purchase_id" id="purchase_id" value="{{ $purchase->id}}"/>
+                <button id="btn-pdf-1" type="submit" name="action" value="pdf" class="form-control btn btn-success "title="Descargar comprobante en formato .PDF"><i class="fas fa-file-pdf"></i>
                 </button>
             </form>
         </div>
