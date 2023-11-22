@@ -20,8 +20,13 @@ function carge_table(products, categories, suppliers) {
             `;
         }
         $('#tbody-products').html(cadena);
+        
+        $('#btn-pdf-1').attr('disabled',false);
+        $('#btn-excel-1').attr('disabled',false);
     }
     else {
+        $('#btn-pdf-1').attr('disabled',true);
+        $('#btn-excel-1').attr('disabled',true);
         $('#alert-table').show();
         $('#table-products').hide();
     }
