@@ -379,7 +379,10 @@ class ProductController extends Controller
         if ($request->action == 'excel') {
             $headings = ['ID','NOMBRE','STOCK','PRECIO','CATEGORIA','PROVEEDOR'];
             $content = $this->filter_gral($request);
-            return Excel::download(new ProductsExport($content,$columns, $headings),'productos.xlsx');
+            if(count($content) > 0){
+                return Excel::download(new ProductsExport($content,$columns, $headings),'productos.xlsx');
+            }
+            else return $this->filter(new Request());
         }
         else if ($request->action == 'pdf') {
             $content = $this->filter_gral($request)->latest()->get();
@@ -387,7 +390,10 @@ class ProductController extends Controller
                 'order_by' => $names[$request->order_by_1],
                 'order_type' => $request->order_by_2,
             ];
-            return $this->export_pdf($content, $order, 'Productos', 'Listado filtrado', 'Listado filtrado de productos', $columns, $headings);
+            if(count($content) > 0){
+                return $this->export_pdf($content, $order, 'Productos', 'Listado filtrado', 'Listado filtrado de productos', $columns, $headings);
+            }
+            else return $this->filter(new Request());
         }
     }
 
