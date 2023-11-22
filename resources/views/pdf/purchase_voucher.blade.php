@@ -153,7 +153,7 @@ footer {
 </head>
 <body>
     <header>
-      <h1>Comprobante de Orden de Compra nro: {{ $sale->id }}</h1>
+      <h1>Comprobante de Orden de Compra nro: {{ $purchase->id }}</h1>
       <!-- <div id="company" class="clearfix">
         <div>Puesto 13</div>
         <div>Direccion falsa, 123</div>
@@ -161,7 +161,7 @@ footer {
         <div><a href="mailto:puesto_13@example.com">puesto_13@example.com</a></div>
       </div> -->
       <div id="project">
-        <div><span>Fecha Emisión</span> {{ $sale->created_at }}</div>
+        <div><span>Fecha Emisión</span> {{ $purchase->created_at }}</div>
         <div><span>Proveedor</span> {{ $supplier->companyname}}</div>
         {{-- <div><span>Email</span> <a href="mailto:{{ $data['supplier']->email}}">{{ $data['supplier']->email}}</a></div>
         <div><span>Fecha Solicitud</span> {{ $data['purchase']->created_at}}</div> --}}

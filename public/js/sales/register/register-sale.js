@@ -32,7 +32,7 @@ $('#add-sale').on('click', function(e) {
         show_confirm_sweet(title, msj).then((result) => { 
             if (result.isConfirmed) { 
                   
-                console.log(data);
+                // console.log(data);
                 $.ajax({
                         url: 'sales-register-action',
                         type: 'POST',

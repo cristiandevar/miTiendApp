@@ -279,6 +279,7 @@ class PurchaseController extends Controller
             }
             return response()->json([
                 'msj'=> 'Respuesta',
+                'purchase' => $purchase,
             ]);
         }
         catch(Exception $e){
@@ -391,7 +392,7 @@ class PurchaseController extends Controller
             'supplier' => $purchase->supplier,
         ];
         
-        $pdf = PDF::loadView('pdf.sale_invoice', $data);
+        $pdf = PDF::loadView('pdf.purchase_voucher', $data);
         
         return $pdf->download($file_title.'.pdf');
         dd('llego');

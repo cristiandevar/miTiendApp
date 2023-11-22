@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded',
         div_error = $('#div-error-1');
         // $('#loading-spinner').hide();
         $('#add-purchase').on('click',
-            function () {
+            function (e) {
                 e.preventDefault();
                 let data = carge_rows();
 
@@ -51,7 +51,23 @@ document.addEventListener('DOMContentLoaded',
                                         div_alert.children().first().text('La compra se genero con exito');
                                         div_alert.show();
                                         div_error.hide();
-                                        console.log(response.msj);
+                                        console.log(response);
+                                        
+                                        Swal.close();
+                                        title = '¿Desea descargar comprobante de Orden Generada?'
+                                        show_yes_no_sweet(title).then((result) =>{
+                                            if (result.isConfirmed) { 
+                                                let input;
+                                                input = $('#purchase_id');
+                                                input.val(response.purchase['id']);
+                                                $('#form-voucher').submit();
+                                                // return true;
+                                                console.log('Entro');
+            
+                                            }
+                                        }); 
+                                        
+
                                         $('html, body').animate({scrollTop:0}, 'slow');
                                     },
                                     beforeSend: function() {
@@ -62,6 +78,8 @@ document.addEventListener('DOMContentLoaded',
                                         div_error.show();
                                         div_alert.hide();
                                         console.error(error);
+                                        
+                                        Swal.close();
                                         $('html, body').animate({scrollTop:0}, 'slow');
                                     }
                                 }
@@ -69,7 +87,6 @@ document.addEventListener('DOMContentLoaded',
                                 function(){
                                     clear_tables();
                                     // $('#loading-spinner').hide();
-                                    Swal.close();
                                 }
                     
                             );

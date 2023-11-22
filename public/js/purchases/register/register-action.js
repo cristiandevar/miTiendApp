@@ -43,6 +43,8 @@ document.addEventListener('DOMContentLoaded',
                                     type: 'POST',
                                     data: data,
                                     success: function(response) {
+                                        // clear_tables();
+                                        Swal.close();
                                         div_alert.children().first().text('La compra se registro con exito');
                                         div_alert.show();
                                         div_error.hide();
@@ -54,6 +56,10 @@ document.addEventListener('DOMContentLoaded',
                                         show_charge_message();
                                     },
                                     error: function(xhr, status, error) {
+                                        // clear_tables();
+                                        
+                                        // clear_details();
+                                        Swal.close();
                                         div_error.children().first().text('La compra no se pudo registrar');
                                         div_error.show();
                                         div_alert.hide();
@@ -64,7 +70,7 @@ document.addEventListener('DOMContentLoaded',
                                 function(){
                                     // clear_tables();
                                     // $('#loading-spinner').hide();
-                                    Swal.close();
+                                    // Swal.close();
                                 }
                     
                             );

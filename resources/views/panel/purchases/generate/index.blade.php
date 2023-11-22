@@ -101,12 +101,15 @@
                             </table>
                         </div>
                     </form>
-                    <div class="row">
-                        <h6 class="card-header col-4 col-xs-12">Productos Elegidos</h6>
-                        <button id='add-purchase' class="form-control col-xs-12 col-3 m-1 btn btn-success text-uppercase" >
-                            Generar Orden/es
-                        </button>
-                    </div>
+                    <form id="form-voucher" action="{{ route('purchase.export-file') }}" method="get">
+                        <div class="row">
+                            <h6 class="card-header col-4 col-xs-12">Productos Elegidos</h6>
+                            <input type="hidden" name="purchase_id" id="purchase_id"/>
+                            <button type="submit" id='add-purchase' class="form-control col-xs-12 col-3 m-1 btn btn-success text-uppercase" >
+                                Generar Orden/es
+                            </button>
+                        </div>
+                    </form>
                     {{-- <div id="loading-spinner">
                         <i class="fas fa-spinner fa-spin"></i> Cargando...
                     </div> --}}
