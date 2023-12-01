@@ -366,7 +366,7 @@ class ProductController extends Controller
 
     public function export_file(Request $request) {
         $columns = ['id','name','stock','price','category_id','supplier_id'];
-        $headings = ['ID','NOMBRE','STOCK','PRECIO','CATEGORIA','PROVEEDOR'];
+        $headings = ['ORDEN','NOMBRE','STOCK','PRECIO','CATEGORIA','PROVEEDOR'];
         $names = [
             'created_at' => 'Fecha de Creación',
             'stock' => 'Stock',
@@ -377,7 +377,7 @@ class ProductController extends Controller
             'supplier' => 'Proveedor',
         ];
         if ($request->action == 'excel') {
-            $headings = ['ID','NOMBRE','STOCK','PRECIO','CATEGORIA','PROVEEDOR'];
+            $headings = ['ORDEN','NOMBRE','STOCK','PRECIO','CATEGORIA','PROVEEDOR'];
             $content = $this->filter_gral($request);
             if(count($content) > 0){
                 return Excel::download(new ProductsExport($content,$columns, $headings),'productos.xlsx');
