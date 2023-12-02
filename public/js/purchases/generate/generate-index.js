@@ -10,7 +10,7 @@ $.ajaxSetup(
 
 document.addEventListener('DOMContentLoaded', 
     function (e) {
-        let alert_1,alert_2,alert_3,alert_4, table_1, table_2;
+        let alert_1,alert_2,alert_3,alert_4, table_1, table_2, rows;
         let div_alert,div_error;
         
         alert_1 = $('#div-alert-1');
@@ -29,26 +29,42 @@ document.addEventListener('DOMContentLoaded',
         div_alert = $('#div-alert-1');
         div_error = $('#div-error-1');
         // $('#loading-spinner').hide();
+
+        rows = $("#tbody-options tr");
+        rows.each(
+            function () {
+                let id = $(this).attr('id').split("-")[1];
+                $(this).find('input[type=number]').each(
+                    function(){
+                        add_listener($(this).attr('id'));
+                    }
+                )
+            }
+        );
+        $('#add-other').on('click',
+            function(e){
+                e.preventDefault();
+                $('html, body').animate({scrollTop:0}, 'slow');
+            }
+        );
         $('#add-purchase').on('click',
             function (e) {
                 e.preventDefault();
                 let data = carge_rows();
 
-                if (Object.keys(data).length > 1) {
-                    // $('#loading-spinner').show();
+                if (Object.keys(data).length > 1 && data['qty'] >= 1) {
                     let title, msj;
                     title = '¿Estás seguro que deseas Generar la Orden de Compra?';
                     msj = 'Sí, Generala!';
                     show_confirm_sweet(title, msj).then((result) => {
                         if (result.isConfirmed) {
-                                
                             $.ajax(
                                 {
                                     url: 'purchase-generate-action',
                                     type: 'POST',
                                     data: data,
                                     success: function(response) {
-                                        div_alert.children().first().text('La compra se genero con exito');
+                                        div_alert.children().first().text('La operación fue exitosa');
                                         div_alert.show();
                                         div_error.hide();
                                         console.log(response);
@@ -91,20 +107,16 @@ document.addEventListener('DOMContentLoaded',
                                                 //     xhr.send();
                                                 // });
                                                 for (let i = 0; i < response.purchases.length; i++){
-                                                    // input.val(response.purchases[i]);
                                                     input = $('<input>',{
                                                         name:i,
                                                         type:'hidden',
                                                         value: ids[i]
                                                     })
                                                     $('#form-voucher').append(input);
-                                                    // $('#form-voucher').submit();
-                                                    // console.log('Entro con id:', response.purchases[i]);
                                                 }
                                                 
                                                 $('#form-voucher').submit();
                                                 Swal.close();
-                                                // return true;
             
                                             }
                                         }); 
@@ -150,29 +162,29 @@ document.addEventListener('DOMContentLoaded',
             }
         );
 
-        document.querySelector('form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Detener el comportamiento predeterminado del formulario
+        // document.querySelector('form').addEventListener('submit', function(event) {
+        //     event.preventDefault(); // Detener el comportamiento predeterminado del formulario
         
-            var ids = [1, 2, 3]; // IDs de órdenes a descargar
+        //     var ids = [1, 2, 3]; // IDs de órdenes a descargar
         
-            ids.forEach(function(id) {
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', '/descargar_pdf?id=' + id);
+        //     ids.forEach(function(id) {
+        //         var xhr = new XMLHttpRequest();
+        //         xhr.open('GET', '/descargar_pdf?id=' + id);
         
-                xhr.onload = function() {
-                    // Continuar con el ciclo cuando se reciba la respuesta de la petición AJAX
-                };
+        //         xhr.onload = function() {
+        //             // Continuar con el ciclo cuando se reciba la respuesta de la petición AJAX
+        //         };
         
-                xhr.send();
-            });
-        });
+        //         xhr.send();
+        //     });
+        // });
 
     }
 );
 
 function carge_rows () {
-    let rows, set_rows, row, tds, count, supplier;
-    
+    let rows, set_rows, row, tds, count, supplier, no, valid;
+    valid = true;
     set_rows = {};
     
     count = 0;
@@ -182,13 +194,24 @@ function carge_rows () {
             row = {};
             tds = $(this).find('td');
             row['product_id'] = $(this).attr('id').split('-')[1];
-            row['quantity'] = tds.eq(4).text();
-
+            no = tds.eq(5).text();
+            if (no.split(',').length>1 || no.split('.').length > 1 || tds.eq(5) < 1) {
+                valid = false;
+                row['quantity'] = -1;
+            }
+            else{
+                row['quantity'] = no;
+            }
             set_rows[count] = row;
             count += 1;
         }
     );
-    set_rows['qty'] = count;
+    if(valid){
+        set_rows['qty'] = count;
+    }
+    else{
+        set_rows['qty'] = -1;    
+    }
     return set_rows;
 }
 

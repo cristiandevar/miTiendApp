@@ -79,8 +79,9 @@
                             <table id="table-options-1" class="table table-sm table-striped table-bordered table-hover ">
                                 <thead style="position: sticky; top: 0;background-color:white;">
                                     <tr>
-                                        <th>Code</th>
+                                        <th>Código</th>
                                         <th>Nombre</th>
+                                        <th>Proveedor</th>
                                         <th>Stock Actual</th>
                                         <th>Cant. a pedir</th>
                                     </tr>
@@ -90,6 +91,7 @@
                                         <tr id='{{ "trproduct-".$product->id}}'>
                                             <td>{{ $product->code }}</td>
                                             <td>{{ $product->name }}</td>
+                                            <td>{{ $product->supplier->companyname }}</td>
                                             <td>{{ $product->stock }}</td>
                                             <td>
                                                 <input id={{ "qty-".$product->id }} type='number'/><br>
@@ -107,6 +109,9 @@
                             <button type="submit" id='add-purchase' class="form-control col-xs-12 col-3 m-1 btn btn-success text-uppercase" >
                                 Generar Orden/es
                             </button>
+                            <button id='add-other' class="form-control col-xs-12 col-3 m-1 btn btn-primary col-2 m-1" >
+                                Agrega otro
+                            </button>
                         </div>
                     </form>
                     <form id="form-2" action="#" method="post">
@@ -121,6 +126,7 @@
                                             <th scope="col"></th>
                                             <th scope="col" class="text-uppercase">Código</th>
                                             <th scope="col" class="text-uppercase">Nombre</th>
+                                            <th scope="col" class="text-uppercase">Proveedor</th>
                                             <th scope="col" class="text-uppercase">Stock Actual</th>
                                             <th scope="col" class="text-uppercase">Cant. a pedir</th>
                                         </tr>

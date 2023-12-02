@@ -192,15 +192,16 @@ class PurchaseController extends Controller
 
     public function generate_index(){
         
-        $query = Product::query();
+        // $query = Product::query();
 
-        $query->whereRaw('stock <= minstock');
+        // $query->whereRaw('stock <= minstock');
         
         
-        $products = $query->where('active', 1)
-            ->latest()
-            ->get();
+        // $products = $query->where('active', 1)
+        $products = Product::where('active', 1)->latest()->get();
+
         $categories = Category::where('active', 1)->latest()->get();
+        
         $suppliers = Supplier::where('active', 1)->latest()->get();
         
         return view('panel.purchases.generate.index', compact('products', 'categories', 'suppliers'));
@@ -210,7 +211,8 @@ class PurchaseController extends Controller
     public function generate_action(Request $request){
         
         try{
-           
+            // $request->validate([
+            // ]);
             $query = Supplier::query();
 
             $suppliers = $query->where('active',1)->get();
@@ -219,18 +221,21 @@ class PurchaseController extends Controller
             $msj = '';
             $purchase = new Purchase();
             $purchases_id = [];
-            
             foreach ( $suppliers as $supplier ) {
                 if ( $b==1 ) {
                     $purchase = new Purchase();
                     $b=0;
                 }
                 $purchase->supplier_id = $supplier->id;
+                
                 for ($i = 0; $i<$request->qty;$i++){
                     $product = Product::where('id',$request->$i['product_id'])->first();
+                    
                     if ($product->supplier_id == $supplier->id){
+                        
                         $detail = new PurchaseDetail();
                         $detail->product_id = $product->id;
+                        // dd($request);
                         $detail->quantity_ordered = $request->$i['quantity'];
                         if($b==0){
                             $purchase->save();
@@ -241,7 +246,9 @@ class PurchaseController extends Controller
                         $detail->save();
                     }
                 }
+                
                 if ( $b==1 ) {
+                    
                     $data = array(
                         'companyname' => $purchase->supplier->companyname,
                         'email' => $purchase->supplier->email,
@@ -251,6 +258,7 @@ class PurchaseController extends Controller
                         'purchase' => $purchase,
                     );
 
+                    // dd('llego');
                     $pdf = PDF::loadView('emails.purchase_generate', compact('data'));
                     $data['filename'] = 'OC_'.$data['companyname'].'_'.$data['fecha creacion'].'.pdf';
                     $data['filename'] = str_replace(' ','_',$data['filename']);
@@ -267,6 +275,7 @@ class PurchaseController extends Controller
                         $msj += 'Falló envio de email para: '.$purchase->supplier->companyname;
                     }
                 }
+                
             }
             return response()->json([
                 'msj'=> $msj,
@@ -275,7 +284,7 @@ class PurchaseController extends Controller
         }
         catch(Exception $e){
             return response()->json([
-                'msj'=> 'Falló',
+                'msj'=> $e,
                 'purchases' => null,
             ]);
         }
@@ -341,7 +350,7 @@ class PurchaseController extends Controller
                 
             }
             catch (Exception $e) {
-                dd($e);
+                // dd($e);
                 return response()->json([
                     'msj'=> 'Falló envio de email',
                 ]);
@@ -434,7 +443,7 @@ class PurchaseController extends Controller
                 $purchase->save();
             }
             catch (Exception $e) {
-                dd($e);
+                // dd($e);
                 return response()->json([
                     'msj'=> 'Falló envio de email',
                 ]);

@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
     );
 });
 
-function show_products(products){
+function show_products(products, suppliers){
     // console.log(products);
     if(products.length>0){
         $('#alert-table-options').hide();
@@ -57,6 +57,7 @@ function show_products(products){
                 <tr id='${"trproduct-"+product["id"]}'>
                     <td>${product["code"]}</td>
                     <td>${product["name"]}</td>
+                    <td>${get_object(suppliers, product['supplier_id'])['companyname']}</td>
                     <td>${product["stock"]}</td>
                     <td>
                         <input id='qty-${product['id'] }' type='number'/><br>
@@ -95,7 +96,7 @@ function call_filter(){
             success: function(response) {
                 $('#alert-table-options').hide();
                 $('#table-options-1').show();
-                show_products(response.products);
+                show_products(response.products, response.suppliers);
                 rows = $("#tbody-options tr");
                 rows.each(
                     function () {

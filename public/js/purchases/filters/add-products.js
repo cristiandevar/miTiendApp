@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded',
             function ( e ) {
                 
                 e.preventDefault();
-                let rows, ids, vals, row, tbody, tr, tddel, a, ic, td1, td2, td3, td4;
+                let rows, ids, vals, row, tbody, tr, tddel, a, ic, td1, td2, td3, td4, td5;
                 
                 ids = [];
                 vals = [];
@@ -62,17 +62,21 @@ document.addEventListener('DOMContentLoaded',
                             tr.appendChild(td3);
 
                             td4 = document.createElement('td');
-                            td4.innerHTML = vals[i];
+                            td4.innerHTML = row.find('td').eq(3).text();
                             tr.appendChild(td4);
+
+                            td5 = document.createElement('td');
+                            td5.innerHTML = vals[i];
+                            tr.appendChild(td5);
                             
                             tbody.append(tr);
                         }
                         else if(!$('sp-'+ids[i]).hasClass('active')){
                             let row_update = tbody.find('#trpurchase-'+ids[i]);
-                            row_update.find('td').eq(4).text(vals[i]);
+                            row_update.find('td').eq(5).text(vals[i]);
                         }
                     }
-                    row = $('#table-options-1').offset().top
+                    row = $('#table-purchase').offset().top
                     let error = $('#alert-table-purchase');
                     error.hide();
                     $('html, body').animate({scrollTop:row}, 'slow');

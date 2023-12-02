@@ -8,6 +8,7 @@ function carge_table_purchase(products) {
                 <tr id='${"trproduct-"+product["id"]}'>
                     <td>${product["code"]}</td>
                     <td>${product["name"]}</td>
+                    <td>${get_object(suppliers, product['supplier_id'])['companyname']}</td>
                     <td>${product["stock"]}</td>
                     <td>${product["minstock"] - product["stock"]}</td>
                     <td>
@@ -33,4 +34,25 @@ function carge_values(id) {
             values[this.name] = $(this).val();
     });
     return values;
+}
+
+function get_object(list_object, id){
+    let i = 0;
+    while ( i<list_object.length && list_object[i]['id'] != id) {
+        i+=1;
+    }
+    if ( i<list_object.length ) {
+        return list_object[i];
+    }
+    else {
+        return null;
+    }
+}
+
+function get_time(string_date){
+    let new_date = new Date(string_date);
+    let options = { day: 'numeric', month: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZone: 'America/Argentina/Salta' };
+    let formated_date = new_date.toLocaleDateString('es-AR', options).replace(',', '');
+
+    return formated_date;
 }
