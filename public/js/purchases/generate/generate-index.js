@@ -74,38 +74,8 @@ document.addEventListener('DOMContentLoaded',
                                         show_yes_no_sweet(title).then((result) =>{
                                             if (result.isConfirmed) { 
                                                 let input, action;
-                                                // action = $('#form-voucher').preventDefault();
-                                                // input = $('#purchase_id');
                                                 show_charge_message();
                                                 let ids = response.purchases
-
-                                                // ids.forEach(
-                                                //     function(id) {
-                                                //         var xhr = new XMLHttpRequest();
-                                                //         xhr.open('GET', '/purchase/voucher/?id=' + id);
-                                                
-                                                //         xhr.onload = function() {
-                                                //             // Continuar con el ciclo cuando se reciba la respuesta de la petición AJAX
-                                                            
-                                                //         };
-                                            
-                                                //         xhr.send();
-                                                //     }
-                                                // );
-
-                                                // ids.forEach(function(id) {
-                                                //     var xhr = new XMLHttpRequest();
-                                                //     xhr.open('GET', '/panel/purchase/voucher/' + id);
-                                            
-                                                //     xhr.onload = function() {
-                                                //         if (xhr.status === 200) {
-                                                //             // Continuar con el ciclo cuando se reciba la respuesta de la petición AJAX
-                                                            
-                                                //         }
-                                                //     };
-                                            
-                                                //     xhr.send();
-                                                // });
                                                 for (let i = 0; i < response.purchases.length; i++){
                                                     input = $('<input>',{
                                                         name:i,
@@ -113,15 +83,11 @@ document.addEventListener('DOMContentLoaded',
                                                         value: ids[i]
                                                     })
                                                     $('#form-voucher').append(input);
-                                                }
-                                                
+                                                }                                                
                                                 $('#form-voucher').submit();
-                                                Swal.close();
-            
+                                                Swal.close();            
                                             }
-                                        }); 
-                                        
-
+                                        });
                                         $('html, body').animate({scrollTop:0}, 'slow');
                                     },
                                     beforeSend: function() {
@@ -140,9 +106,7 @@ document.addEventListener('DOMContentLoaded',
                             ).always(
                                 function(){
                                     clear_tables();
-                                    // $('#loading-spinner').hide();
-                                }
-                    
+                                }                    
                             );
                         }
                     });
@@ -151,34 +115,11 @@ document.addEventListener('DOMContentLoaded',
                     let error = $('#alert-table-purchase');
                     error.show();
                     error.find('p').first().text('Debe agregar primero un producto');
-                    // div_error.show();
-                    // div_alert.hide();
                     div_error.children().first().find('p').first().text('Debe agregar al menos un producto');
-                    
                     $('html, body').animate({scrollTop:error.offset().top}, 'slow');
-                            
                 }
-
             }
         );
-
-        // document.querySelector('form').addEventListener('submit', function(event) {
-        //     event.preventDefault(); // Detener el comportamiento predeterminado del formulario
-        
-        //     var ids = [1, 2, 3]; // IDs de órdenes a descargar
-        
-        //     ids.forEach(function(id) {
-        //         var xhr = new XMLHttpRequest();
-        //         xhr.open('GET', '/descargar_pdf?id=' + id);
-        
-        //         xhr.onload = function() {
-        //             // Continuar con el ciclo cuando se reciba la respuesta de la petición AJAX
-        //         };
-        
-        //         xhr.send();
-        //     });
-        // });
-
     }
 );
 

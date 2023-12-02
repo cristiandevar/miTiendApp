@@ -255,28 +255,42 @@ class HomeController extends Controller
 
             // dd($sales);
         }
-        $product_sale_info = Product::where('active', 1)
-            ->where('id', $product_sale->first()->p_id)
-            ->first();
 
-        
-        $product_purchase_info = Product::where('active', 1)
-            ->where('id', $product_purchase->first()->p_id)
-            ->first();
+        if($product_sale->first()!=null){
+            $product_sale_info = Product::where('active', 1)
+                ->where('id', $product_sale->first()->p_id)
+                ->first();
+        }
+        else{
+            $product_sale_info = null;
+        }
 
+        if($product_purchase->first()!=null){
+            $product_purchase_info = Product::where('active', 1)
+                ->where('id', $product_purchase->first()->p_id)
+                ->first();
+        }
+        else{
+            $product_purchase_info = null;
+        }
 
-        $supplier_sale_info = Supplier::where('active', 1)
+        if($supplier_sale->first()!=null){
+            $supplier_sale_info = Supplier::where('active', 1)
             ->where('id', $supplier_sale->first()->s_id)
             ->first();
+        }
+        else{
+            $supplier_sale_info = null;
+        }
 
-        
-        $supplier_purchase_info = Supplier::where('active', 1)
+        if($supplier_purchase->first()!=null){
+            $supplier_purchase_info = Supplier::where('active', 1)
             ->where('id', $supplier_purchase->first()->s_id)
             ->first();
-        // dd($product);
-
-
-        // dd($all_in);
+        }
+        else{
+            $supplier_purchase_info = null;
+        }
 
         return response()->json([
             'all_out' => $all_out->total,
@@ -290,30 +304,6 @@ class HomeController extends Controller
             'supplier_purchase_info' => $supplier_purchase_info,
             'supplier_sale_info' => $supplier_sale_info,
         ]);
-        // $purchases = Purchase::where('active',1);
-        // $purchase_for_days = [];
-        
-        // $sale_for_days = [];
-
-        // // $purchases->whereMonth('created_at','=',12);
-        // // dd($purchases->get());
-
-
-        // for($i=1; $i<=7; $i++){
-        //     $purchases = Purchase::where('active',1);
-        //     $purchase_for_days[] = $purchases
-        //     ->whereRaw('DAYOFWEEK(created_at) = ?', [$i])
-        //     ->get();
-
-        //     $sales = Sale::where('active',1);
-        //     $sale_for_days[] = $sales
-        //     ->whereRaw('DAYOFWEEK(created_at) = ?', [$i])
-        //     ->get();
-        // }
-        // return response()->json([
-        //     'purchases_day' => $purchase_for_days,
-        //     'sales_day' => $sale_for_days,
-        // ]);
     }
 
     public function get_data_purch_sale(Request $request){

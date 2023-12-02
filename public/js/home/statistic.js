@@ -167,7 +167,7 @@ function graph_line_in_out(){
                 title1 = 'Egresos';
                 title2 = 'Ingresos';
                 
-                graph_line(x, y1, y2, title1, title2);
+                // graph_line(x, y1, y2, title1, title2);
                 update_data_in_out();
             },
             error: function(xhr, status, error) {
@@ -353,15 +353,29 @@ function update_total_in_out(tp, ts){
         title = ' de esta semana';
     }
     spans = $('#content-title-1').find('span');
-    spans.eq(0).text('Total Ingresos' + title);
-    spans.eq(1).text(ts);
+
+    if (ts){
+        spans.eq(0).text('Total Ingresos' + title);
+        spans.eq(1).text('$ '+ts);
+    }
+    else{
+        spans.eq(0).text('No se registran Ingresos' + title);
+        spans.eq(1).text('$ 0');
+    }
 
     spans = $('#content-title-2').find('span');
-    spans.eq(0).text('Total Egresos' + title);
-    spans.eq(1).text(tp);
+    if (tp){
+        spans.eq(0).text('Total Egresos' + title);
+        spans.eq(1).text(tp);
+    }
+    else{
+        spans.eq(0).text('No se registran Egresos' + title);
+        spans.eq(1).text('$ 0');
+    }
+
 
     let b = ts - tp;
-    if(b>0){
+    if(b>=0){
         $('#balance').attr('style','color:green;');
     }
     else {        
@@ -390,19 +404,32 @@ function update_product_in_out(pp, ppi, ps, psi){
     h3 = $('#data-1').find('h3').first();
     h2 = $('#data-1').find('h2').first();
     p = $('#data-1').find('p').first()
-
-    h3.text(ps[0]['stock_sold']  + ' unidades');
-    h2.text(psi['name']);
-    p.text('Producto mas vendido'+title);
+    if (ps.length > 0) {
+        h3.text(ps[0]['stock_sold']  + ' unidades');
+        h2.text(psi['name']);
+        p.text('Producto mas vendido'+title);
+    }
+    else{
+        h3.text('--- ');
+        h2.text('---');
+        p.text('No hay "Producto mas vendido '+title+'"');
+    }
 
     
     h3 = $('#data-2').find('h3').first();
     h2 = $('#data-2').find('h2').first();
     p = $('#data-2').find('p').first()
 
-    h3.text(pp[0]['stock_purchased']  + ' unidades');
-    h2.text(ppi['name']);
-    p.text('Producto mas comprado'+title);
+    if (pp.length > 0) {
+        h3.text(pp[0]['stock_purchased']  + ' unidades');
+        h2.text(ppi['name']);
+        p.text('Producto mas comprado'+title);
+    }
+    else{
+        h3.text('--- ');
+        h2.text('---');
+        p.text('No hay "Producto mas comprado '+title+'"');
+    }
 }
 
 function update_supplier_in_out(sp, spi, ss, ssi){
@@ -420,19 +447,32 @@ function update_supplier_in_out(sp, spi, ss, ssi){
     h3 = $('#data-3').find('h3').first();
     h2 = $('#data-3').find('h2').first();
     p = $('#data-3').find('p').first()
-
-    h3.text(ss[0]['cant_sale']  + ' ventas');
-    h2.text(ssi['companyname']);
-    p.text('Proveedor mas rentable '+title);
+    if(ss.length > 0){
+        h3.text(ss[0]['cant_sale']  + ' ventas');
+        h2.text(ssi['companyname']);
+        p.text('Proveedor mas rentable '+title);
+    }
+    else{
+        h3.text('---');
+        h2.text('---');
+        p.text('No hay "Proveedor mas rentable '+title+'"');
+    }
 
     
     h3 = $('#data-4').find('h3').first();
     h2 = $('#data-4').find('h2').first();
     p = $('#data-4').find('p').first()
 
-    h3.text(sp[0]['cant_purchase']  + ' compras');
-    h2.text(spi['companyname']);
-    p.text('Proveedor mas solicitado'+title);
+    if(sp.length > 0){
+        h3.text(sp[0]['cant_purchase']  + ' compras');
+        h2.text(spi['companyname']);
+        p.text('Proveedor mas solicitado'+title);
+    }
+    else{
+        h3.text('---');
+        h2.text('---');
+        p.text('No hay "Proveedor mas solicitado '+title+'"');
+    }
 }
 
 function update_total_in_canceled(){
