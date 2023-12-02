@@ -12,11 +12,11 @@
       </div> --}}
 <head>
   <style>
-/* .clearfix:after {
+.clearfix:after {
   content: "";
   display: table;
   clear: both;
-} */
+}
 
 a {
   color: #5D6975;
@@ -40,14 +40,14 @@ header {
   margin-bottom: 30px;
 }
 
-/* #logo {
+#logo {
   text-align: center;
   margin-bottom: 10px;
 }
 
 #logo img {
   width: 90px;
-} */
+}
 
 h1 {
   border-top: 1px solid  #5D6975;
@@ -74,10 +74,10 @@ h1 {
   font-size: 0.8em;
 }
 
-/* #company {
+#company {
   float: right;
   text-align: right;
-} */
+}
 
 #project div,
 #company div {
@@ -109,35 +109,35 @@ table th {
   font-weight: normal;
 }
 
-/* table .service,
+table .service,
 table .desc {
   text-align: left;
-} */
+}
 
 table td {
   padding: 20px;
   text-align: right;
 }
-/* 
+
 table td.service,
 table td.desc {
   vertical-align: top;
-} */
+}
 
-/* table td.unit,
+table td.unit,
 table td.qty,
 table td.total {
   font-size: 1.2em;
-} */
+}
 
-/* table td.grand {
+table td.grand {
   border-top: 1px solid #5D6975;;
-} */
+}
 
-/* #notices .notice {
+#notices .notice {
   color: #5D6975;
   font-size: 1.2em;
-} */
+}
 
 footer {
   color: #5D6975;
@@ -152,38 +152,43 @@ footer {
 </style>
 </head>
 <body>
-    <header>
-      <h1>Comprobante de Orden de Compra nro: {{ $purchase->id }}</h1>
-      <div id="project">
-        <div><span>Fecha Emisión</span> {{ $purchase->created_at }}</div>
-        <div><span>Proveedor</span> {{ $supplier->companyname}}</div>
-      </div>
-    </header>
-    <main>
-      <table>
-        <thead>
-          <tr>
-              @foreach ($headings as $heading)
-                  <th scope="col">{{ $heading }}</th>
-              @endforeach
-          </tr>
-        </thead>
-        <tbody>
-          @foreach ($details as $key => $detail)
+    @if(count($purchases) == 1)
+      <h1>Comprobante de Orden de Compra nro: {{ $purchases[0]->id }}</h1>
+    @endif
+    @foreach($purchases as $purchase)
+      <header>
+        <div id="project">
+          <div><span>Fecha Emisión</span> {{ $purchase->created_at }}</div>
+          <div><span>Proveedor</span> {{ $purchase->supplier->companyname}}</div>
+        </div>
+      </header>
+      <main>
+        <table>
+          <thead>
             <tr>
-                @foreach ($columns as $column)
-                    @if ($column == 'product_id')
-                        <td>{{ $detail->product->name }}</td>
-                    @else
-                        <td>{{ $detail->$column }}</td>
-                    @endif
+                @foreach ($headings as $heading)
+                    <th scope="col">{{ $heading }}</th>
                 @endforeach
             </tr>
-            @endforeach
-        </tbody>
-      </table>
-    </main>
-    <footer>
-      Comprobante de venta generada por <strong>"miTiendAPP"</strong>
-    </footer>
+          </thead>
+          <tbody>
+            @foreach ($purchase->details as $key => $detail)
+              <tr>
+                  @foreach ($columns as $column)
+                      @if ($column == 'product_id')
+                          <td>{{ $detail->product->name }}</td>
+                      @else
+                          <td>{{ $detail->$column }}</td>
+                      @endif
+                  @endforeach
+              </tr>
+              @endforeach
+          </tbody>
+        </table>
+      </main>
+    @endforeach
+      <footer>
+        Comprobante de venta generada por <strong>"miTiendAPP"</strong>
+      </footer>
+    
   </body>

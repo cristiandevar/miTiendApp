@@ -215,7 +215,9 @@ class PurchaseController extends Controller
             $suppliers = $query->where('active',1)->get();
             
             $b = 0;
+            $msj = '';
             $purchase = new Purchase();
+            $purchases_id = [];
             
             foreach ( $suppliers as $supplier ) {
                 if ( $b==1 ) {
@@ -232,6 +234,7 @@ class PurchaseController extends Controller
                         if($b==0){
                             $purchase->save();
                             $b=1;
+                            $purchases_id[] = $purchase->id;
                         }
                         $detail->purchase_id = $purchase->id;
                         $detail->save();
@@ -275,22 +278,26 @@ class PurchaseController extends Controller
 
                     }
                     catch (Exception $e) {
-                        dd($e);
-                        return response()->json([
-                            'msj'=> 'Falló envio de email',
-                        ]);
+                        // dd($e);
+                        $msj += 'Falló envio de email para: '.$purchase->supplier->companyname;
+
+                        // return response()->json([
+                        //     'msj'=> 'Falló envio de email para: '.$purchase->supplier->companyname,
+                        //     'purchase' => $purchase,
+                        // ]);
                     }
                 }
             }
             return response()->json([
-                'msj'=> 'Respuesta',
-                'purchase' => $purchase,
+                'msj'=> $msj,
+                'purchases' => $purchases_id,
             ]);
         }
         catch(Exception $e){
-            dd($e);
+            // dd($e);
             return response()->json([
                 'msj'=> 'Falló',
+                'purchases' => null,
             ]);
         }
 
@@ -380,7 +387,56 @@ class PurchaseController extends Controller
         else if ($action == 'pdf') {
             // $content = $this->filter_gral($request)->latest()->get();
             $content = $purchase->details;
-            return $this->export_pdf($content, $purchase, 'Comprobante de Orden de compra ', 'Compra nro: '.$purchase->id, 'purchase_voucher_'.$purchase->created_at->format('Y_m_d'), $columns, $headings);
+            return $this->export_pdf($content, $purchase, 'Comprobante de Orden de compra ', 'Compra nro: '.$purchase->id, 'purchase_voucher_'.$purchase->id.'_'.$purchase->created_at->format('Y_m_d'), $columns, $headings);
+        }
+    }
+
+    public function export_file_many_purchase($purchases, $action){
+        $columns = ['id','product_id','quantity_ordered'];
+        $headings = ['ID','NOMBRE PROD.','CANT. SOLICITADA'];
+            
+        if ($action == 'excel') {
+            $headings = ['ID','NOMBRE PROD.','CANT. SOLICITADA'];
+            // $content = $purchase->details;
+            // return Excel::download(new SaleExport($content,$columns, $headings),'sale_'.$purchase->created_at->format('Y_m_d').'.xlsx');
+        }
+        else if ($action == 'pdf') {
+            // $data = [];
+            // $suppliers = [];
+            // $contents = [];
+            // $purchases = [];
+            // foreach($purchases_id as $purchase_id){
+            //     $purchases[] = Purchase::where('id',$purchase_id);
+            //     // $contents[] = $purchase->details;
+
+            //     // $data = [
+            //     //     'title' => 'Comprobante de Orden de compra ',
+            //     //     'subtitle' => 'Compra nro: '.$purchase->id,
+            //     //     'details' => $content,
+            //     //     'columns' => $columns,
+            //     //     'headings' => $headings,
+            //     //     'purchase' => $purchase,
+            //     //     'supplier' => $purchase->supplier,
+            //     // ];
+            //     // $datas[] = $data;
+            // }
+            // $content = $this->filter_gral($request)->latest()->get();
+            // dd($purchases[0]->details);
+            $data = [
+                'purchases' => $purchases,
+                'columns' => $columns,
+                'headings' => $headings,
+            ];
+            
+            $pdf = PDF::loadView('pdf.purchase_many_voucher', $data);
+            $today = new Date();
+            $file_title = 'OsC_'.$purchases[0]->created_at->format('Y_m_d');
+
+            return $pdf->download($file_title.'.pdf');
+
+
+
+            // return $this->export_pdf($content, $purchase, 'Comprobante de Orden de compra ', 'Compra nro: '.$purchase->id, 'purchase_voucher_'.$purchase->id.'_'.$purchase->created_at->format('Y_m_d'), $columns, $headings);
         }
     }
 
@@ -400,7 +456,7 @@ class PurchaseController extends Controller
         $pdf = PDF::loadView('pdf.purchase_voucher', $data);
         
         return $pdf->download($file_title.'.pdf');
-        dd('llego');
+        // dd('llego');
     }
     
     public function cancel_action(Request $request){

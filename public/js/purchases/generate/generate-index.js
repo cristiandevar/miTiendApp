@@ -57,12 +57,54 @@ document.addEventListener('DOMContentLoaded',
                                         title = '¿Desea descargar comprobante de Orden Generada?'
                                         show_yes_no_sweet(title).then((result) =>{
                                             if (result.isConfirmed) { 
-                                                let input;
-                                                input = $('#purchase_id');
-                                                input.val(response.purchase['id']);
+                                                let input, action;
+                                                // action = $('#form-voucher').preventDefault();
+                                                // input = $('#purchase_id');
+                                                show_charge_message();
+                                                let ids = response.purchases
+
+                                                // ids.forEach(
+                                                //     function(id) {
+                                                //         var xhr = new XMLHttpRequest();
+                                                //         xhr.open('GET', '/purchase/voucher/?id=' + id);
+                                                
+                                                //         xhr.onload = function() {
+                                                //             // Continuar con el ciclo cuando se reciba la respuesta de la petición AJAX
+                                                            
+                                                //         };
+                                            
+                                                //         xhr.send();
+                                                //     }
+                                                // );
+
+                                                // ids.forEach(function(id) {
+                                                //     var xhr = new XMLHttpRequest();
+                                                //     xhr.open('GET', '/panel/purchase/voucher/' + id);
+                                            
+                                                //     xhr.onload = function() {
+                                                //         if (xhr.status === 200) {
+                                                //             // Continuar con el ciclo cuando se reciba la respuesta de la petición AJAX
+                                                            
+                                                //         }
+                                                //     };
+                                            
+                                                //     xhr.send();
+                                                // });
+                                                for (let i = 0; i < response.purchases.length; i++){
+                                                    // input.val(response.purchases[i]);
+                                                    input = $('<input>',{
+                                                        name:i,
+                                                        type:'hidden',
+                                                        value: ids[i]
+                                                    })
+                                                    $('#form-voucher').append(input);
+                                                    // $('#form-voucher').submit();
+                                                    // console.log('Entro con id:', response.purchases[i]);
+                                                }
+                                                
                                                 $('#form-voucher').submit();
+                                                Swal.close();
                                                 // return true;
-                                                console.log('Entro');
             
                                             }
                                         }); 
@@ -107,6 +149,23 @@ document.addEventListener('DOMContentLoaded',
 
             }
         );
+
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Detener el comportamiento predeterminado del formulario
+        
+            var ids = [1, 2, 3]; // IDs de órdenes a descargar
+        
+            ids.forEach(function(id) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/descargar_pdf?id=' + id);
+        
+                xhr.onload = function() {
+                    // Continuar con el ciclo cuando se reciba la respuesta de la petición AJAX
+                };
+        
+                xhr.send();
+            });
+        });
 
     }
 );

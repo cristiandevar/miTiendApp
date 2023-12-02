@@ -146,7 +146,17 @@ Route::group(['middleware' => ['can:func_boss']], function () {
             return $controller->export_file_purchase(Purchase::where('id',$request->purchase_id)->first(), 'pdf');
         }
     )->name('purchase.export-file');
+    Route::get('/purchase/many_vouchers',
+        function(Request $request){
+            $purchases = [];
 
+            foreach($request->all() as $input){
+                $purchases[] = Purchase::where('id',$input)->first();
+            }
+            $controller = new PurchaseController();
+            return $controller->export_file_many_purchase($purchases, 'pdf');
+        }
+    )->name('purchase.export-many-file');
 
     // Rutas para actualizar precio
     Route::get('/products-filter-price-update', [App\Http\Controllers\ProductController::class, 'update_price'])->name('product.update-price');
