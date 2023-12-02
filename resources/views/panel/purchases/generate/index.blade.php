@@ -109,9 +109,6 @@
                             </button>
                         </div>
                     </form>
-                    {{-- <div id="loading-spinner">
-                        <i class="fas fa-spinner fa-spin"></i> Cargando...
-                    </div> --}}
                     <form id="form-2" action="#" method="post">
                         <div class="card-body" id="card-table">
                             <div id='alert-table-purchase'>

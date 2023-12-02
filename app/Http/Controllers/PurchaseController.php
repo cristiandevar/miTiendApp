@@ -13,6 +13,7 @@ use App\Models\Purchase;
 use App\Models\PurchaseDetail;
 use App\Models\Supplier;
 use Barryvdh\DomPDF\Facade\PDF;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Exception;
 use Illuminate\Http\Request;
@@ -397,31 +398,8 @@ class PurchaseController extends Controller
             
         if ($action == 'excel') {
             $headings = ['ID','NOMBRE PROD.','CANT. SOLICITADA'];
-            // $content = $purchase->details;
-            // return Excel::download(new SaleExport($content,$columns, $headings),'sale_'.$purchase->created_at->format('Y_m_d').'.xlsx');
         }
         else if ($action == 'pdf') {
-            // $data = [];
-            // $suppliers = [];
-            // $contents = [];
-            // $purchases = [];
-            // foreach($purchases_id as $purchase_id){
-            //     $purchases[] = Purchase::where('id',$purchase_id);
-            //     // $contents[] = $purchase->details;
-
-            //     // $data = [
-            //     //     'title' => 'Comprobante de Orden de compra ',
-            //     //     'subtitle' => 'Compra nro: '.$purchase->id,
-            //     //     'details' => $content,
-            //     //     'columns' => $columns,
-            //     //     'headings' => $headings,
-            //     //     'purchase' => $purchase,
-            //     //     'supplier' => $purchase->supplier,
-            //     // ];
-            //     // $datas[] = $data;
-            // }
-            // $content = $this->filter_gral($request)->latest()->get();
-            // dd($purchases[0]->details);
             $data = [
                 'purchases' => $purchases,
                 'columns' => $columns,
@@ -430,13 +408,9 @@ class PurchaseController extends Controller
             
             $pdf = PDF::loadView('pdf.purchase_many_voucher', $data);
             $today = new Date();
-            $file_title = 'OsC_'.$purchases[0]->created_at->format('Y_m_d');
+            $file_title = 'OsC_'.Carbon::now()->format('Y_m_d_H_i_s');
 
             return $pdf->download($file_title.'.pdf');
-
-
-
-            // return $this->export_pdf($content, $purchase, 'Comprobante de Orden de compra ', 'Compra nro: '.$purchase->id, 'purchase_voucher_'.$purchase->id.'_'.$purchase->created_at->format('Y_m_d'), $columns, $headings);
         }
     }
 
