@@ -252,12 +252,6 @@ class PurchaseController extends Controller
                     );
 
                     $pdf = PDF::loadView('emails.purchase_generate', compact('data'));
-                    // $pdf->stream();
-                    // $pdfPath =  storage_path('app/public/pdfs/OC_'.$data['companyname'].'_'.$data['fecha creacion'].'.pdf');
-                    
-                    // dd($pdfPath);
-                    // Storage::disk('pdfs')->
-                    // $pdf->save($pdfPath);
                     $data['filename'] = 'OC_'.$data['companyname'].'_'.$data['fecha creacion'].'.pdf';
                     $data['filename'] = str_replace(' ','_',$data['filename']);
                     $data['filename'] = str_replace(':','',$data['filename']);
@@ -265,27 +259,12 @@ class PurchaseController extends Controller
                     
                     $pdfPath = 'pdfs/'.$data['filename'];
                     Storage::put($pdfPath, $pdf->output());
-                
-                    // $data['filename'] = 'OC_2023.pdf';
                     $data['path'] = Storage::url($pdfPath);
-                    // dd($data['filename']);
                     try {
                         Mail::to($data['email'])->send(new PurchaseGenerate($data));
-                        
-                        // dd('paso');
-                        // $contenido = view('emails.purchase_generate', compact('data'))->render();
-                        // Mail::to($data['email'])->send(new SendMail($contenido, 'emails.purchase_generate'));
-                        // Mail::to($data['email'])->send(new SendMail($data, 'emails.purchase_generate'));
-
                     }
                     catch (Exception $e) {
-                        // dd($e);
                         $msj += 'Falló envio de email para: '.$purchase->supplier->companyname;
-
-                        // return response()->json([
-                        //     'msj'=> 'Falló envio de email para: '.$purchase->supplier->companyname,
-                        //     'purchase' => $purchase,
-                        // ]);
                     }
                 }
             }
@@ -295,7 +274,6 @@ class PurchaseController extends Controller
             ]);
         }
         catch(Exception $e){
-            // dd($e);
             return response()->json([
                 'msj'=> 'Falló',
                 'purchases' => null,

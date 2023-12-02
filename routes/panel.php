@@ -133,6 +133,7 @@ Route::group(['middleware' => ['can:func_boss']], function () {
             return $controller->show_edit(Purchase::where('id',$id)->first());
         }
     )->name('purchase.show-edit');
+    
     Route::put('/purchase/show/edit/comfirm/{id}',
         function(Request $request, $id){
             $controller = new PurchaseController();
@@ -146,6 +147,7 @@ Route::group(['middleware' => ['can:func_boss']], function () {
             return $controller->export_file_purchase(Purchase::where('id',$request->purchase_id)->first(), 'pdf');
         }
     )->name('purchase.export-file');
+
     Route::get('/purchase/many_vouchers',
         function(Request $request){
             $purchases = [];
