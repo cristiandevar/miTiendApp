@@ -3,7 +3,43 @@ function carge_table(products, categories, suppliers) {
         $('#alert-table').hide();
         $('#table-products').show();
         let cadena = '';
+        // let td, tr, img, btn_show, btn_edit, btn_del;
         for (let product of products) {
+            // tr = $('<tr></tr>');
+            // td = $('<td></td>');
+
+            // td.html(product["code"]);
+            // tr.append(td);
+            
+            // td.html(product["name"]);
+            // tr.append(td);
+            
+            // td.html(product["price"]);
+            // tr.append(td);
+            
+            // td.html(product["stock"]);
+            // tr.append(td);
+            
+            // td.html(get_object(categories,product["category_id"])["name"]);
+            // tr.append(td);
+            
+            // td.html(get_object(suppliers,product["supplier_id"])["companyname"]);
+            // tr.append(td);
+            
+            // img = $('<img></img>',{
+            //     src:product['image']
+            // })
+            // td.append(img);
+            // tr.append(td);
+
+            // btn_show = $('<a></a>',{
+                
+            // });
+            // td.html(product["code"]);
+            // tr.append(td);
+
+
+
             // console.log(product);
             cadena += `
                 <tr>

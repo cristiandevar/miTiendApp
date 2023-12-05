@@ -45,7 +45,7 @@
         <div class="card">
             <div class="card-body">
                 @if(count($users)>0)
-                    <table id="users-table" class="table table-striped table-hover w-100">
+                    <table id="table-users" class="table table-striped table-hover w-100">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -99,15 +99,50 @@
 </div>
 @stop
 
+
 {{-- Importacion de Archivos CSS --}}
 @section('css')
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap4.min.css">
 @stop
-
 
 {{-- Importacion de Archivos JS --}}
 @section('js')
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap4.min.js"></script>
+{{-- <script type="text/javascript" src="{{ asset('js/cruds/datatable.js') }}"></script> --}}
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript" src="{{ asset('js/cruds/confirm-delete.js') }}"></script>
-
+<script>
+    $('#table-users').DataTable({
+    responsive: true,
+    autoWidth: false,
+    'language': {
+        'lengthMenu':
+            'Mostrar'+
+                `<select class="custom-select custom-select-sm form-control form-control-sm">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="-1">Todas</option>                        
+                </select>`  
+            +'filas por pagina',
+        'zeroRecords': 'No se encontraron registros',
+        'info': 'Mostrando pagina _PAGE_ de _PAGES_',
+        'infoEmpty': 'No hay registros disponibles',
+        'infoFiltered': '(filtrado de _MAX_ registros)',
+        'search':'Buscar',
+        'paginate':{
+            'next':'Sig.',
+            'previous':'Prev.',
+        }
+    }
+})
+</script>
 @stop

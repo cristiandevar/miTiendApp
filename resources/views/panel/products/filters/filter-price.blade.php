@@ -73,10 +73,10 @@
                             </select>
                         </div>
                         <div class="form-group row">
-                            <input class="form-control col-xs-12 col-2 m-1" type="number" id="stock_since" name="stock_since" placeholder="Stock desde..." value={{ isset($inputs) && isset($inputs['stock_since'])? $inputs['stock_since'] : '' }}>
-                            <input class="form-control col-xs-12 col-2 m-1" type="number" id="stock_to" name="stock_to" placeholder="Stock hasta..." value={{ isset($inputs) && isset($inputs['stock_to'])? $inputs['stock_to'] : '' }}>
-                            <input class="form-control col-xs-12 col-2 m-1" type="date" id="date_since" name="date_since" placeholder="Fecha desde..." value={{ isset($inputs['date_since'])? $inputs['date_since'] : '' }}>
-                            <input class="form-control col-xs-12 col-2 m-1" type="date" id="date_to" name="date_to" placeholder="Fecha hasta..." value={{ isset($inputs['date_to'])? $inputs['date_to'] : '' }}>
+                            {{-- <input class="form-control col-xs-12 col-2 m-1" type="number" id="stock_since" name="stock_since" placeholder="Stock desde..." value={{ isset($inputs) && isset($inputs['stock_since'])? $inputs['stock_since'] : '' }}>
+                            <input class="form-control col-xs-12 col-2 m-1" type="number" id="stock_to" name="stock_to" placeholder="Stock hasta..." value={{ isset($inputs) && isset($inputs['stock_to'])? $inputs['stock_to'] : '' }}> --}}
+                            {{-- <input class="form-control col-xs-12 col-2 m-1" type="date" id="date_since" name="date_since" placeholder="Fecha desde..." value={{ isset($inputs['date_since'])? $inputs['date_since'] : '' }}>
+                            <input class="form-control col-xs-12 col-2 m-1" type="date" id="date_to" name="date_to" placeholder="Fecha hasta..." value={{ isset($inputs['date_to'])? $inputs['date_to'] : '' }}> --}}
                             {{-- <button id="btn-filter-1" type="submit" class="form-control col-xs-12 col-1 m-1 btn btn-success text-uppercase">
                                 Filtrar
                             </button> --}}
@@ -88,7 +88,7 @@
                                 <option value="code">Código</option>
                                 <option value="name">Nombre</option>
                                 <option value="price">Precio</option>
-                                <option value="stock">Stock</option>
+                                {{-- <option value="stock">Stock</option> --}}
                                 <option value="category">Categoria</option>
                                 <option value="supplier">Proveedor</option>
                             </select>

@@ -167,7 +167,7 @@ function graph_line_in_out(){
                 title1 = 'Egresos';
                 title2 = 'Ingresos';
                 
-                // graph_line(x, y1, y2, title1, title2);
+                graph_line(x, y1, y2, title1, title2);
                 update_data_in_out();
             },
             error: function(xhr, status, error) {
