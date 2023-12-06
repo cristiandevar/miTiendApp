@@ -93,6 +93,7 @@ $('#btn-update-1').on('click', function(e) {
                     percentage : values_update['percentage'],
                     price : values_update['price'],
                     name : values_filter['name'],
+                    code : values_filter['code'],
                     supplier_id : values_filter['supplier_id'],
                     category_id : values_filter['category_id'],
                     date_since : values_filter['date_since'],
