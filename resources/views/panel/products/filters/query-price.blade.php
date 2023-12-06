@@ -6,7 +6,7 @@
 
 {{-- Titulo en el contenido de la Pagina --}}
 @section('content_header')
-    <h1>Filtro de Productos</h1>
+    <h1>Consulta de Productos</h1>
 @stop
 
 {{-- Contenido de la Pagina --}}
