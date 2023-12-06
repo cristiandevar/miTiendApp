@@ -104,10 +104,17 @@
                         <div class="form-group row">
                             <input class="form-control col-xs-12 col-2 m-1" type="hidden" id="inputs" name="inputs" value="{{isset($inputs)?json_encode($inputs):''}}">
                             <input class="form-control col-xs-12 col-2 m-1" type="hidden" id="products" name="products" value="{{isset($products)?json_encode($products):''}}">
-                           <div class="col-xs-12 col-2 m-1">
-                               <input class="form-control " type="number" id="percentage" name="percentage" placeholder="ingrese porcentaje ..." step="0.01" >
+                           
+                            <div class="col-xs-12 col-2 m-1">
+                                <input class="form-control " type="number" id="price" name="price" placeholder="Precio ..." step="0.01" >
+                                <span id='{{"sp-price"}}' class="error" aria-live="polite"></span>
+                            </div>
+                           
+                            <div class="col-xs-12 col-2 m-1">
+                               <input class="form-control " type="number" id="percentage" name="percentage" placeholder="Porcentaje ..." step="0.01" >
                                <span id='{{"sp-percentage"}}' class="error" aria-live="polite"></span>
                             </div>
+
                             
                             <button id="btn-update-1" type="submit" class="form-control col-xs-12 col-2 m-1 btn btn-success text-uppercase">
                                 Actualizar Precio

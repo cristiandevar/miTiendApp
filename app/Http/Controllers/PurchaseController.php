@@ -356,7 +356,7 @@ class PurchaseController extends Controller
             ]);
         }
         catch(Exception $e){
-            dd($e);
+            // dd($e);
             return response()->json([
                 'msj'=> $e,
                 'purchases' => null,

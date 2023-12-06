@@ -314,11 +314,13 @@ class ProductController extends Controller
     public function update_price_async(Request $request) {
         $request->validate([
             'percentage' => 'numeric|max:100|min:-100',
+            'price' => 'numeric|min:1',
         ]);
         
         $products = $this->filter_gral($request)->latest()->get();
 
-        if ($request->has('percentage') && $request->percentage !== '' && count($products) > 0) {
+        // dd($request->has('percentage') && $request->percentage !== '' && $request->percentage != 0 && count($products) > 0);  
+        if ($request->has('percentage') && $request->percentage !== '' && $request->percentage != 0 && count($products) > 0) {
             $products_update = collect();
             foreach ($products as $product) {
                 $price = $product->price;
@@ -335,6 +337,25 @@ class ProductController extends Controller
             }
             $products = $products_update;
         }
+        else if ($request->has('price') && $request->price !== '' && count($products) > 0) {
+            $products_update = collect();
+            
+                foreach ($products as $product) {
+                // $price = $product->price;
+                // $new_price = 
+
+                // $price = $new_price;
+                $product_update = Product::find($product->id);
+                $product_update->price = $request->price;
+                $product_update->update();
+
+                $products_update->push(Product::find($product->id));
+                 
+                
+            }
+            $products = $products_update;
+        }
+        
 
         $categories = Category::where('active',1)
             ->latest()
