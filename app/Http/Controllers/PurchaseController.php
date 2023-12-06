@@ -198,11 +198,11 @@ class PurchaseController extends Controller
         
         
         // $products = $query->where('active', 1)
-        $products = Product::where('active', 1)->latest()->get();
+        $products = Product::where('active', 1)->orderBy('name','asc')->get();
 
-        $categories = Category::where('active', 1)->latest()->get();
+        $categories = Category::where('active', 1)->orderBy('name','asc')->get();
         
-        $suppliers = Supplier::where('active', 1)->latest()->get();
+        $suppliers = Supplier::where('active', 1)->orderBy('companyname','asc')->get();
         
         return view('panel.purchases.generate.index', compact('products', 'categories', 'suppliers'));
     
@@ -296,7 +296,7 @@ class PurchaseController extends Controller
         $suppliers = Supplier::where('active', 1)->latest()->get();
         $purchases = Purchase::where('active', 1)
         ->whereNull('received_date')
-        ->latest()
+        ->orderBy('created_at','desc')
         ->get();
         
         
@@ -547,18 +547,28 @@ class PurchaseController extends Controller
     }
     
     public function filter_async_purchases_register(Request $request){
-        
         $query = Purchase::query();
+        // dd($request->all());
 
         $query->whereNull('received_date');
 
-        if ($request->has('supplier_id') && Str::length((trim($request->supplier_id)))>0) {
+        if ($request->has('supplier_id') && $request->supplier_id != null) {
             $query->where('supplier_id', '=' ,$request->supplier_id);
         }
-    
+        if ($request->has('date_since') && $request->date_since != null) {
+            $query->where('created_at', '>=' ,$request->date_since);
+        }
+        if ($request->has('date_to') && $request->date_to != null) {
+            $date_to = Carbon::createFromFormat('Y-m-d',$request->date_to )->startOfDay()->addDay()->toDateTimeString();
+            $query->where('created_at','<', $date_to);
+            // $query->where('created_at', '<=' ,$request->date_to);
+        }
+
+        
+        // dd($query->get());
         $purchases = $query
             ->where('active',1)
-            ->latest()
+            ->orderBy('created_at','desc')
             ->get();
 
         $suppliers = Supplier::where('active',1)

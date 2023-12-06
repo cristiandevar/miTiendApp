@@ -276,13 +276,13 @@ class ProductController extends Controller
     public function filter_price(Request $request) {
 
         $products = $this->filter_gral($request)
-            ->latest()
+            ->orderBy('name', 'asc')
             ->get(); 
         $categories = Category::where('active',1)
-            ->latest()
+            ->orderBy('name', 'asc')
             ->get();
         $suppliers = Supplier::where('active',1)
-            ->latest()
+            ->orderBy('companyname', 'asc')
             ->get();
 
         return view('panel.products.filters.filter-price',compact('products','suppliers', 'categories'));
@@ -292,6 +292,7 @@ class ProductController extends Controller
     public function filter_async(Request $request) {
 
         $products = $this->filter_gral($request)
+            ->orderBy('name', 'asc')
             ->get(); 
         $categories = Category::where('active',1)
             ->latest()
@@ -364,7 +365,7 @@ class ProductController extends Controller
             ->orderBy('companyname','asc')
             ->get();
             
-        if (count($request->all())) {
+        if(count($request->all())) {
 
             return response()->json(
                 [

@@ -43,8 +43,11 @@
                                     </option>
                                 @endforeach
                             </select>
+                            
+                            <input title="Ingrese Fecha desde" class="form-control col-xs-12 col-2 m-1" type="date" id="date_since" name="date_since" placeholder="Fecha desde..." value={{ isset($inputs['date_since'])? $inputs['date_since'] : '' }}>
+                            <input title="Ingrese Fecha hasta" class="form-control col-xs-12 col-2 m-1" type="date" id="date_to" name="date_to" placeholder="Fecha hasta..." value={{ isset($inputs['date_to'])? $inputs['date_to'] : '' }}>
                         </div>
-                        <h6 class="card-header col-4 col-xs-12">Agregue sus productos</h6>
+                        <h6 class="card-header col-4 col-xs-12">Elija la orden de compra</h6>
                             {{-- <div class="form-group row">
                                 <input id="input-code-1" type="text" class="form-control col-3 m-1" placeholder="Código.."/>
                                 <input id="input-name-1" type="text" class="form-control col-3 m-1" placeholder="Nombre.." />
@@ -69,7 +72,7 @@
                                             <tr id='{{ "trpurchase-".$purchase->id}}'>
                                                 <td>{{ $purchase->id }}</td>
                                                 <td>{{ $purchase->supplier->companyname }}</td>
-                                                <td>{{ $purchase->created_at }}</td>
+                                                <td>{{ $purchase->created_at->format('d/m/Y h:i:s') }}</td>
                                                 <td>
                                                     <a id={{'linkr-'.$purchase->id}} href="#" title="Registrar compra"><i class="fas fa-check-square" style="color: #05ff37;"></i></a>
                                                     <a id={{'linke-'.$purchase->id}} href="#" title="Modificar compra"><i class="fas fa-pen-square" style="color: #e2dc12;"></i></a>

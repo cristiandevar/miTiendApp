@@ -13,12 +13,22 @@ document.addEventListener('DOMContentLoaded',
         alert_3.hide();
 
         $('#select-supplier').on('change',
-        function ( e ) {
-            update_table_purchases();
+            function ( e ) {
+                update_table_purchases();
+            }
+        );
 
-        }
-    );
+        $('#date_since').on('change',
+            function ( e ) {
+                update_table_purchases();
+            }
+        );
 
+        $('#date_to').on('change',
+            function ( e ) {
+                update_table_purchases();
+            }
+        );
     }
 );
 
@@ -115,7 +125,7 @@ function get_object(list_object, id){
 
 function get_time(string_date){
     let new_date = new Date(string_date);
-    let options = { day: 'numeric', month: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZone: 'America/Argentina/Salta' };
+    let options = { day: '2-digit', month: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZone: 'America/Argentina/Salta' };
     let formated_date = new_date.toLocaleDateString('es-AR', options).replace(',', '');
 
     return formated_date;
@@ -125,12 +135,14 @@ function update_table_purchases(){
     let option = $('#select-supplier').val();
     let data_filter = {};
 
-    if ( option != '' ) {
-        option = parseInt(option);
+    // if ( option != '' ) {
+    //     option = parseInt(option);
         data_filter = {
-            'supplier_id' : option
+            'supplier_id' : $('#select-supplier').val(),
+            'date_since' : $('#date_since').val(),
+            'date_to': $('#date_to').val(),
         }
-    }
+    // }
 
     $.ajax(
         {
