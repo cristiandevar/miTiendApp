@@ -129,6 +129,7 @@
     $('#table-purchases').DataTable({
     responsive: true,
     autoWidth: false,
+    "order": [[ 0, "desc" ]],
     'language': {
         'lengthMenu':
             'Mostrar'+

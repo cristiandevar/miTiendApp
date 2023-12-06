@@ -113,6 +113,7 @@
     $('#table-categories').DataTable({
     responsive: true,
     autoWidth: false,
+    "order": [[ 1, "asc" ]],
     'language': {
         'lengthMenu':
             'Mostrar'+
