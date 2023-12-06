@@ -392,14 +392,14 @@ return [
                 'route' => 'sale.index',
                 'icon' => 'fas fa-cash-register',   //Icono de fontawesome
                 //'can' => 'product_list'     //Permiso del vendedor
-                'can' => 'func_admin'
+                'can' => 'func_boss'
             ],
             [
                 'text' => 'Compras',
                 'route' => 'purchase.index',
                 'icon' => 'fas fa-shopping-cart',   //Icono de fontawesome
                 //'can' => 'product_list'     //Permiso del vendedor
-                'can' => 'func_admin'
+                'can' => 'func_boss'
             ],
         // [
         //     'text' => 'Compra - Venta',
