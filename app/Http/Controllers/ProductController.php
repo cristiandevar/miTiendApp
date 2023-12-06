@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Exports\ProductsExport;
+use App\Models\Purchase;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\PDF;
 use Illuminate\Database\Eloquent\Collection;
@@ -226,13 +227,27 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         // $product->delete();
-        $product->active = 0;
-        
-        $product->update();
+        $purchase_active = Purchase::join('purchase_details', 'purchases.id', '=', 'purchase_details.purchase_id')
+            ->join('products', 'purchase_details.product_id', '=', 'products.id')
+            ->selectRaw('products.id as p_id, received_date as r_d')
+            ->where('products.id', '=', $product->id)
+            ->where('received_date','=',null)
+            ->get();
+        if(count($purchase_active) == 0){
+            $product->active = 0;
+            
+            $product->update();
+    
+            return redirect()
+                ->route('product.index')
+                ->with('alert', 'Producto "'.$product->name.'" eliminado exitosamente.');
 
-        return redirect()
-            ->route('product.index')
-            ->with('alert', 'Producto "'.$product->name.'" eliminado exitosamente.');
+        }
+        else{
+            return redirect()
+                ->route('product.index')
+                ->with('error', 'Producto "'.$product->name.'" pertenece a alguna compra sin recepción.');
+        }
     }
 
     public function deleteImage(string $path)
