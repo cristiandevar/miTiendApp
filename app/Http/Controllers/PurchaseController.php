@@ -219,76 +219,144 @@ class PurchaseController extends Controller
         try{
             // $request->validate([
             // ]);
-            $query = Supplier::query();
+                //in_array("banana", $frutas)
 
-            $suppliers = $query->where('active',1)->get();
-            
-            $b = 0;
-            $msj = '';
-            $purchase = new Purchase();
+            $purchases = [];
             $purchases_id = [];
-            foreach ( $suppliers as $supplier ) {
-                if ( $b==1 ) {
+            $suppliers = [];
+            $msj = '';
+            
+            for ($i = 0; $i<$request->qty;$i++){
+                $product = Product::where('active',1)
+                    ->where('id',$request->$i['product_id'])->first();
+                    // dd($product->supplier_id);
+                // dd(!in_array($product->supplier_id, $suppliers));
+                if(!in_array($product->supplier_id, $suppliers)){
+                    $suppliers[] = $product->supplier_id;
                     $purchase = new Purchase();
-                    $b=0;
-                }
-                $purchase->supplier_id = $supplier->id;
-                
-                for ($i = 0; $i<$request->qty;$i++){
-                    $product = Product::where('id',$request->$i['product_id'])->first();
-                    
-                    if ($product->supplier_id == $supplier->id){
-                        
-                        $detail = new PurchaseDetail();
-                        $detail->product_id = $product->id;
-                        // dd($request);
-                        $detail->quantity_ordered = $request->$i['quantity'];
-                        if($b==0){
-                            $purchase->save();
-                            $b=1;
-                            $purchases_id[] = $purchase->id;
-                        }
-                        $detail->purchase_id = $purchase->id;
-                        $detail->save();
-                    }
+                    $purchase->supplier_id = $product->supplier_id;
+                    $purchase->save();
+                    $purchases[] = $purchase;
+                    $purchases_id[] = $purchase->id;
                 }
                 
-                if ( $b==1 ) {
-                    
-                    $data = array(
-                        'companyname' => $purchase->supplier->companyname,
-                        'email' => $purchase->supplier->email,
-                        'fecha creacion' => $purchase->created_at,
-                        'details' => $purchase->details,
-                        'supplier' => $purchase->supplier, 
-                        'purchase' => $purchase,
-                    );
-
-                    // dd('llego');
-                    $pdf = PDF::loadView('emails.purchase_generate', compact('data'));
-                    $data['filename'] = 'OC_'.$data['companyname'].'_'.$data['fecha creacion'].'.pdf';
-                    $data['filename'] = str_replace(' ','_',$data['filename']);
-                    $data['filename'] = str_replace(':','',$data['filename']);
-                    $data['filename'] = str_replace('-','_',$data['filename']);
-                    
-                    $pdfPath = 'pdfs/'.$data['filename'];
-                    Storage::put($pdfPath, $pdf->output());
-                    $data['path'] = Storage::url($pdfPath);
-                    try {
-                        Mail::to($data['email'])->send(new PurchaseGenerate($data));
-                    }
-                    catch (Exception $e) {
-                        $msj += 'Falló envio de email para: '.$purchase->supplier->companyname;
-                    }
-                }
+                $detail = new PurchaseDetail();
+                $detail->product_id = $product->id;
+                $detail->quantity_ordered = $request->$i['quantity'];
                 
+                $pos = array_search($product->supplier_id, $suppliers);
+                $purchase = $purchases[$pos];
+                // dd($purchase);
+                $detail->purchase_id = $purchase->id;
+                $detail->save();  
+                
+                // dd('entro');                  
             }
+            // dd($purchases);
+            foreach($purchases as $purchase){
+                // $purchase->save();
+                
+                $data = array(
+                    'companyname' => $purchase->supplier->companyname,
+                    'email' => $purchase->supplier->email,
+                    'fecha creacion' => $purchase->created_at,
+                    'details' => $purchase->details,
+                    'supplier' => $purchase->supplier, 
+                    'purchase' => $purchase,
+                );
+
+                $pdf = PDF::loadView('emails.purchase_generate', compact('data'));
+                $data['filename'] = 'OC_'.$data['companyname'].'_'.$data['fecha creacion'].'.pdf';
+                $data['filename'] = str_replace(' ','_',$data['filename']);
+                $data['filename'] = str_replace(':','',$data['filename']);
+                $data['filename'] = str_replace('-','_',$data['filename']);
+                
+                $pdfPath = 'pdfs/'.$data['filename'];
+                Storage::put($pdfPath, $pdf->output());
+                $data['path'] = Storage::url($pdfPath);
+                try {
+                    Mail::to($data['email'])->send(new PurchaseGenerate($data));
+                }
+                catch (Exception $e) {
+                    $msj += 'Falló envio de email para: '.$purchase->supplier->companyname;
+                }
+            }
+
+            // foreach(){
+
+            // }
+
+            // $query = Supplier::query();
+
+            // $suppliers = $query->where('active',1)->get();
+            
+            // $b = 0;
+            // $msj = '';
+            // $purchase = new Purchase();
+            // $purchases_id = [];
+            // foreach ( $suppliers as $supplier ) {
+            //     if ( $b==1 ) {
+            //         $purchase = new Purchase();
+            //         $b=0;
+            //     }
+            //     $purchase->supplier_id = $supplier->id;
+                
+            //     for ($i = 0; $i<$request->qty;$i++){
+            //         $product = Product::where('id',$request->$i['product_id'])->first();
+                    
+            //         if ($product->supplier_id == $supplier->id){
+                        
+            //             $detail = new PurchaseDetail();
+            //             $detail->product_id = $product->id;
+            //             // dd($request);
+            //             $detail->quantity_ordered = $request->$i['quantity'];
+            //             if($b==0){
+            //                 $purchase->save();
+            //                 $b=1;
+            //                 $purchases_id[] = $purchase->id;
+            //             }
+            //             $detail->purchase_id = $purchase->id;
+            //             $detail->save();
+            //         }
+            //     }
+                
+            //     if ( $b==1 ) {
+                    
+            //         $data = array(
+            //             'companyname' => $purchase->supplier->companyname,
+            //             'email' => $purchase->supplier->email,
+            //             'fecha creacion' => $purchase->created_at,
+            //             'details' => $purchase->details,
+            //             'supplier' => $purchase->supplier, 
+            //             'purchase' => $purchase,
+            //         );
+
+            //         // dd('llego');
+            //         $pdf = PDF::loadView('emails.purchase_generate', compact('data'));
+            //         $data['filename'] = 'OC_'.$data['companyname'].'_'.$data['fecha creacion'].'.pdf';
+            //         $data['filename'] = str_replace(' ','_',$data['filename']);
+            //         $data['filename'] = str_replace(':','',$data['filename']);
+            //         $data['filename'] = str_replace('-','_',$data['filename']);
+                    
+            //         $pdfPath = 'pdfs/'.$data['filename'];
+            //         Storage::put($pdfPath, $pdf->output());
+            //         $data['path'] = Storage::url($pdfPath);
+            //         try {
+            //             Mail::to($data['email'])->send(new PurchaseGenerate($data));
+            //         }
+            //         catch (Exception $e) {
+            //             $msj += 'Falló envio de email para: '.$purchase->supplier->companyname;
+            //         }
+            //     }
+                
+            // }
             return response()->json([
                 'msj'=> $msj,
                 'purchases' => $purchases_id,
             ]);
         }
         catch(Exception $e){
+            dd($e);
             return response()->json([
                 'msj'=> $e,
                 'purchases' => null,

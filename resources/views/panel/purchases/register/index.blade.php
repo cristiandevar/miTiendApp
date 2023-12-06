@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
 {{-- Titulo en las tabulaciones del Navegador --}}
-@section('title', 'Generar Orden de Compra')
+@section('title', 'Administrar Ordenes de Compra')
 
 {{-- Titulo en el contenido de la Pagina --}}
 @section('content_header')

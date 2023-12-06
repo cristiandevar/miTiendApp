@@ -2,7 +2,7 @@
 @extends('adminlte::page')
 
 {{-- Titulo en las tabulaciones del Navegador --}}
-@section('title', 'Productos Filtrados')
+@section('title', 'Actualizar precio de Productos')
 
 {{-- Titulo en el contenido de la Pagina --}}
 @section('content_header')
