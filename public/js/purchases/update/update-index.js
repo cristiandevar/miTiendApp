@@ -51,8 +51,8 @@ document.addEventListener('DOMContentLoaded',
                                     type: 'POST',
                                     data: data,
                                     success: function(response) {
-                                        if(response.mjs){
-                                            div_alert_1.children().first().text(response.msj);
+                                        if(response.msg){
+                                            div_alert_1.children().first().text(response.msg);
                                             div_alert_1.show();
                                             div_error_1.hide();
                                             $('#table-purchases-3').hide();
