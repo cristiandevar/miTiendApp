@@ -306,19 +306,20 @@ return [
             //     'icon' => 'fas fa-tasks'  //Icono de fontawesome
             //     //'can' => 'products_list'     //Permiso del vendedor
             // ],
-            [
-                'text' => 'Administrar Compras',
-                'route' => 'purchase.register-index',
-                'icon' => 'fas fa-cart-plus',  //Icono de fontawesome
-                //'can' => 'products_list'     //Permiso del vendedor
-                'can' => 'func_boss'
-            ],
+            
             [
                 'text' => 'Generar Orden de Compra',
                 'route' => 'purchase.generate-index',
                 //'url' => 'panel/product', Esta seria otra manera de como especificar la ruta
                 'icon' => 'far fa-file-alt', // Icono de fontawesome
                 //'can' => 'product_list'  // Permiso del vendedor
+                'can' => 'func_boss'
+            ],
+            [
+                'text' => 'Administrar Compras',
+                'route' => 'purchase.register-index',
+                'icon' => 'fas fa-cart-plus',  //Icono de fontawesome
+                //'can' => 'products_list'     //Permiso del vendedor
                 'can' => 'func_boss'
             ],
             [
