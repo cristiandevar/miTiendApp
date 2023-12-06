@@ -7,10 +7,11 @@ document.addEventListener('DOMContentLoaded',
         $('#table-purchases-3').hide();
         $('#form-update-purchase').hide()
 
+        
         $('#update-purchase').on('click',
             function(e){
                 e.preventDefault();
-                let title, msj, data;
+                let title, msj, data, div_error_1, div_alert_1;
 
                 title = '¿Esta seguro de modificar la Orden de Compra?'
                 msj = '¡Si, Modificala!';
@@ -18,6 +19,8 @@ document.addEventListener('DOMContentLoaded',
                 // $('#alert-table-purchases-2').hide();
                 $('#alert-table-purchases-3').hide();
 
+                div_alert_1 = $('#div-alert-1');
+                div_error_1 = $('#div-error-1');
                 // $('#table-purchases-2').hide();
                 // $('#tbody-purchases-2').html('');
 
@@ -48,10 +51,24 @@ document.addEventListener('DOMContentLoaded',
                                     type: 'POST',
                                     data: data,
                                     success: function(response) {
-                                        $('#table-purchases-3').hide();
-                                        $('#form-update-purchase').hide();
-                                        $('#tbody-purchases-3').html('');
-                                        update_table_purchases();
+                                        if(response.mjs){
+                                            div_alert_1.children().first().text(response.msj);
+                                            div_alert_1.show();
+                                            div_error_1.hide();
+                                            $('#table-purchases-3').hide();
+                                            $('#form-update-purchase').hide();
+                                            $('#tbody-purchases-3').html('');
+                                            update_table_purchases();
+                                            if(response.error){
+                                                div_error_1.children().first().text(response.error);
+                                                div_error_1.show();
+                                            }
+                                        }
+                                        else if (response.error){
+                                            div_error_1.children().first().text(response.error);
+                                            div_error_1.show();
+                                            div_alert_1.hide();
+                                        }
                                         Swal.close();
                                         // let btn = $('#select-supplier').offset().top;
                                         $('html, body').animate({scrollTop:0}, 'slow');

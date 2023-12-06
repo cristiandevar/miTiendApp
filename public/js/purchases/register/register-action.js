@@ -181,10 +181,12 @@ function carge_links(){
 }
 
 function cancel_purchase(id){
-    let title, msj, div_alert, div_error;
+    let title, msj, div_alert, div_error, div_error_1;
 
     div_alert = $('#div-alert-1');
+    
     div_error = $('#alert-table-purchases-1');
+    div_error_1 = $('#div-error-1');
     title = '¿Estás seguro que deseas Cancelar la Orden de Compra?';
     msj = 'Sí, Eliminala!';
     
@@ -199,10 +201,24 @@ function cancel_purchase(id){
                     type: 'POST',
                     data: data,
                     success: function(response) {
-                        div_alert.children().first().text('La compra se cancelo con exito');
-                        div_alert.show();
-                        div_error.hide();
-                        update_table_purchases();
+                        console.log(response.error);
+                        if(response.msj){
+                            div_alert.children().first().text(response.msj);
+                            div_alert.show();
+                            div_error.hide();
+                            update_table_purchases();    
+                            
+                            if(response.error){
+                                div_error_1.children().first().text(response.error);
+                                div_error_1.show();
+                                // div_alert.hide();
+                            }
+                        }
+                        else if(response.error){
+                            div_error_1.children().first().text(response.error);
+                            div_error_1.show();
+                            div_alert.hide();
+                        }
                         clear_details();
                         Swal.close();
                         $('html, body').animate({scrollTop:0}, 'slow');
@@ -211,8 +227,8 @@ function cancel_purchase(id){
                         show_charge_message();
                     },
                     error: function(xhr, status, error) {
-                        div_error.children().first().text('La compra no se pudo cancelar');
-                        div_error.show();
+                        div_error_1.children().first().text('La compra no se pudo cancelar');
+                        div_error_1.show();
                         div_alert.hide();
                         Swal.close();
                         $('html, body').animate({scrollTop:0}, 'slow');

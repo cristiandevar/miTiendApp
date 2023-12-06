@@ -174,19 +174,25 @@ class PurchaseController extends Controller
     }
 
     public function destroy(Purchase $purchase){
-        $purchase->active = 0;
-        
-        foreach($purchase->details as $detail){
-            $detail->active = 0;
-            $detail->update();
+
+        $diff = \Carbon\Carbon::parse($purchase->created_at->format('Y-m-d'))->diffInDays(\Carbon\Carbon::now());
+        if($diff <= 1){
+            $purchase->active = 0;
+            foreach($purchase->details as $detail){
+                $detail->active = 0;
+                $detail->update();
+            }
+            $purchase->update();
+            return redirect()
+                    ->route('purchase.index')
+                    ->with('alert', 'Compra nro: "'.$purchase->id.'" cancelada exitosamente.');
         }
-
-        $purchase->update();
-
-        return redirect()
-            ->route('purchase.index')
-            ->with('alert', 'Compra nro: "'.$purchase->id.'" eliminada exitosamente.');
+        else {
+            return redirect()
+                    ->route('purchase.index')
+                    ->with('error', 'Compra nro: "'.$purchase->id.'" no se puede cancelar, tiempo limite superado.');
     
+        }
     
     }
 
@@ -423,39 +429,50 @@ class PurchaseController extends Controller
     public function cancel_action(Request $request){
         if ($request->has('id')){
             $purchase = Purchase::where('id', $request->id)->first();
+            $diff = \Carbon\Carbon::parse($purchase->created_at->format('Y-m-d'))->diffInDays(\Carbon\Carbon::now());
+            if($diff <= 1){
 
             
 
-            $data = array(
-                'details' => $purchase->details,
-                'supplier' => $purchase->supplier, 
-                'purchase' => $purchase,
-            );
-            try {
-                Mail::to($data['supplier']->email)->send(new PurchaseCancel($data));
-                
-                foreach($purchase->details as $detail){
-                    $detail->active = 0;
-                    $detail->save();
+                $data = array(
+                    'details' => $purchase->details,
+                    'supplier' => $purchase->supplier, 
+                    'purchase' => $purchase,
+                );
+                try {
+                    Mail::to($data['supplier']->email)->send(new PurchaseCancel($data));
+                    
+                    foreach($purchase->details as $detail){
+                        $detail->active = 0;
+                        $detail->save();
+                    }
+        
+                    $purchase->active = 0;
+                    $purchase->save();
                 }
-    
-                $purchase->active = 0;
-                $purchase->save();
-            }
-            catch (Exception $e) {
-                // dd($e);
+                catch (Exception $e) {
+                    // dd($e);
+                    return response()->json([
+                        'error'=> 'Falló envio de email, pero se almaceno la orden',
+                    ]);
+                }
+
+
                 return response()->json([
-                    'msj'=> 'Falló envio de email',
+                    'msj' => 'Se Cancelo correctamente',
                 ]);
             }
-
-
-            return response()->json([
-                'msj' => 'Se Cancelo correctamente',
-            ]);
+            else{
+                return response()->json([
+                    'error' => 'No se pudo cancelar, debido a que supero el timepo limite',
+                ]);
+            }
         }
         else {
-            return new Exception('No se pudo cancelar la orden de compra');
+            // return new Exception('No se pudo cancelar la orden de compra');
+            return response()->json([
+                'error' => 'No se pudo cancelar la orden de compra',
+            ]);
         }
     }
 
@@ -463,54 +480,64 @@ class PurchaseController extends Controller
         if($request->qty > 0){
             // dd($request);
             $purchase = Purchase::where('id', $request->purchase_id)->first();
-            
-            foreach($purchase->details as $details){
-                $details->delete();
-            }
-            
-            for($i = 0; $i < $request->qty; $i++){
-                $detail = new PurchaseDetail();
-                $detail->purchase_id = $purchase->id;
-                $detail->product_id = $request->$i['product_id'];
-                $detail->quantity_ordered = $request->$i['quantity_ordered'];
-                $detail->save();
-            }
-            $purchase->touch();
-            $purchase->save();
+            $diff = \Carbon\Carbon::parse($purchase->created_at->format('Y-m-d'))->diffInDays(\Carbon\Carbon::now());
+            if($diff <= 1){
+                foreach($purchase->details as $details){
+                    $details->delete();
+                }
+                
+                for($i = 0; $i < $request->qty; $i++){
+                    $detail = new PurchaseDetail();
+                    $detail->purchase_id = $purchase->id;
+                    $detail->product_id = $request->$i['product_id'];
+                    $detail->quantity_ordered = $request->$i['quantity_ordered'];
+                    $detail->save();
+                }
+                $purchase->touch();
+                $purchase->save();
 
-            $data = array(
-                'details' => $purchase->details,
-                'supplier' => $purchase->supplier, 
-                'purchase' => $purchase,
-            );
+                $data = array(
+                    'details' => $purchase->details,
+                    'supplier' => $purchase->supplier, 
+                    'purchase' => $purchase,
+                );
 
-            $pdf = PDF::loadView('emails.purchase_update', compact('data'));
-            $data['filename'] = 'OC_UPDATE_'.$data['supplier']->companyname.'_'.$data['purchase']->received_date.'.pdf';
-            $data['filename'] = str_replace(' ','_',$data['filename']);
-            $data['filename'] = str_replace(':','',$data['filename']);
-            $data['filename'] = str_replace('-','_',$data['filename']);
-            
-            $pdfPath = 'pdfs/'.$data['filename'];
-            Storage::put($pdfPath, $pdf->output());
-            
-            $data['path'] = Storage::url($pdfPath);
+                $pdf = PDF::loadView('emails.purchase_update', compact('data'));
+                $data['filename'] = 'OC_UPDATE_'.$data['supplier']->companyname.'_'.$data['purchase']->received_date.'.pdf';
+                $data['filename'] = str_replace(' ','_',$data['filename']);
+                $data['filename'] = str_replace(':','',$data['filename']);
+                $data['filename'] = str_replace('-','_',$data['filename']);
+                
+                $pdfPath = 'pdfs/'.$data['filename'];
+                Storage::put($pdfPath, $pdf->output());
+                
+                $data['path'] = Storage::url($pdfPath);
 
-            try {
-                Mail::to($data['supplier']->email)->send(new PurchaseUpdate($data));
-            }
-            catch(Exception $e){
+                try {
+                    Mail::to($data['supplier']->email)->send(new PurchaseUpdate($data));
+                }
+                catch(Exception $e){
+                    return response()->json([
+                        'msg' =>'Se Modifico la compra con exito',
+                        'error' => 'No se pudo enviar el email',
+                    ]); 
+                }
+
                 return response()->json([
-                    'msg' => 'No Se Modifico la compra, porque ocurrio un error',
-                ]); 
+                    'msg' =>'Se Modificó la compra con exito',
+                ]);
             }
+            else{
+                
 
-            return response()->json([
-                'msg' =>'Se Modifico la compra con exito',
-            ]);
+                return response()->json([
+                    'error' =>'No se puede modificar la compra, porque excede el tiempo limite',
+                ]);
+            }
         }
         else {
             return response()->json([
-                'msg' => 'No Se Modifico la compra, porque no habian detalles',
+                'msg' => 'No Se Modificó la compra, porque no habian detalles',
             ]);
         }
 
