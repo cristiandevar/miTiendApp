@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Str;
@@ -15,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('active', 1)
+        $users = User::where('active', 1)->where('id','<>',Auth::user()->id)
             ->latest() //Ordena de manera DESC por el campo 'created_at'
             ->get(); //Convierte los datos extraidos de la BD en un array
         
@@ -142,11 +143,18 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->active = 0;
-
-        $user->update();
-        return redirect()
-            ->route('User.index')
-            ->with('alert', 'Empleado "'.$user->name().'" eliminado exitosamente');
+        if(Auth::user()->id == $user->id){
+            return redirect()
+            ->route('user.index')
+            ->with('error', 'Usuario "'.$user->name.'" no se pudo eliminar');
+        }
+        else{
+            $user->active = 0;
+    
+            $user->update();
+            return redirect()
+                ->route('user.index')
+                ->with('alert', 'Usuario "'.$user->name.'" eliminado exitosamente');
+        }
     }
 }
