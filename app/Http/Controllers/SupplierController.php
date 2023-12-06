@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Purchase;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 
@@ -141,8 +142,9 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        $products = Product::where('supplier_id', $supplier->id);
-        if ($products->first()) {
+        $products = Product::where('supplier_id', $supplier->id)->where('active', 1)->get();
+        $purchases = Purchase::where('supplier_id',$supplier->id)->where('received_date','=',null)->get();
+        if (count($products) > 0 && count($purchases) > 0) {
             return redirect()
                 ->route('supplier.index')
                 ->with('error', 'No se pudo eliminar "'.$supplier->companyname.'" dado que tiene productos asociados');
