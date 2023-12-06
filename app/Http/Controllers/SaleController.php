@@ -25,7 +25,7 @@ class SaleController extends Controller
     public function index()
     {
         $sales = Sale::where('active', 1)
-            ->latest() //Ordena de manera DESC por el campo 'created_at'
+            ->oldest() //Ordena de manera DESC por el campo 'created_at'
             ->get(); //Convierte los datos extraidos de la BD en un array
         $products = Product::where('active', 1)
             ->latest() //Ordena de manera DESC por el campo 'created_at'
@@ -176,17 +176,32 @@ class SaleController extends Controller
      */
     public function destroy(Sale $sale)
     {
-        $sale->active = 0;
-        foreach($sale->details as $detail){
-            $detail->active = 0;
-            $detail->update();
-        }
-        
-        $sale->update();
+        // $today = new Date();
+        $diferencia = \Carbon\Carbon::parse($sale->created_at->format('Y-m-d'))->diffInDays(\Carbon\Carbon::now());
+        if($diferencia <= 3){
+            $sale->active = 0;
+            foreach($sale->details as $detail){
+                $detail->active = 0;
 
-        return redirect()
-            ->route('sale.index')
-            ->with('alert', 'Venta "'.$sale->name.'" eliminada exitosamente.');
+                $product = Product::where('id',$detail->product_id)->first();
+                $product->stock += $detail->quantity;
+                $product->update();
+                
+                $detail->update();
+            }
+            
+            $sale->update();
+    
+            return redirect()
+                ->route('sale.index')
+                ->with('alert', 'Venta nro "'.$sale->id.'" cancelada exitosamente.');
+        }
+        else{
+            return redirect()
+                ->route('sale.index')
+                ->with('error', 'Venta nro "'.$sale->id.'" no se puede cancelar, excede los 3 dias.');
+
+        }
     
     }
 

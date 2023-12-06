@@ -15,9 +15,9 @@
                 <a href="{{ route('sale.index') }}" class="btn btn-sm btn-secondary text-uppercase me-1 m-1">
                     Volver al Listado
                 </a>
-                <a href="{{ route('sale.show-edit', $sale) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
+                {{-- <a href="{{ route('sale.show-edit', $sale) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
                     Editar
-                </a>
+                </a> --}}
             
                 @csrf 
                 @method('DELETE')

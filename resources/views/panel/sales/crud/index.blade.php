@@ -13,7 +13,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 mb-3">
+        {{-- <div class="col-12 mb-3">
             
             @if ($products->first() && $users->first())
                 <a href="{{ route('sale.create') }}" class="btn btn-success btn-sm text-uppercase">
@@ -26,7 +26,7 @@
                     </div>
                 @endif
             @endif
-        </div>
+        </div> --}}
         
         @if(session('alert'))
             <div class="col-12">
@@ -92,14 +92,14 @@
                                         <a href="{{ route('sale.show', $sale) }}" class="btn btn-sm btn-info text-white text-uppercase me-1 m-1">
                                             Ver
                                         </a>
-                                        <a href="{{ route('sale.edit', $sale) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
+                                        {{-- <a href="{{ route('sale.edit', $sale) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
                                             Editar
-                                        </a>
+                                        </a> --}}
                                         <form action="{{ route('sale.destroy', $sale) }}" method="POST">
                                             @csrf 
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger text-uppercase me-1 m-1">
-                                                Eliminar
+                                            <button id="del-sale" type="submit" class="btn btn-sm btn-danger text-uppercase me-1 m-1">
+                                                Cancelar
                                             </button>
                                         </form>
                                     </div>
@@ -140,6 +140,7 @@
     $('#table-sales').DataTable({
     responsive: true,
     autoWidth: false,
+    "order": [[ 0, "desc" ]],
     'language': {
         'lengthMenu':
             'Mostrar'+
