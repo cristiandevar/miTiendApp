@@ -132,16 +132,33 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $msg = 'Categoria "'.$category->name.'" eliminada exitosamente';
-        if (!$category->products()->first()) {
+        $products = $category->products()->where('active',1)->get(); 
+        
+        if (count($products) > 0) {
+            return redirect()
+                ->route('category.index')
+                ->with('error','No se pudo eliminar "'.$category->name.'" dado que posee productos asociados');
+
+        }
+        else{
             $category->active = 0;
             $category->update();
-        }
-        else {
-            $msg = 'No se pudo eliminar "'.$category->name.'" dado que posee elementos asociados';
-        }
-        return redirect()
+            
+            return redirect()
             ->route('category.index')
-            ->with('alert',$msg);
+            ->with('alert','Categoria "'.$category->name.'" eliminada exitosamente');
+        }
+
+        // $msg = 'Categoria "'.$category->name.'" eliminada exitosamente';
+        // if (!$category->products()->first()) {
+        //     $category->active = 0;
+        //     $category->update();
+        // }
+        // else {
+        //     $msg = 'No se pudo eliminar "'.$category->name.'" dado que posee elementos asociados';
+        // }
+        // return redirect()
+        //     ->route('category.index')
+        //     ->with('alert',$msg);
     }
 }
