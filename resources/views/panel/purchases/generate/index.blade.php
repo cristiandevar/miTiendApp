@@ -33,10 +33,32 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-header">Elija su Proveedor</h6>
+                    {{-- <h6 class="card-header">Elija su Proveedor</h6> --}}
                     <form id="form-filter" action="#" method='GET'>
                         <div id="fields-filter">
+                            {{-- <div class="form-group row">
+                                <select id="select-supplier" name="supplier_id" class="form-control col-xs-12 col-2 m-1">
+                                    <option value="" {{ !isset($inputs['supplier_id']) || $inputs['supplier_id']==''? 'selected':''}}>Proveedor...</option>
+                                    @foreach ($suppliers as $supplier)
+                                        <option {{ isset($inputs['supplier_id']) && $inputs['supplier_id'] == $supplier->id ? 'selected': ''}} value="{{ $supplier->id }}"> 
+                                            {{ $supplier->companyname }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div> --}}
+                            <h6 class="card-header col-4 col-xs-12">Filtre sus productos</h6>
                             <div class="form-group row">
+                                <input id="code" name="code" type="text" class="form-control col-2 m-1" placeholder="Código.."/>
+                                <input id="name" name="name" type="text" class="form-control col-2 m-1" placeholder="Nombre.." />
+                                <select id="select-category" name="category_id" class="form-control col-xs-12 col-2 m-1">
+                                    <option value="" {{ !isset($inputs['category_id']) || $inputs['category_id']==''? 'selected':''}}>Categoria...</option>
+                                    @foreach ($categories as $category)
+                                        <option {{ isset($inputs['category_id']) && $inputs['category_id'] == $category->id ? 'selected': ''}} value="{{ $category->id }}"> 
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                
                                 <select id="select-supplier" name="supplier_id" class="form-control col-xs-12 col-2 m-1">
                                     <option value="" {{ !isset($inputs['supplier_id']) || $inputs['supplier_id']==''? 'selected':''}}>Proveedor...</option>
                                     @foreach ($suppliers as $supplier)
@@ -46,10 +68,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <h6 class="card-header col-4 col-xs-12">Agregue sus productos</h6>
                             <div class="form-group row">
-                                <input id="code" name="code" type="text" class="form-control col-2 m-1" placeholder="Código.."/>
-                                <input id="name" name="name" type="text" class="form-control col-2 m-1" placeholder="Nombre.." />
                                 <input class="form-control col-xs-12 col-2 m-1" type="number" id="stock_since" name="stock_since" placeholder="Stock desde..." value={{ isset($inputs) && isset($inputs['stock_since'])? $inputs['stock_since'] : '' }}>
                                 <input class="form-control col-xs-12 col-2 m-1" type="number" id="stock_to" name="stock_to" placeholder="Stock hasta..." value={{ isset($inputs) && isset($inputs['stock_to'])? $inputs['stock_to'] : '' }}>
                             </div>
@@ -68,7 +87,14 @@
                                     <option value="asc" selected>Ascendente</option>
                                     <option value="desc">Descendente</option>
                                 </select>
+                            </div>
+                            <h6 class="card-header col-4 col-xs-12">Agregue los productos</h6>
+                            <div class="form-group row">
                                 <button id="add-row-1" class="btn btn-primary col-2 m-1">Agregar</button>
+                                <input class="form-control col-2 col-xs-12 m-1" type="number" id="-qtyall" name="all-qty" placeholder="Cant a todos..." title="Aplicar cantidad a todos">      
+                                <div class="col-2 col-xs-12 m-1">
+                                    <span id='sp-qtyall' class="error" aria-live="polite" style="width: 0%;"></span>
+                                </div>    
                             </div>
                         </div>
                         

@@ -8,19 +8,25 @@ document.addEventListener('DOMContentLoaded',
                 
                 ids = [];
                 vals = [];
-
                 rows = $("#tbody-options tr");
                 rows.each(
                     function () {
                         let id = $(this).attr('id').split("-")[1];
                         $(this).find('input[type=number]').each(
                             function(){
-                                
-                                let span = $('#sp-' + id);
-                                let value = $(this).val();
-                                if (!span.hasClass('active') && value!='') {
+                                let input = $('#-qtyall');
+                                let span = $('#sp-qtyall');
+                                if (input.val() == ''){
+                                    span = $('#sp-' + id);
+                                    let value = $(this).val();
+                                    if (!span.hasClass('active') && value!='') {
+                                        ids.push(parseInt(id));
+                                        vals.push(parseInt($(this).val()));
+                                    }
+                                }
+                                else if(!span.hasClass('active') && input.val() > 0){
                                     ids.push(parseInt(id));
-                                    vals.push(parseInt($(this).val()));
+                                    vals.push(parseInt(input.val()));
                                 }
                             }
 

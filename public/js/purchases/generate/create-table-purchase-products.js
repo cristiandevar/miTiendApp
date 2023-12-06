@@ -12,9 +12,9 @@ function carge_table_purchase(products) {
                     <td>${product["stock"]}</td>
                     <td>${product["minstock"] - product["stock"]}</td>
                     <td>
-                        <a></a>
-                        <a></a>
-                        <a></a>
+                        <a>1</a>
+                        <a>2</a>
+                        <a>3</a>
                     </td>
                 </tr>
             `;

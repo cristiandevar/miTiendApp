@@ -87,8 +87,8 @@
                                         <form action="{{ route('purchase.destroy', $purchase) }}" method="POST">
                                             @csrf 
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger text-uppercase m-1">
-                                                Eliminar
+                                            <button id="del-purchase" type="submit" class="btn btn-sm btn-danger text-uppercase m-1">
+                                                Cancelar
                                             </button>
                                         </form>
                                     </div>

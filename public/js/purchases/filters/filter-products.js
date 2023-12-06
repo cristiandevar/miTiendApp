@@ -44,6 +44,14 @@ document.addEventListener('DOMContentLoaded', function (e) {
             call_filter();
         }
     );
+
+    
+    $('#select-category').on('input', 
+        function (e) {
+            e.preventDefault();
+            call_filter();
+        }
+    );
 });
 
 function show_products(products, suppliers){

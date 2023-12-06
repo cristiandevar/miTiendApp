@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded',
                 )
             }
         );
+        add_listener('-qtyall');
         $('#add-other').on('click',
             function(e){
                 e.preventDefault();
