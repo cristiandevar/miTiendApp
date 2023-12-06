@@ -261,6 +261,7 @@ function show_details (purchase, details, products) {
             input1 = $('<input/>',{
                 type:'number',
                 id:'qty-'+details[i]['id'],
+                value: details[i]['quantity_ordered'],
             })
             
             span1 = $('<span></span>', {
