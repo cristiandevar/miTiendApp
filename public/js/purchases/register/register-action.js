@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded',
                                         div_alert.children().first().text('La compra se registro con exito');
                                         div_alert.show();
                                         div_error.hide();
-                                        update_rows();
+                                        update_table_purchases();
                                         clear_details();
                                         $('html, body').animate({scrollTop:0}, 'slow');
                                     },
@@ -202,7 +202,7 @@ function cancel_purchase(id){
                         div_alert.children().first().text('La compra se cancelo con exito');
                         div_alert.show();
                         div_error.hide();
-                        update_rows();
+                        update_table_purchases();
                         clear_details();
                         Swal.close();
                         $('html, body').animate({scrollTop:0}, 'slow');

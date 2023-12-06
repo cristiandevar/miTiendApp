@@ -15,9 +15,9 @@
                 <a href="{{ route('purchase.index') }}" class="btn btn-sm btn-secondary text-uppercase me-1 m-1">
                     Volver al Listado
                 </a>
-                <a href="{{ route('purchase.show-edit', $purchase) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
+                {{-- <a href="{{ route('purchase.show-edit', $purchase) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
                     Editar
-                </a>
+                </a> --}}
                 @csrf 
                 @method('DELETE')
                 <button id="del-purchase" type="submit" class="btn btn-sm btn-danger text-uppercase m-1">

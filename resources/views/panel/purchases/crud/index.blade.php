@@ -13,7 +13,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 mb-3">
+        {{-- <div class="col-12 mb-3">
             
             @if ($suppliers->first())
                 <a href="{{ route('purchase.create') }}" class="btn btn-success btn-sm text-uppercase">
@@ -23,13 +23,13 @@
                 <div>
                     <p>Ingrese primero un Proveedor desde <a href="{{ route('supplier.index') }}">aqui</a></p>
                 </div> 
-                {{-- @if (!$users->first())
+                 @if (!$users->first())
                     <div>
                         <p>Ingrese primero un Empleado desde <a href="{{ route('employee.index') }}">aqui</a></p>
                     </div>
-                @endif                    --}}
+                @endif                    
             @endif
-        </div>
+        </div> --}}
         
         @if(session('alert'))
             <div class="col-12">
@@ -81,9 +81,9 @@
                                         <a href="{{ route('purchase.show', $purchase) }}" class="btn btn-sm btn-info text-white text-uppercase me-1 m-1">
                                             Ver
                                         </a>
-                                        <a href="{{ route('purchase.edit', $purchase) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
+                                        {{-- <a href="{{ route('purchase.edit', $purchase) }}" class="btn btn-sm btn-warning text-white text-uppercase me-1 m-1">
                                             Editar
-                                        </a>
+                                        </a> --}}
                                         <form action="{{ route('purchase.destroy', $purchase) }}" method="POST">
                                             @csrf 
                                             @method('DELETE')

@@ -53,10 +53,11 @@ $('#add-sale').on('click', function(e) {
                                     input.val(response.sale['id']);
                                     $('#form-invoice').submit();
                                     // return true;
+                                    // $('html, body').animate({scrollTop:0}, 'slow');
+                        
 
                                 }
                             }); 
-                            $('html, body').animate({scrollTop:0}, 'slow');
                         },
                         beforeSend: function() {
                             show_charge_message();
@@ -68,17 +69,21 @@ $('#add-sale').on('click', function(e) {
                             div_error.children().first().text('La venta no se pudo registrar');
                             div_error.show();
                             div_alert.hide();
-                            $('html, body').animate({scrollTop:0}, 'slow');
+                            // $('html, body').animate({scrollTop:0}, 'slow');
                         }
                     }
                 ).always(
                     function(){
+                            // $('html, body').animate({scrollTop:0}, 'slow');
+
                     }
 
                 );
                 
             }
         });
+        // $('html, body').animate({scrollTop:0}, 'slow');
+
     }
 });
 

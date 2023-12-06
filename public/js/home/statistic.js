@@ -381,7 +381,7 @@ function update_total_in_out(tp, ts){
     else {        
         $('#balance').attr('style','color:red;');
     }
-    $('#balance').val(b);
+    $('#balance').val(b.toFixed(2));
     $('#balance').attr('disabled',true);
     
     $('#lbl-balance').show();
