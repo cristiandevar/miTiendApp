@@ -177,8 +177,8 @@ class SaleController extends Controller
     public function destroy(Sale $sale)
     {
         // $today = new Date();
-        $diferencia = \Carbon\Carbon::parse($sale->created_at->format('Y-m-d'))->diffInDays(\Carbon\Carbon::now());
-        if($diferencia <= 3){
+        $diff = \Carbon\Carbon::parse($sale->created_at->format('Y-m-d'))->diffInDays(\Carbon\Carbon::now());
+        if($diff <= 3){
             $sale->active = 0;
             foreach($sale->details as $detail){
                 $detail->active = 0;
