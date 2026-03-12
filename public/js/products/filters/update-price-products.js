@@ -107,7 +107,7 @@ $('#btn-update-1').on('click', function(e) {
                         type: 'POST',
                         data: data_filter,
                         success: function(response) {
-                            console.log(response);
+                            // console.log(response);
                             carge_table(response.products, response.categories, response.suppliers);
                         },
                         error: function(xhr, status, error) {
